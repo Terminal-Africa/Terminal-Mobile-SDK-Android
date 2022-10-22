@@ -1,4 +1,4 @@
-package com.terminal.terminal_androidsdk.core;
+package com.terminal.terminal_androidsdk.core.db;
 
 import static com.terminal.terminal_androidsdk.utils.Constant.BASE_LIVE_URL;
 import static com.terminal.terminal_androidsdk.utils.Constant.BASE_TEST_URL;
