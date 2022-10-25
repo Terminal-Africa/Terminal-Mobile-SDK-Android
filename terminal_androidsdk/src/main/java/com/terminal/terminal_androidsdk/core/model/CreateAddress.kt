@@ -1,4 +1,8 @@
 package com.terminal.terminal_androidsdk.core.model
+/**
+ * Created by AYODEJI on 10/10/2020.
+ *
+ */
 
 class CreateAddress (
     val city:String, val state:String, val country:String,

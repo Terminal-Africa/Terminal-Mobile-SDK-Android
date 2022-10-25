@@ -26,7 +26,11 @@ import java.util.concurrent.Executors;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
+/**
+ * Created by AYODEJI on 10/10/2020.
+ * Implements the countries and other packaging end-points
+ *
+ */
 public class MiscellanousRemote {
     private static MiscellanousRemote Instance;
     private static Executor executor;
