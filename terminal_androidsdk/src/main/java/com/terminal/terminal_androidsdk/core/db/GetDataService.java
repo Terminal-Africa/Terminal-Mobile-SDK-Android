@@ -12,6 +12,7 @@ import com.terminal.terminal_androidsdk.core.model.PackagingResponse;
 import com.terminal.terminal_androidsdk.core.model.TerminalCities;
 import com.terminal.terminal_androidsdk.core.model.TerminalCountries;
 import com.terminal.terminal_androidsdk.core.model.TerminalStates;
+import com.terminal.terminal_androidsdk.core.model.UpdateAddress;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public interface GetDataService {
 
     @PUT(CREATE_ADDRESS+"/addresses/{address_id}")
     Call<BaseData<Address>> updateAddress(@Path("address_id") String address_id,
-                                          @Body CreateAddress createAddress
+                                          @Body UpdateAddress createAddress
     );
 
     @POST(CREATE_ADDRESS+"/addresses/validate")
