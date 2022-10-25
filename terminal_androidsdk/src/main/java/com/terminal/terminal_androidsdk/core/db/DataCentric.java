@@ -2,6 +2,8 @@ package com.terminal.terminal_androidsdk.core.db;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.terminal.terminal_androidsdk.core.iinterface.ITerminalCities;
 import com.terminal.terminal_androidsdk.core.iinterface.ITerminalCountries;
 import com.terminal.terminal_androidsdk.core.iinterface.ITerminalPackaging;
@@ -23,6 +25,7 @@ import com.terminal.terminal_androidsdk.core.model.TerminalStates;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executor;
@@ -48,6 +51,13 @@ public class DataCentric {
         return Instance;
     }
 
+    private  BaseData getBaseError(Response response){
+        Gson gson = new Gson();
+        Type type = new TypeToken<BaseData>() {}.getType();
+        BaseData errorResponse = gson.fromJson(Objects.requireNonNull(response.errorBody()).charStream(),type);
+       return  errorResponse;
+    }
+
     public void getAddresses(ITerminalAddress terminalConfig, int page, int limit ) {
         RetrofitClientInstance.getInstance().getDataService().getAddresses(page,limit).enqueue(new Callback<BaseData<GetAddressModel>>() {
             @Override
@@ -55,8 +65,8 @@ public class DataCentric {
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(response.body()));
                 } else {
-                    terminalConfig.onError(Objects.requireNonNull(response.body()).isError(), Objects.requireNonNull(response.body()).getMessage());
-                }
+                    BaseData errorResponse = getBaseError(response);
+                    terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
             }
             @Override
             public void onFailure(@NonNull Call<BaseData<GetAddressModel>> call, @NonNull Throwable t) {
@@ -72,7 +82,8 @@ public class DataCentric {
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(response.body()));
                 } else {
-                    terminalConfig.onError(Objects.requireNonNull(response.body()).isError(), Objects.requireNonNull(response.body()).getMessage());
+                    BaseData errorResponse = getBaseError(response);
+                    terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());
                 }
             }
             @Override
@@ -89,8 +100,8 @@ public class DataCentric {
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(response.body()));
                 } else {
-                    terminalConfig.onError(Objects.requireNonNull(response.body()).isError(), Objects.requireNonNull(response.body()).getMessage());
-                }
+                    BaseData errorResponse = getBaseError(response);
+                    terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
             }
             @Override
             public void onFailure(@NonNull Call<BaseData<Address>> call, @NonNull Throwable t) {
@@ -106,8 +117,8 @@ public class DataCentric {
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(response.body()));
                 } else {
-                    terminalConfig.onError(Objects.requireNonNull(response.body()).isError(), Objects.requireNonNull(response.body()).getMessage());
-                }
+                    BaseData errorResponse = getBaseError(response);
+                    terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
             }
             @Override
             public void onFailure(@NonNull Call<BaseData<Address>> call, @NonNull Throwable t) {
@@ -123,8 +134,8 @@ public class DataCentric {
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(response.body()));
                 } else {
-                    terminalConfig.onError(Objects.requireNonNull(response.body()).isError(), Objects.requireNonNull(response.body()).getMessage());
-                }
+                    BaseData errorResponse = getBaseError(response);
+                    terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
             }
             @Override
             public void onFailure(@NonNull Call<BaseData<GetAddressModel>> call, @NonNull Throwable t) {
@@ -140,8 +151,8 @@ public class DataCentric {
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(response.body()));
                 } else {
-                    terminalConfig.onError(Objects.requireNonNull(response.body()).isError(), Objects.requireNonNull(response.body()).getMessage());
-                }
+                    BaseData errorResponse = getBaseError(response);
+                    terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
             }
             @Override
             public void onFailure(@NonNull Call<BaseData<AddressValidationResponse>> call, @NonNull Throwable t) {
@@ -163,8 +174,8 @@ public class DataCentric {
                 }
                 else {
                     if (terminalConfig != null) {
-                        terminalConfig.onError(Objects.requireNonNull(response.body()).isError(), Objects.requireNonNull(response.body()).getMessage());
-                    }
+                        BaseData errorResponse = getBaseError(response);
+                        terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                    }
                 }
             }
             @Override
@@ -185,8 +196,8 @@ public class DataCentric {
                 }
                 else {
                     if (terminalConfig != null) {
-                        terminalConfig.onError(Objects.requireNonNull(response.body()).isError(), Objects.requireNonNull(response.body()).getMessage());
-                    }
+                        BaseData errorResponse = getBaseError(response);
+                        terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                    }
                 }
             }
             @Override
@@ -205,8 +216,8 @@ public class DataCentric {
                 }
                 else {
                     if (terminalConfig != null) {
-                        terminalConfig.onError(Objects.requireNonNull(response.body()).isError(), Objects.requireNonNull(response.body()).getMessage());
-                    }
+                        BaseData errorResponse = getBaseError(response);
+                        terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                    }
                 }
             }
             @Override
@@ -228,8 +239,8 @@ public class DataCentric {
                     }
                     else {
                         if (terminalConfig != null) {
-                            terminalConfig.onError(Objects.requireNonNull(response.body()).isError(), Objects.requireNonNull(response.body()).getMessage());
-                        }
+                            BaseData errorResponse = getBaseError(response);
+                            terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                        }
                     }
                 }
                 @Override
@@ -246,8 +257,8 @@ public class DataCentric {
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(response.body()));
                 } else {
-                    terminalConfig.onError(Objects.requireNonNull(response.body()).isError(), Objects.requireNonNull(response.body()).getMessage());
-                }
+                    BaseData errorResponse = getBaseError(response);
+                    terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
             }
             @Override
             public void onFailure(@NonNull Call<BaseData<PackagingResponse>> call, @NonNull Throwable t) {
@@ -263,8 +274,8 @@ public class DataCentric {
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(response.body()));
                 } else {
-                    terminalConfig.onError(Objects.requireNonNull(response.body()).isError(), Objects.requireNonNull(response.body()).getMessage());
-                }
+                    BaseData errorResponse = getBaseError(response);
+                    terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
             }
             @Override
             public void onFailure(@NonNull Call<BaseData<PackagingResponse>> call, @NonNull Throwable t) {
@@ -280,8 +291,8 @@ public class DataCentric {
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(response.body()));
                 } else {
-                    terminalConfig.onError(Objects.requireNonNull(response.body()).isError(), Objects.requireNonNull(response.body()).getMessage());
-                }
+                    BaseData errorResponse = getBaseError(response);
+                    terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
             }
             @Override
             public void onFailure(@NonNull Call<BaseData<List<PackagingResponse>>> call, @NonNull Throwable t) {
@@ -297,8 +308,8 @@ public class DataCentric {
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(response.body()));
                 } else {
-                    terminalConfig.onError(Objects.requireNonNull(response.body()).isError(), Objects.requireNonNull(response.body()).getMessage());
-                }
+                    BaseData errorResponse = getBaseError(response);
+                    terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
             }
             @Override
             public void onFailure(@NonNull Call<BaseData<PackagingResponse>> call, @NonNull Throwable t) {

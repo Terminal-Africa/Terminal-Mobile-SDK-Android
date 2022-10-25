@@ -26,8 +26,8 @@ object TShipSDK  {
           MemoryManager.getInstance().putIsLive(isLive)
     }
 
-    fun createAddress(callback: ITerminalCreate?, createAddress: CreateAddress) {
-        if(isSecretKeyAdded()){
+    fun createAddress(callback: ITerminalCreate?, createAddress: CreateAddress?) {
+        if(isSecretKeyAdded() && createAddress != null){
             mProxy?.createAddress(callback,createAddress)
         } else callback?.onError(false,ERROR)
     }

@@ -14,7 +14,6 @@ class CreateAddress (
             var lastName :String? = null,
             var line1 :String? = null,
             var line2 :String? = null,
-            //var metaData :Objects? = null,
             var name:String? = null,
             var phone:String? = null,
             var zip:String? = null,
@@ -34,5 +33,4 @@ class CreateAddress (
         fun name(name: String) = apply { this.name = name }
         fun build() = CreateAddress(city, state, country)
     }
-
 }

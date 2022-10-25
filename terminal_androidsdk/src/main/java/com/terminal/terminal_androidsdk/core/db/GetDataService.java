@@ -30,27 +30,31 @@ import retrofit2.http.Query;
  */
 public interface GetDataService {
 
-    @POST(CREATE_ADDRESS)
+    @POST(CREATE_ADDRESS+"/addresses")
     Call<BaseData<Address>> createAddress(@Body CreateAddress createAddress
                                           );
 
-    @GET(CREATE_ADDRESS)
+    @GET(CREATE_ADDRESS+"/addresses")
     Call<BaseData<GetAddressModel>> getAddresses(
             @Query("page") int page,
             @Query("limit") int limit
     );
 
-    @GET(CREATE_ADDRESS+"/{address_id}")
+    @GET(CREATE_ADDRESS+"/addresses/{address_id}")
     Call<BaseData<GetAddressModel>> getAddress( @Path("address_id") String address_id);
 
-    @PUT(CREATE_ADDRESS+"/{address_id}")
+    @PUT(CREATE_ADDRESS+"/addresses/{address_id}")
     Call<BaseData<Address>> updateAddress(@Path("address_id") String address_id,
                                           @Body CreateAddress createAddress
     );
 
-    @POST(CREATE_ADDRESS+"/validate")
+    @POST(CREATE_ADDRESS+"/addresses/validate")
     Call<BaseData<AddressValidationResponse>> validateAddresses(
             @Body AddressValidation addressValidation);
+
+    @DELETE(CREATE_ADDRESS+"/addresses/delete/{delete_ID}")
+    Call<BaseData<Address>> deleteAddress(@Path("delete_ID") String delete_ID);
+
 
     @GET(CREATE_ADDRESS+"/countries")
     Call<BaseData<List<TerminalCountries>>> getCountries();
@@ -61,8 +65,6 @@ public interface GetDataService {
     @GET(CREATE_ADDRESS+"/cities?country_code="+"{Country_Code}&state_code="+"{stateCode}")
     Call<BaseData<List<TerminalCities>>> getCitiesInState(@Path("Country_Code") String Country_Code, String stateCode);
 
-    @DELETE(CREATE_ADDRESS+"/addresses/delete/{delete_ID}")
-    Call<BaseData<Address>> deleteAddress(@Path("delete_ID") String delete_ID);
 
 
     @GET(CREATE_ADDRESS+"/packaging")
