@@ -53,6 +53,9 @@ public class MemoryManager {
     }
 
 
+    public boolean isSecretActivated(){ return mSharedPreferences.contains(KEY_USER1);}
+
+
     public void putIsLive(boolean value) {
         editor.putBoolean(KEY_IS_LIVE_TOKEN, value);
         editor.commit();
