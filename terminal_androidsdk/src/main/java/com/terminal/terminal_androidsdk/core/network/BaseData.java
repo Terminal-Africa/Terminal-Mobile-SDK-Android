@@ -1,4 +1,4 @@
-package com.terminal.terminal_androidsdk.core.db;
+package com.terminal.terminal_androidsdk.core.network;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

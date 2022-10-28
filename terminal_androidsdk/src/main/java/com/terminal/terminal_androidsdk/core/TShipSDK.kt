@@ -1,8 +1,11 @@
 package com.terminal.terminal_androidsdk.core
 import com.terminal.terminal_androidsdk.core.db.AddressRemote
 import com.terminal.terminal_androidsdk.core.db.MiscellanousRemote
+import com.terminal.terminal_androidsdk.core.db.RateRemote
+import com.terminal.terminal_androidsdk.core.db.UserRemote
 import com.terminal.terminal_androidsdk.core.iinterface.*
 import com.terminal.terminal_androidsdk.core.model.*
+import com.terminal.terminal_androidsdk.utils.AppLog
 import com.terminal.terminal_androidsdk.utils.Constant.ERROR
 import com.terminal.terminal_androidsdk.utils.MemoryManager
 
@@ -15,104 +18,157 @@ import com.terminal.terminal_androidsdk.utils.MemoryManager
 
 object TShipSDK  {
     private var addressesRemote: AddressRemote? = null
-    private var miscellanousRemote: MiscellanousRemote? = null
+    private var miscellaneousRemote: MiscellanousRemote? = null
+    private  var userRemote: UserRemote? = null
+    private  var rateRemote: RateRemote? = null
+    private val LOG_TAG: String =
+        TShipSDK::class.java.simpleName
 
 
     init {
         addressesRemote = AddressRemote.getInstance()
-        miscellanousRemote = MiscellanousRemote.getInstance()
+        miscellaneousRemote = MiscellanousRemote.getInstance()
+        userRemote = UserRemote.getInstance()
+        rateRemote = RateRemote.getInstance()
     }
+
 
     fun init(secretKey: String, isLive:Boolean){
           MemoryManager.getInstance().putUserSecretKey(secretKey)
           MemoryManager.getInstance().putIsLive(isLive)
+         AppLog.i(LOG_TAG,"initsuccessful $secretKey $isLive")
     }
 
-    fun createAddress(callback: ITerminalCreate?, createAddress: CreateAddress?) {
+
+    fun getRateForShipment(parcel_id:String,pickup_address:String
+                            ,shipment_id:String,currency:String,delivery_address:String,callback: ITerminalRateForShipment
+    ){
+        AppLog.i(LOG_TAG,"getRateForShipment $parcel_id")
+        if(isSecretKeyAdded()){
+            rateRemote?.getRateForShipment(callback,parcel_id,pickup_address,delivery_address,currency,shipment_id)
+        } else callback.onError(false,ERROR)
+
+    }
+
+    fun getUserBalance(userId: String, callback: ITerminalUserBalance,) {
+        AppLog.i(LOG_TAG,"getUserBalance $userId")
+        if(isSecretKeyAdded()){
+            userRemote?.getUserBalance(callback,userId)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun getUserProfile(callback: ITerminalUserProfile) {
+        if(isSecretKeyAdded()){
+            userRemote?.getUserProfile(callback)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun createAddress(createAddress: CreateAddress?,callback: ITerminalCreate) {
+        AppLog.i(LOG_TAG,"createAddress $createAddress")
         if(isSecretKeyAdded() && createAddress != null){
             addressesRemote?.createAddress(callback,createAddress)
-        } else callback?.onError(false,ERROR)
+        } else callback.onError(false,ERROR)
     }
 
-    fun updateAddress(callback: ITerminalCreate?,addressId: String, createAddress: UpdateAddress) {
+    fun updateAddress(addressId: String, createAddress: UpdateAddress,callback: ITerminalCreate) {
+        AppLog.i(LOG_TAG,"updateAddress $addressId  $createAddress")
         if(isSecretKeyAdded()){
             addressesRemote?.updateAddress(callback,addressId,createAddress)
-        } else callback?.onError(false,ERROR)
+        } else callback.onError(false,ERROR)
     }
 
-    fun getAddresses(callback: ITerminalAddress?, page:Int, limit:Int = 25) {
+    fun getAddresses( page:Int, limit:Int = 25,callback: ITerminalAddress) {
+        AppLog.i(LOG_TAG,"getAddresses $page  $limit")
         if(isSecretKeyAdded()){
-            addressesRemote?.getAddresses(callback,page,limit)
-        } else callback?.onError(false,ERROR)
+           addressesRemote?.getAddresses(callback,page,limit)
+        } else callback.onError(false,ERROR)
     }
 
-    fun getAddressesById(callback: ITerminalAddress?, addressId:String) {
+
+     fun getGenerics(callback: ITerminalConfiguration<GetAddressModel>) {
+        if(isSecretKeyAdded()){
+           // addressesRemote?.getAddresses(callback,page,limit)
+        } else callback.onError(false,ERROR)
+    }
+
+
+    fun getAddressesById(addressId:String,callback: ITerminalAddress) {
+        AppLog.i(LOG_TAG,"getAddressesById $addressId ")
         if(isSecretKeyAdded()){
             addressesRemote?.getAddressesById(callback,addressId)
-        } else callback?.onError(false,ERROR)
+        } else callback.onError(false,ERROR)
     }
 
-    fun deleteAddress(callback: ITerminalCreate?, addressId:String) {
+    fun deleteAddress( addressId:String,callback: ITerminalCreate) {
+        AppLog.i(LOG_TAG,"deleteAddress $addressId ")
         if(isSecretKeyAdded()){
             addressesRemote?.deleteAddress(callback,addressId)
-        } else callback?.onError(false,ERROR)
+        } else callback.onError(false,ERROR)
     }
 
-    fun validateAddress(callback: ITerminalValidate?, addressValidation: AddressValidation) {
+    fun validateAddress(addressValidation: AddressValidation,callback: ITerminalValidate) {
+        AppLog.i(LOG_TAG,"getCitiesInState $addressValidation ")
         if(isSecretKeyAdded()){
             addressesRemote?.validateAddress(callback,addressValidation)
-        } else callback?.onError(false,ERROR)
+        } else callback.onError(false,ERROR)
 
     }
 
     fun getCountries(callback: ITerminalCountries) {
         if(isSecretKeyAdded()){
-            miscellanousRemote?.getCountries(callback)
+            miscellaneousRemote?.getCountries(callback)
         } else callback.onError(false,ERROR)
 
     }
 
-    fun getStateInCountry(callback: ITerminalStates,countryCode:String) {
+    fun getStateInCountry(countryCode:String,callback: ITerminalStates) {
+        AppLog.i(LOG_TAG,"getStateInCountry $countryCode ")
         if(isSecretKeyAdded()){
-            miscellanousRemote?.getStatesInCountry(callback,countryCode)
+            miscellaneousRemote?.getStatesInCountry(callback,countryCode)
         } else callback.onError(false,ERROR)
     }
 
-    fun getCitiesInState(callback: ITerminalCities,countryCode:String, stateCode:String) {
+    fun getCitiesInState(countryCode:String, stateCode:String, callback: ITerminalCities,) {
+        AppLog.i(LOG_TAG,"getCitiesInState $countryCode $stateCode")
         if(isSecretKeyAdded()){
-            miscellanousRemote?.getCitiesInCountry(callback,countryCode,stateCode)
+            miscellaneousRemote?.getCitiesInCountry(callback,countryCode,stateCode)
         } else callback.onError(false,ERROR)
     }
 
-    fun createPackaging(callback:  ITerminalPackaging?, packaging: Packaging) {
+    fun createPackaging(packaging: Packaging,callback: ITerminalPackaging) {
+        AppLog.i(LOG_TAG,"createPackaging $packaging")
         if(isSecretKeyAdded()){
-            miscellanousRemote?.createPackaging(callback,packaging)
-        } else callback?.onError(false,ERROR)
+            miscellaneousRemote?.createPackaging(callback,packaging)
+        } else callback.onError(false,ERROR)
     }
 
-    fun updatePackaging(callback:  ITerminalPackaging?, packagingId: String,  packaging: Packaging) {
+    fun updatePackaging(packagingId: String,  packaging: Packaging,callback: ITerminalPackaging) {
+        AppLog.i(LOG_TAG,"updatePackaging $packagingId $packaging")
         if(isSecretKeyAdded()){
-            miscellanousRemote?.updatePackaging(callback,packagingId,packaging)
-        } else callback?.onError(false,ERROR)
+            miscellaneousRemote?.updatePackaging(callback,packagingId,packaging)
+        } else callback.onError(false,ERROR)
     }
 
-    fun deletePackaging(callback:  ITerminalPackaging?, packagingId: String) {
+    fun deletePackaging( packagingId: String,callback: ITerminalPackaging) {
+        AppLog.i(LOG_TAG,"deletePackaging $packagingId")
         if(isSecretKeyAdded()){
-            miscellanousRemote?.deletePackaging(callback,packagingId)
-        } else callback?.onError(false,ERROR)
+            miscellaneousRemote?.deletePackaging(callback,packagingId)
+        } else callback.onError(false,ERROR)
 
     }
 
-    fun getSpecificPackaging(callback:  ITerminalPackaging?, packagingId: String) {
+    fun getSpecificPackaging( packagingId: String,callback: ITerminalPackaging) {
+        AppLog.i(LOG_TAG,"getSpecificPackaging $packagingId")
         if(isSecretKeyAdded()){
-            miscellanousRemote?.getSpecificPackaging(callback,packagingId)
-        } else callback?.onError(false,ERROR)
+            miscellaneousRemote?.getSpecificPackaging(callback,packagingId)
+        } else callback.onError(false,ERROR)
     }
 
-    fun getSpecificPackaging(callback:  ITerminalPackagingList?) {
+    fun getSpecificPackaging(callback: ITerminalPackagingList) {
+        AppLog.i(LOG_TAG,"getSpecificPackaging")
         if(isSecretKeyAdded()){
-            miscellanousRemote?.getPackaging(callback)
-        } else callback?.onError(false,ERROR)
+            miscellaneousRemote?.getPackaging(callback)
+        } else callback.onError(false,ERROR)
     }
 
 

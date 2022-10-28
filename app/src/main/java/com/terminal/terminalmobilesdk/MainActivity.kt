@@ -2,10 +2,10 @@ package com.terminal.terminalmobilesdk
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.terminal.terminal_androidsdk.core.db.BaseData
+import com.terminal.terminal_androidsdk.core.network.BaseData
 import com.terminal.terminal_androidsdk.core.TShipSDK
-import com.terminal.terminal_androidsdk.core.iinterface.ITerminalCountries
-import com.terminal.terminal_androidsdk.core.iinterface.ITerminalCreate
+import com.terminal.terminal_androidsdk.core.ITerminalAddress
+import com.terminal.terminal_androidsdk.core.ITerminalConfiguration
 import com.terminal.terminal_androidsdk.core.model.*
 
 class MainActivity : AppCompatActivity() {
@@ -21,37 +21,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getAddresses(){
-        val home = CreateAddress.Builder("Atyy","uihu","yug","opoj", line1 = "iuhuh")
-            .email("")
-            .build()
 
 
-        var yyy= home
-       /*
-        TShipSDK.getAddresses(object : ITerminalAddress {
-            override fun onError(status: Boolean, message: String) {
-                var tt = message
+        TShipSDK.getGenerics(object :ITerminalConfiguration<GetAddressModel>{
+            override fun onResponse(result: GetAddressModel) {
+                TODO("Not yet implemented")
             }
 
+            override fun onError(status: Boolean, message: String) {
+                TODO("Not yet implemented")
+            }
+        })
+
+
+        TShipSDK.getAddresses(1,23, object : ITerminalAddress {
             override fun onResponse(result: BaseData<GetAddressModel>) {
                 TODO("Not yet implemented")
             }
 
-        }, 1)
-        */
-
-
-        TShipSDK.updateAddress(object :ITerminalCreate {
             override fun onError(status: Boolean, message: String) {
-              //  TODO("Not yet implemented")
+                TODO("Not yet implemented")
             }
+        })
 
-            override fun onResponse(result: BaseData<Address>) {
-
-                //TODO("Not yet implemented")
-
-            }
-        }, "", UpdateAddress("","","","") )
 
     }
 

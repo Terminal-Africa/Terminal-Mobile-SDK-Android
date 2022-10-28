@@ -1,6 +1,6 @@
-package com.terminal.terminal_androidsdk.core.iinterface
+package com.terminal.terminal_androidsdk.core
 
-import com.terminal.terminal_androidsdk.core.db.BaseData
+import com.terminal.terminal_androidsdk.core.network.BaseData
 import com.terminal.terminal_androidsdk.core.model.*
 
 /**
@@ -8,10 +8,18 @@ import com.terminal.terminal_androidsdk.core.model.*
  * This is an interface class which the clients uses to get status of a Call from his applications
  *
  */
+interface  ITerminalConfiguration<T> {
+    fun onResponse(result: T)
+    fun onError(status: Boolean, message:String)
+}
+
+
+
 interface ITerminalAddress {
     fun onResponse(result: BaseData<GetAddressModel>)
     fun onError(status: Boolean, message:String)
 }
+
 
 interface ITerminalCreate {
     fun onResponse(result: BaseData<Address>)
@@ -50,6 +58,23 @@ interface  ITerminalPackagingList{
 
 interface  ITerminalPackaging{
     fun onResponse(callback: BaseData<PackagingResponse>)
+    fun onError(status: Boolean, message:String)
+}
+
+interface  ITerminalUserBalance{
+    fun onResponse(callback: BaseData<UserBalance>)
+    fun onError(status: Boolean, message:String)
+}
+
+interface  ITerminalUserProfile{
+    fun onResponse(callback: BaseData<List<UserProfile>>)
+    fun onError(status: Boolean, message:String)
+}
+
+
+
+interface  ITerminalRateForShipment{
+    fun onResponse(callback: BaseData<List<RateModel>>)
     fun onError(status: Boolean, message:String)
 }
 

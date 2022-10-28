@@ -1,10 +1,11 @@
-package com.terminal.terminal_androidsdk.core.db;
+package com.terminal.terminal_androidsdk.core.network;
 
 import static com.terminal.terminal_androidsdk.utils.Constant.BASE_LIVE_URL;
 import static com.terminal.terminal_androidsdk.utils.Constant.BASE_TEST_URL;
 
 import android.util.Log;
 
+import com.terminal.terminal_androidsdk.core.iinterface.GetDataService;
 import com.terminal.terminal_androidsdk.utils.MemoryManager;
 
 import java.util.concurrent.TimeUnit;

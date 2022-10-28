@@ -1,7 +1,11 @@
-package com.terminal.terminal_androidsdk.core.db;
+package com.terminal.terminal_androidsdk.core.iinterface;
 
 import static com.terminal.terminal_androidsdk.utils.Constant.CREATE_ADDRESS;
 
+import com.terminal.terminal_androidsdk.core.model.RateModel;
+import com.terminal.terminal_androidsdk.core.model.UserBalance;
+import com.terminal.terminal_androidsdk.core.model.UserProfile;
+import com.terminal.terminal_androidsdk.core.network.BaseData;
 import com.terminal.terminal_androidsdk.core.model.Address;
 import com.terminal.terminal_androidsdk.core.model.AddressValidation;
 import com.terminal.terminal_androidsdk.core.model.AddressValidationResponse;
@@ -82,6 +86,26 @@ public interface GetDataService {
 
     @DELETE(CREATE_ADDRESS+"/packaging/{packagingID}")
     Call<BaseData<PackagingResponse>> deletePackaging(@Path("packagingID") String packagingID);
+
+
+    @GET(CREATE_ADDRESS+"/users")
+    Call<BaseData<List<UserProfile>>> getUserProfile();
+
+    @GET(CREATE_ADDRESS+"/users/wallet-balance?user_id={user_id}")
+    Call<BaseData<UserBalance>> getUserBalance(@Path("user_id") String user_id);
+
+
+
+    @GET(CREATE_ADDRESS+"/rates/shipment")
+    Call<BaseData<List<RateModel>>> getRateForShipment(@Path("parcel_id") String parcel_id,
+                                                       @Path("pickup_address") String pickup_address,
+                                                       @Path("pickup_address") String delivery_address,
+                                                       @Path("currency") String currency,
+                                                       @Path("shipment_id") String shipment_id
+                                                       );
+
+
+
 
 }
 

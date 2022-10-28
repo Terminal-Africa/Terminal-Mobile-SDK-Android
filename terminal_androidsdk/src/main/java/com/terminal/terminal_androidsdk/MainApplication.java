@@ -5,6 +5,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.terminal.terminal_androidsdk.utils.AppLog;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 /**
@@ -22,6 +24,7 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        AppLog.debug(true);
     }
 
     @Override
