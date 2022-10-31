@@ -2,8 +2,7 @@ package com.terminal.terminal_androidsdk.core.db;
 
 import androidx.annotation.NonNull;
 
-import com.terminal.terminal_androidsdk.core.ITerminalUserBalance;
-import com.terminal.terminal_androidsdk.core.ITerminalUserProfile;
+import com.terminal.terminal_androidsdk.core.ITerminalConfiguration;
 import com.terminal.terminal_androidsdk.core.model.UserBalance;
 import com.terminal.terminal_androidsdk.core.model.UserProfile;
 import com.terminal.terminal_androidsdk.core.network.BaseData;
@@ -26,14 +25,13 @@ public class UserRemote {
         return Instance;
     }
 
-    public void getUserBalance(ITerminalUserBalance terminalConfig, String userId) {
+    public void getUserBalance(ITerminalConfiguration<UserBalance> terminalConfig, String userId) {
         RetrofitClientInstance.getInstance().getDataService().getUserBalance(userId).enqueue(new Callback<BaseData<UserBalance>>() {
             @Override
             public void onResponse(@NonNull Call<BaseData<UserBalance>> call, @NonNull Response<BaseData<UserBalance>> response) {
                 AppLog.d(LOG_TAG,"getUserBalance" + response);
-
                 if (response.isSuccessful()) {
-                    terminalConfig.onResponse(Objects.requireNonNull(response.body()));
+                    terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
                 } else {
                     BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
                     terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
@@ -46,14 +44,13 @@ public class UserRemote {
         });
     }
 
-    public void getUserProfile(ITerminalUserProfile terminalConfig) {
+    public void getUserProfile(ITerminalConfiguration<List<UserProfile>> terminalConfig) {
         RetrofitClientInstance.getInstance().getDataService().getUserProfile().enqueue(new Callback<BaseData<List<UserProfile>>>() {
             @Override
             public void onResponse(@NonNull Call<BaseData<List<UserProfile>>> call, @NonNull Response<BaseData<List<UserProfile>>> response) {
                 AppLog.d(LOG_TAG,"getUserProfile" + response);
-
                 if (response.isSuccessful()) {
-                    terminalConfig.onResponse(Objects.requireNonNull(response.body()));
+                    terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
                 } else {
                     BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
                     terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }

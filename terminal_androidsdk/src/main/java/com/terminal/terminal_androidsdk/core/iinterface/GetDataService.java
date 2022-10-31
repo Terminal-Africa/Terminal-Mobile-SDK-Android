@@ -2,6 +2,7 @@ package com.terminal.terminal_androidsdk.core.iinterface;
 
 import static com.terminal.terminal_androidsdk.utils.Constant.CREATE_ADDRESS;
 
+import com.terminal.terminal_androidsdk.core.model.GetPackagingList;
 import com.terminal.terminal_androidsdk.core.model.RateModel;
 import com.terminal.terminal_androidsdk.core.model.UserBalance;
 import com.terminal.terminal_androidsdk.core.model.UserProfile;
@@ -64,16 +65,17 @@ public interface GetDataService {
     @GET(CREATE_ADDRESS+"/countries")
     Call<BaseData<List<TerminalCountries>>> getCountries();
 
-    @GET(CREATE_ADDRESS+"/states?country_code="+"{Country_Code}")
-    Call<BaseData<List<TerminalStates>>> getStateInCountry(@Path("Country_Code") String Country_Code);
+    @GET(CREATE_ADDRESS+"/states")
+    Call<BaseData<List<TerminalStates>>> getStateInCountry(@Query("country_code") String country_code);
 
-    @GET(CREATE_ADDRESS+"/cities?country_code="+"{Country_Code}&state_code="+"{stateCode}")
-    Call<BaseData<List<TerminalCities>>> getCitiesInState(@Path("Country_Code") String Country_Code, String stateCode);
+    @GET(CREATE_ADDRESS+"/cities")
+    Call<BaseData<List<TerminalCities>>> getCitiesInState(@Query("country_code") String country_code,
+                                                          @Query("state_code") String stateCode);
 
 
 
     @GET(CREATE_ADDRESS+"/packaging")
-    Call<BaseData<List<PackagingResponse>>> getPackaging();
+    Call<BaseData<GetPackagingList>> getPackaging();
 
     @GET(CREATE_ADDRESS+"/packaging/{packagingID}")
     Call<BaseData<PackagingResponse>> getSpecificPackaging(@Path("packagingID") String packagingID);
@@ -91,21 +93,18 @@ public interface GetDataService {
     @GET(CREATE_ADDRESS+"/users")
     Call<BaseData<List<UserProfile>>> getUserProfile();
 
-    @GET(CREATE_ADDRESS+"/users/wallet-balance?user_id={user_id}")
-    Call<BaseData<UserBalance>> getUserBalance(@Path("user_id") String user_id);
+    @GET(CREATE_ADDRESS+"/users/wallet-balance")
+    Call<BaseData<UserBalance>> getUserBalance(@Query("user_id") String user_id);
 
 
 
     @GET(CREATE_ADDRESS+"/rates/shipment")
-    Call<BaseData<List<RateModel>>> getRateForShipment(@Path("parcel_id") String parcel_id,
-                                                       @Path("pickup_address") String pickup_address,
-                                                       @Path("pickup_address") String delivery_address,
-                                                       @Path("currency") String currency,
-                                                       @Path("shipment_id") String shipment_id
+    Call<BaseData<List<RateModel>>> getRateForShipment(@Query("parcel_id") String parcel_id,
+                                                       @Query("pickup_address") String pickup_address,
+                                                       @Query("pickup_address") String delivery_address,
+                                                       @Query("currency") String currency,
+                                                       @Query("shipment_id") String shipment_id
                                                        );
-
-
-
 
 }
 

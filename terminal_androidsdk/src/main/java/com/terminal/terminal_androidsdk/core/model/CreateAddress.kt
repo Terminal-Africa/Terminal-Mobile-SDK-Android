@@ -43,7 +43,7 @@ class CreateAddress (
         fun zip(zip: String) = apply { this.zip = zip }
         fun phone(phone: String) = apply { this.phone = phone }
         fun name(name: String) = apply { this.name = name }
-        fun build() = Builder(city, state, country, email, firstName, isResidential, lastName, line1,line2,
+        fun build() = CreateAddress(city, state, country, email, firstName, isResidential, lastName, line1,line2,
         zip,phone,name)
     }
 }
@@ -88,7 +88,7 @@ class UpdateAddress (
         fun zip(zip: String) = apply { this.zip = zip }
         fun phone(phone: String) = apply { this.phone = phone }
         fun name(name: String) = apply { this.name = name }
-        fun build() = UpdateAddress.Builder(
+        fun build() = UpdateAddress(
             city, state, country,zip, email, firstName, isResidential, lastName, line1, line2,
              phone, name
         )

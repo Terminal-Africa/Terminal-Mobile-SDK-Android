@@ -3,7 +3,10 @@ package com.terminal.terminal_androidsdk.utils;
 import android.util.Log;
 
 import androidx.annotation.Keep;
-
+/**
+ * Created by AYODEJI on 10/10/2020.
+ *
+ */
 @Keep
 public class AppLog {
     /**

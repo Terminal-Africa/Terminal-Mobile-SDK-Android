@@ -2,7 +2,10 @@ package com.terminal.terminal_androidsdk.core.network;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
+/**
+ * Created by AYODEJI on 10/10/2020.
+ *
+ */
 public class BaseData<T> {
 
 

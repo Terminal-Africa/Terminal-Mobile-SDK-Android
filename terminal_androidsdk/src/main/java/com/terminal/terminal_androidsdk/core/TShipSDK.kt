@@ -24,7 +24,6 @@ object TShipSDK  {
     private val LOG_TAG: String =
         TShipSDK::class.java.simpleName
 
-
     init {
         addressesRemote = AddressRemote.getInstance()
         miscellaneousRemote = MiscellanousRemote.getInstance()
@@ -32,52 +31,50 @@ object TShipSDK  {
         rateRemote = RateRemote.getInstance()
     }
 
-
     fun init(secretKey: String, isLive:Boolean){
           MemoryManager.getInstance().putUserSecretKey(secretKey)
           MemoryManager.getInstance().putIsLive(isLive)
          AppLog.i(LOG_TAG,"initsuccessful $secretKey $isLive")
     }
 
-
-    fun getRateForShipment(parcel_id:String,pickup_address:String
-                            ,shipment_id:String,currency:String,delivery_address:String,callback: ITerminalRateForShipment
+    fun getRateForShipment(shipmentRate: ShipmentRate,
+                           callback: ITerminalConfiguration<List<RateModel>>
     ){
-        AppLog.i(LOG_TAG,"getRateForShipment $parcel_id")
+        AppLog.i(LOG_TAG,"getRateForShipment $shipmentRate")
         if(isSecretKeyAdded()){
-            rateRemote?.getRateForShipment(callback,parcel_id,pickup_address,delivery_address,currency,shipment_id)
+            rateRemote?.getRateForShipment(callback,shipmentRate)
         } else callback.onError(false,ERROR)
 
     }
 
-    fun getUserBalance(userId: String, callback: ITerminalUserBalance,) {
+    fun getUserBalance(userId: String, callback: ITerminalConfiguration<UserBalance>) {
         AppLog.i(LOG_TAG,"getUserBalance $userId")
         if(isSecretKeyAdded()){
             userRemote?.getUserBalance(callback,userId)
         } else callback.onError(false,ERROR)
     }
 
-    fun getUserProfile(callback: ITerminalUserProfile) {
+    fun getUserProfile(callback: ITerminalConfiguration<List<UserProfile>>) {
         if(isSecretKeyAdded()){
             userRemote?.getUserProfile(callback)
         } else callback.onError(false,ERROR)
     }
 
-    fun createAddress(createAddress: CreateAddress?,callback: ITerminalCreate) {
+    fun createAddress(createAddress: CreateAddress?,callback: ITerminalConfiguration<Address>) {
         AppLog.i(LOG_TAG,"createAddress $createAddress")
         if(isSecretKeyAdded() && createAddress != null){
             addressesRemote?.createAddress(callback,createAddress)
         } else callback.onError(false,ERROR)
     }
 
-    fun updateAddress(addressId: String, createAddress: UpdateAddress,callback: ITerminalCreate) {
+    fun updateAddress(addressId: String, createAddress: UpdateAddress,callback: ITerminalConfiguration<Address>) {
         AppLog.i(LOG_TAG,"updateAddress $addressId  $createAddress")
         if(isSecretKeyAdded()){
             addressesRemote?.updateAddress(callback,addressId,createAddress)
         } else callback.onError(false,ERROR)
     }
 
-    fun getAddresses( page:Int, limit:Int = 25,callback: ITerminalAddress) {
+    fun getAddresses( page:Int, limit:Int = 25,callback: ITerminalConfiguration<GetAddressModel>) {
         AppLog.i(LOG_TAG,"getAddresses $page  $limit")
         if(isSecretKeyAdded()){
            addressesRemote?.getAddresses(callback,page,limit)
@@ -85,28 +82,21 @@ object TShipSDK  {
     }
 
 
-     fun getGenerics(callback: ITerminalConfiguration<GetAddressModel>) {
-        if(isSecretKeyAdded()){
-           // addressesRemote?.getAddresses(callback,page,limit)
-        } else callback.onError(false,ERROR)
-    }
-
-
-    fun getAddressesById(addressId:String,callback: ITerminalAddress) {
+    fun getAddressesById(addressId:String,callback: ITerminalConfiguration<GetAddressModel>) {
         AppLog.i(LOG_TAG,"getAddressesById $addressId ")
         if(isSecretKeyAdded()){
             addressesRemote?.getAddressesById(callback,addressId)
         } else callback.onError(false,ERROR)
     }
 
-    fun deleteAddress( addressId:String,callback: ITerminalCreate) {
+    fun deleteAddress( addressId:String,callback: ITerminalConfiguration<Address>) {
         AppLog.i(LOG_TAG,"deleteAddress $addressId ")
         if(isSecretKeyAdded()){
             addressesRemote?.deleteAddress(callback,addressId)
         } else callback.onError(false,ERROR)
     }
 
-    fun validateAddress(addressValidation: AddressValidation,callback: ITerminalValidate) {
+    fun validateAddress(addressValidation: AddressValidation,callback: ITerminalConfiguration<AddressValidationResponse>) {
         AppLog.i(LOG_TAG,"getCitiesInState $addressValidation ")
         if(isSecretKeyAdded()){
             addressesRemote?.validateAddress(callback,addressValidation)
@@ -114,42 +104,42 @@ object TShipSDK  {
 
     }
 
-    fun getCountries(callback: ITerminalCountries) {
+    fun getCountries(callback: ITerminalConfiguration<List<TerminalCountries>>) {
         if(isSecretKeyAdded()){
             miscellaneousRemote?.getCountries(callback)
         } else callback.onError(false,ERROR)
 
     }
 
-    fun getStateInCountry(countryCode:String,callback: ITerminalStates) {
+    fun getStateInCountry(countryCode:String,callback:  ITerminalConfiguration<List<TerminalStates>>) {
         AppLog.i(LOG_TAG,"getStateInCountry $countryCode ")
         if(isSecretKeyAdded()){
             miscellaneousRemote?.getStatesInCountry(callback,countryCode)
         } else callback.onError(false,ERROR)
     }
 
-    fun getCitiesInState(countryCode:String, stateCode:String, callback: ITerminalCities,) {
+    fun getCitiesInState(countryCode:String, stateCode:String, callback:  ITerminalConfiguration<List<TerminalCities>>) {
         AppLog.i(LOG_TAG,"getCitiesInState $countryCode $stateCode")
         if(isSecretKeyAdded()){
             miscellaneousRemote?.getCitiesInCountry(callback,countryCode,stateCode)
         } else callback.onError(false,ERROR)
     }
 
-    fun createPackaging(packaging: Packaging,callback: ITerminalPackaging) {
+    fun createPackaging(packaging: Packaging,callback:  ITerminalConfiguration<PackagingResponse>) {
         AppLog.i(LOG_TAG,"createPackaging $packaging")
         if(isSecretKeyAdded()){
             miscellaneousRemote?.createPackaging(callback,packaging)
         } else callback.onError(false,ERROR)
     }
 
-    fun updatePackaging(packagingId: String,  packaging: Packaging,callback: ITerminalPackaging) {
+    fun updatePackaging(packagingId: String,  packaging: Packaging,callback: ITerminalConfiguration<PackagingResponse>) {
         AppLog.i(LOG_TAG,"updatePackaging $packagingId $packaging")
         if(isSecretKeyAdded()){
             miscellaneousRemote?.updatePackaging(callback,packagingId,packaging)
         } else callback.onError(false,ERROR)
     }
 
-    fun deletePackaging( packagingId: String,callback: ITerminalPackaging) {
+    fun deletePackaging( packagingId: String,callback: ITerminalConfiguration<PackagingResponse>) {
         AppLog.i(LOG_TAG,"deletePackaging $packagingId")
         if(isSecretKeyAdded()){
             miscellaneousRemote?.deletePackaging(callback,packagingId)
@@ -157,20 +147,19 @@ object TShipSDK  {
 
     }
 
-    fun getSpecificPackaging( packagingId: String,callback: ITerminalPackaging) {
+    fun getSpecificPackaging( packagingId: String,callback: ITerminalConfiguration<PackagingResponse>) {
         AppLog.i(LOG_TAG,"getSpecificPackaging $packagingId")
         if(isSecretKeyAdded()){
             miscellaneousRemote?.getSpecificPackaging(callback,packagingId)
         } else callback.onError(false,ERROR)
     }
 
-    fun getSpecificPackaging(callback: ITerminalPackagingList) {
-        AppLog.i(LOG_TAG,"getSpecificPackaging")
+    fun getPackaging(callback: ITerminalConfiguration<GetPackagingList>) {
+        AppLog.i(LOG_TAG,"getPackaging")
         if(isSecretKeyAdded()){
             miscellaneousRemote?.getPackaging(callback)
         } else callback.onError(false,ERROR)
     }
-
 
     private fun isSecretKeyAdded():Boolean{
         return MemoryManager.getInstance().isSecretActivated

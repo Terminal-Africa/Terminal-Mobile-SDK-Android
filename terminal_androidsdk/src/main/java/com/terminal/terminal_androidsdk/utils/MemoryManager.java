@@ -5,7 +5,10 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.terminal.terminal_androidsdk.MainApplication;
-
+/**
+ * Created by AYODEJI on 10/10/2020.
+ *
+ */
 public class MemoryManager {
 
     private static MemoryManager sInstance;

@@ -4,7 +4,10 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.terminal.terminal_androidsdk.core.network.BaseData
 import retrofit2.Response
-
+/**
+ * Created by AYODEJI on 10/10/2020.
+ *
+ */
 object Constant {
 
     const val BASE_TEST_URL = "https://sandbox.terminal.africa/"
