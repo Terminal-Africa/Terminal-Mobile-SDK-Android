@@ -75,7 +75,12 @@ public interface GetDataService {
 
 
     @GET(CREATE_ADDRESS+"/packaging")
-    Call<BaseData<GetPackagingList>> getPackaging();
+    Call<BaseData<GetPackagingList>> getPackaging(
+                             @Query("type") String type,
+                               @Query("perPage") int perPage,
+                                 @Query("page") int page
+
+    );
 
     @GET(CREATE_ADDRESS+"/packaging/{packagingID}")
     Call<BaseData<PackagingResponse>> getSpecificPackaging(@Path("packagingID") String packagingID);
@@ -90,8 +95,8 @@ public interface GetDataService {
     Call<BaseData<PackagingResponse>> deletePackaging(@Path("packagingID") String packagingID);
 
 
-    @GET(CREATE_ADDRESS+"/users")
-    Call<BaseData<List<UserProfile>>> getUserProfile();
+    @GET(CREATE_ADDRESS+"/users/{user_id}")
+    Call<BaseData<List<UserProfile>>> getUserProfile(@Path("user_id") String user_id);
 
     @GET(CREATE_ADDRESS+"/users/wallet-balance")
     Call<BaseData<UserBalance>> getUserBalance(@Query("user_id") String user_id);
@@ -101,7 +106,7 @@ public interface GetDataService {
     @GET(CREATE_ADDRESS+"/rates/shipment")
     Call<BaseData<List<RateModel>>> getRateForShipment(@Query("parcel_id") String parcel_id,
                                                        @Query("pickup_address") String pickup_address,
-                                                       @Query("pickup_address") String delivery_address,
+                                                       @Query("delivery_address") String delivery_address,
                                                        @Query("currency") String currency,
                                                        @Query("shipment_id") String shipment_id
                                                        );

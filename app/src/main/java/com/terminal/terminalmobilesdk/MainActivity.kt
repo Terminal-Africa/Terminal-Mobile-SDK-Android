@@ -20,17 +20,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private  fun getCityAndState(){
-        TShipSDK.getPackaging(object :ITerminalConfiguration<GetPackagingList>{
-            override fun onResponse(result: GetPackagingList) {
-                var resul = result
-            }
-
-            override fun onError(status: Boolean, message: String) {
-                var result = message
-            }
-        })
-
-
+      /*
         TShipSDK.getRateForShipment(ShipmentRate.Builder("PC-01337111770","AD-48503878906")
             .build(),object :ITerminalConfiguration<List<RateModel>>{
             override fun onResponse(result: List<RateModel>) {
@@ -41,38 +31,19 @@ class MainActivity : AppCompatActivity() {
                 var result = message
             }
         })
+       */
 
-        TShipSDK.createPackaging(Packaging(
-            "","","",3.0,2.0,3.0,"kg",8.0,
-            "A good parcel to carry"
-        ),object :ITerminalConfiguration<PackagingResponse>{
-            override fun onResponse(result: PackagingResponse) {
+          TShipSDK.getPackaging("",object :ITerminalConfiguration<GetPackagingList>{
+              override fun onError(status: Boolean, message: String) {
+                  var result = message
+              }
 
-            }
+              override fun onResponse(result: GetPackagingList) {
+                  var resul = result
+              }
+          })
 
-            override fun onError(status: Boolean, message: String) {
-
-            }
-        })
     }
 
-    private fun getAddresses(){
-       TShipSDK.createAddress(CreateAddress.Builder("Indian","Agege","Ipee")
-           .isResidential(true)
-           .line2("Uiu")
-           .firstName("Ayodeji")
-           .lastName("Olalekan")
-           .email("Aewewe").build()
-           , object :ITerminalConfiguration<Address>{
-           override fun onResponse(result: Address) {
-               var resul = result
-           }
-
-           override fun onError(status: Boolean, message: String) {
-               var result = message
-            }
-           }
-         )
-    }
 
 }

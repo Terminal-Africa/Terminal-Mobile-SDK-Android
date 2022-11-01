@@ -44,8 +44,8 @@ public class UserRemote {
         });
     }
 
-    public void getUserProfile(ITerminalConfiguration<List<UserProfile>> terminalConfig) {
-        RetrofitClientInstance.getInstance().getDataService().getUserProfile().enqueue(new Callback<BaseData<List<UserProfile>>>() {
+    public void getUserProfile(ITerminalConfiguration<List<UserProfile>> terminalConfig,String user_id) {
+        RetrofitClientInstance.getInstance().getDataService().getUserProfile(user_id).enqueue(new Callback<BaseData<List<UserProfile>>>() {
             @Override
             public void onResponse(@NonNull Call<BaseData<List<UserProfile>>> call, @NonNull Response<BaseData<List<UserProfile>>> response) {
                 AppLog.d(LOG_TAG,"getUserProfile" + response);
@@ -58,8 +58,8 @@ public class UserRemote {
             @Override
             public void onFailure(@NonNull Call<BaseData<List<UserProfile>>> call, @NonNull Throwable t) {
                 AppLog.d(LOG_TAG,"getUserProfile" + t.getMessage());
-
                 terminalConfig.onError(false, Objects.requireNonNull(t.getMessage()));
+
             }
         });
     }

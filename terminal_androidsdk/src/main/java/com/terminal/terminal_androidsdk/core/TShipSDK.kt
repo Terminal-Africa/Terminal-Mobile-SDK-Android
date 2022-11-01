@@ -3,7 +3,6 @@ import com.terminal.terminal_androidsdk.core.db.AddressRemote
 import com.terminal.terminal_androidsdk.core.db.MiscellanousRemote
 import com.terminal.terminal_androidsdk.core.db.RateRemote
 import com.terminal.terminal_androidsdk.core.db.UserRemote
-import com.terminal.terminal_androidsdk.core.iinterface.*
 import com.terminal.terminal_androidsdk.core.model.*
 import com.terminal.terminal_androidsdk.utils.AppLog
 import com.terminal.terminal_androidsdk.utils.Constant.ERROR
@@ -54,9 +53,9 @@ object TShipSDK  {
         } else callback.onError(false,ERROR)
     }
 
-    fun getUserProfile(callback: ITerminalConfiguration<List<UserProfile>>) {
+    fun getUserProfile( user_id:String,callback: ITerminalConfiguration<List<UserProfile>>) {
         if(isSecretKeyAdded()){
-            userRemote?.getUserProfile(callback)
+            userRemote?.getUserProfile(callback,user_id)
         } else callback.onError(false,ERROR)
     }
 
@@ -154,12 +153,14 @@ object TShipSDK  {
         } else callback.onError(false,ERROR)
     }
 
-    fun getPackaging(callback: ITerminalConfiguration<GetPackagingList>) {
+    fun getPackaging(
+        type: String, callback:ITerminalConfiguration<GetPackagingList>,  perPage:Int = 100, page:Int = 1,) {
         AppLog.i(LOG_TAG,"getPackaging")
         if(isSecretKeyAdded()){
-            miscellaneousRemote?.getPackaging(callback)
+            miscellaneousRemote?.getPackaging(callback,type,perPage,page)
         } else callback.onError(false,ERROR)
     }
+
 
     private fun isSecretKeyAdded():Boolean{
         return MemoryManager.getInstance().isSecretActivated

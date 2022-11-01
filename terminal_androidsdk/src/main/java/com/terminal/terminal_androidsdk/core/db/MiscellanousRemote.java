@@ -180,8 +180,8 @@ public class MiscellanousRemote {
         });
     }
 
-    public void getPackaging( ITerminalConfiguration<GetPackagingList> terminalConfig) {
-        RetrofitClientInstance.getInstance().getDataService().getPackaging().enqueue(new Callback<BaseData<GetPackagingList>>() {
+    public void getPackaging( ITerminalConfiguration<GetPackagingList> terminalConfig, String type, int perPage, int page) {
+        RetrofitClientInstance.getInstance().getDataService().getPackaging(type,perPage,page).enqueue(new Callback<BaseData<GetPackagingList>>() {
             @Override
             public void onResponse(@NonNull Call<BaseData<GetPackagingList>> call, @NonNull Response<BaseData<GetPackagingList>> response) {
                 AppLog.d(LOG_TAG,"getPackaging" + response);
