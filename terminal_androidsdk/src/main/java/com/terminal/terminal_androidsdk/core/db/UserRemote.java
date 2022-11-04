@@ -44,10 +44,10 @@ public class UserRemote {
         });
     }
 
-    public void getUserProfile(ITerminalConfiguration<List<UserProfile>> terminalConfig,String user_id) {
-        RetrofitClientInstance.getInstance().getDataService().getUserProfile(user_id).enqueue(new Callback<BaseData<List<UserProfile>>>() {
+    public void getUserProfile(ITerminalConfiguration<UserProfile> terminalConfig,String user_id) {
+        RetrofitClientInstance.getInstance().getDataService().getUserProfile(user_id).enqueue(new Callback<BaseData<UserProfile>>() {
             @Override
-            public void onResponse(@NonNull Call<BaseData<List<UserProfile>>> call, @NonNull Response<BaseData<List<UserProfile>>> response) {
+            public void onResponse(@NonNull Call<BaseData<UserProfile>> call, @NonNull Response<BaseData<UserProfile>> response) {
                 AppLog.d(LOG_TAG,"getUserProfile" + response);
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
@@ -56,7 +56,7 @@ public class UserRemote {
                     terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
             }
             @Override
-            public void onFailure(@NonNull Call<BaseData<List<UserProfile>>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<BaseData<UserProfile>> call, @NonNull Throwable t) {
                 AppLog.d(LOG_TAG,"getUserProfile" + t.getMessage());
                 terminalConfig.onError(false, Objects.requireNonNull(t.getMessage()));
 

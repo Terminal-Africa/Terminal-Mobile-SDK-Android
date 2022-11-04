@@ -10,12 +10,12 @@ class Packaging (
     val  name:String,
     val size_unit:String,
     val type:String,
-    val height:Double,
-    val length:Double,
-    val weight:Double,
+    val height:Int,
+    val length:Int,
+    val weight:Int,
     val weight_unit :String,
-    val width:Double,
-    val description:String
+    val width:Int,
+    val description:String = ""
 )
 
 
@@ -47,7 +47,6 @@ class PackagingResponse {
     val id:String = ""
 
 }
-
 
 data class GetPackagingList(val packaging:List<PackagingResponse> = arrayListOf(), val pagination: Pagination, )
 

@@ -17,6 +17,8 @@ class UserProfile {
     @SerializedName("last_name")
     @Expose
     val lastName:String? =  null
+    @SerializedName("_id")
+    @Expose
     val id:String? =  null
     val name:String? =  null
     val phone:String? =  null
@@ -32,15 +34,23 @@ class UserProfile {
     @Expose
     val updatedAt:String = ""
     val carriers:UserProfileDetails? = null
+    val plan:String = ""
+
+    @SerializedName("business_category")
+    @Expose
+    val businessCategory:String = ""
+    @SerializedName("country_state")
+    @Expose
+    val countryState:String = ""
+    val country:String = ""
+
+
 }
 
-class UserProfileInfo{
-    val id:String? =  null
-    val name:String? =  null
-}
+class UserProfileInfo(  val id:String? =  null,  val name:String? =  null)
 
 class  UserProfileDetails{
-    val domestic :List<UserProfileInfo> = arrayListOf()
-    val regional :List<UserProfileInfo> = arrayListOf()
-    val international :List<UserProfileInfo> = arrayListOf()
+    val domestic :List<String> = arrayListOf()
+    val regional :List<String> = arrayListOf()
+    val international :List<String> = arrayListOf()
 }

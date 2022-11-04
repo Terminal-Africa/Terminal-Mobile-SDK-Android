@@ -14,7 +14,7 @@ class UserBalance {
     @Expose
     val updatedAt:String = ""
     val active:Boolean = false
-    val amount:Double = 0.0
+    val amount:Double = 0.00
     val currency:String? = null
     val name:String? = null
     val user:String? =null

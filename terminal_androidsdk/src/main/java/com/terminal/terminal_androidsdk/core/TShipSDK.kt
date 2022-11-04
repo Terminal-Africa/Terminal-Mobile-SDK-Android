@@ -1,8 +1,6 @@
 package com.terminal.terminal_androidsdk.core
-import com.terminal.terminal_androidsdk.core.db.AddressRemote
-import com.terminal.terminal_androidsdk.core.db.MiscellanousRemote
-import com.terminal.terminal_androidsdk.core.db.RateRemote
-import com.terminal.terminal_androidsdk.core.db.UserRemote
+import com.google.gson.Gson
+import com.terminal.terminal_androidsdk.core.db.*
 import com.terminal.terminal_androidsdk.core.model.*
 import com.terminal.terminal_androidsdk.utils.AppLog
 import com.terminal.terminal_androidsdk.utils.Constant.ERROR
@@ -20,6 +18,11 @@ object TShipSDK  {
     private var miscellaneousRemote: MiscellanousRemote? = null
     private  var userRemote: UserRemote? = null
     private  var rateRemote: RateRemote? = null
+    private  var parcelRemote: ParcelRemote? = null
+    private  var transactionRemote:TransactionRemote? = null
+
+
+    //ParcelRemote
     private val LOG_TAG: String =
         TShipSDK::class.java.simpleName
 
@@ -28,9 +31,10 @@ object TShipSDK  {
         miscellaneousRemote = MiscellanousRemote.getInstance()
         userRemote = UserRemote.getInstance()
         rateRemote = RateRemote.getInstance()
+        parcelRemote = ParcelRemote.getInstance()
     }
 
-    fun init(secretKey: String, isLive:Boolean){
+    fun init(secretKey: String, isLive:Boolean = false){
           MemoryManager.getInstance().putUserSecretKey(secretKey)
           MemoryManager.getInstance().putIsLive(isLive)
          AppLog.i(LOG_TAG,"initsuccessful $secretKey $isLive")
@@ -53,7 +57,7 @@ object TShipSDK  {
         } else callback.onError(false,ERROR)
     }
 
-    fun getUserProfile( user_id:String,callback: ITerminalConfiguration<List<UserProfile>>) {
+    fun getUserProfile( user_id:String,callback: ITerminalConfiguration<UserProfile>) {
         if(isSecretKeyAdded()){
             userRemote?.getUserProfile(callback,user_id)
         } else callback.onError(false,ERROR)
@@ -158,6 +162,57 @@ object TShipSDK  {
         AppLog.i(LOG_TAG,"getPackaging")
         if(isSecretKeyAdded()){
             miscellaneousRemote?.getPackaging(callback,type,perPage,page)
+        } else callback.onError(false,ERROR)
+    }
+
+
+    fun getParcels(
+         callback:ITerminalConfiguration<GetParcelModelList>,  perPage:Int = 100, page:Int = 1,) {
+        AppLog.i(LOG_TAG,"getParcels")
+        if(isSecretKeyAdded()){
+            parcelRemote?.getParcels(callback,perPage,page)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun getSpecificParcel(
+        parcelId:String, callback:ITerminalConfiguration<ParcelResponse>) {
+        AppLog.i(LOG_TAG,"getParcels")
+        if(isSecretKeyAdded()){
+            parcelRemote?.getSpecificParcel(callback,parcelId)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun updateParcel(
+       parcelId:String,updateParcelModel: UpdateParcelModel,callback:ITerminalConfiguration<ParcelResponse>) {
+        AppLog.i(LOG_TAG,"getParcels")
+        if(isSecretKeyAdded()){
+            parcelRemote?.updateParcel(callback,parcelId,updateParcelModel)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun createParcel(
+        createParcel: CreateParcel,callback:ITerminalConfiguration<ParcelResponse>) {
+        var resul = Gson().toJson(createParcel)
+        AppLog.i(LOG_TAG,"createParcel")
+        if(isSecretKeyAdded()){
+            parcelRemote?.createParcel(callback,createParcel)
+        } else callback.onError(false,ERROR)
+    }
+
+
+    fun getTransaction(
+         walletID:String, callback:ITerminalConfiguration<MultipleTransaction>, perPage:Int = 100, page:Int = 1,) {
+        AppLog.i(LOG_TAG,"getTransaction")
+        if(isSecretKeyAdded()){
+            transactionRemote?.getTransaction(callback,walletID,perPage,page)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun getSpecificTransaction(
+        transactionID:String, callback:ITerminalConfiguration<Transaction>) {
+        AppLog.i(LOG_TAG,"getSpecificTransaction")
+        if(isSecretKeyAdded()){
+            transactionRemote?.getSpecificTransaction(callback,transactionID)
         } else callback.onError(false,ERROR)
     }
 

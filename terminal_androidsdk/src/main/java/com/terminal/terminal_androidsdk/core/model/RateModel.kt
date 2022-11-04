@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
  *
  */
 class RateModel {
-    val amount:Double = 0.0
+    val amount:Double = 0.00
 
     @SerializedName("carrier_id")
     @Expose
@@ -64,23 +64,23 @@ class RateModel {
 
 class ShipmentRate (
     val parcel_id:String,
-    var pickup_address :String = "",
+    var pickup_address :String,
+    var delivery_address :String,
     var shipment_id :String = "",
     var currency:String = "",
-    var delivery_address :String = "",
 ){
     data class Builder(
         var parcel_id:String,
-        var pickup_address :String = "",
+        var pickup_address :String,
+        var delivery_address :String,
         var shipment_id :String = "",
         var currency:String = "",
-        var delivery_address :String = "",
     ){
         fun parcelId(parcel_id: String) = apply { this.parcel_id = parcel_id }
         fun pickupAddress(pickup_address: String) = apply { this.pickup_address = pickup_address }
         fun shipmentId(shipment_id: String) = apply { this.shipment_id = shipment_id }
         fun currency(currency: String) = apply { this.currency = currency }
         fun deliveryAddress(delivery_address: String) = apply { this.delivery_address = delivery_address }
-        fun build() = ShipmentRate(parcel_id,pickup_address,shipment_id,currency,delivery_address)
+        fun build() = ShipmentRate(parcel_id,pickup_address,delivery_address,shipment_id,currency)
     }
 }

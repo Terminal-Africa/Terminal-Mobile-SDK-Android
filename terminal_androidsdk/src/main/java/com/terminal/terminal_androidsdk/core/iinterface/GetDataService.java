@@ -2,8 +2,14 @@ package com.terminal.terminal_androidsdk.core.iinterface;
 
 import static com.terminal.terminal_androidsdk.utils.Constant.CREATE_ADDRESS;
 
+import com.terminal.terminal_androidsdk.core.model.CreateParcel;
 import com.terminal.terminal_androidsdk.core.model.GetPackagingList;
+import com.terminal.terminal_androidsdk.core.model.GetParcelModelList;
+import com.terminal.terminal_androidsdk.core.model.MultipleTransaction;
+import com.terminal.terminal_androidsdk.core.model.ParcelResponse;
 import com.terminal.terminal_androidsdk.core.model.RateModel;
+import com.terminal.terminal_androidsdk.core.model.Transaction;
+import com.terminal.terminal_androidsdk.core.model.UpdateParcelModel;
 import com.terminal.terminal_androidsdk.core.model.UserBalance;
 import com.terminal.terminal_androidsdk.core.model.UserProfile;
 import com.terminal.terminal_androidsdk.core.network.BaseData;
@@ -36,6 +42,7 @@ import retrofit2.http.Query;
  */
 public interface GetDataService {
 
+    /*Todo Address Endpoint */
     @POST(CREATE_ADDRESS+"/addresses")
     Call<BaseData<Address>> createAddress(@Body CreateAddress createAddress
                                           );
@@ -62,6 +69,8 @@ public interface GetDataService {
     Call<BaseData<Address>> deleteAddress(@Path("delete_ID") String delete_ID);
 
 
+    /*Todo Country, State, Cities Endpoint */
+
     @GET(CREATE_ADDRESS+"/countries")
     Call<BaseData<List<TerminalCountries>>> getCountries();
 
@@ -72,7 +81,7 @@ public interface GetDataService {
     Call<BaseData<List<TerminalCities>>> getCitiesInState(@Query("country_code") String country_code,
                                                           @Query("state_code") String stateCode);
 
-
+    /*Todo Packaging Endpoint */
 
     @GET(CREATE_ADDRESS+"/packaging")
     Call<BaseData<GetPackagingList>> getPackaging(
@@ -95,14 +104,16 @@ public interface GetDataService {
     Call<BaseData<PackagingResponse>> deletePackaging(@Path("packagingID") String packagingID);
 
 
+    /*Todo Users Endpoint */
+
     @GET(CREATE_ADDRESS+"/users/{user_id}")
-    Call<BaseData<List<UserProfile>>> getUserProfile(@Path("user_id") String user_id);
+    Call<BaseData<UserProfile>> getUserProfile(@Path("user_id") String user_id);
 
     @GET(CREATE_ADDRESS+"/users/wallet-balance")
     Call<BaseData<UserBalance>> getUserBalance(@Query("user_id") String user_id);
 
 
-
+    /*Todo Shipment Rates Endpoint */
     @GET(CREATE_ADDRESS+"/rates/shipment")
     Call<BaseData<List<RateModel>>> getRateForShipment(@Query("parcel_id") String parcel_id,
                                                        @Query("pickup_address") String pickup_address,
@@ -110,6 +121,38 @@ public interface GetDataService {
                                                        @Query("currency") String currency,
                                                        @Query("shipment_id") String shipment_id
                                                        );
+
+
+    /*Todo Parcels Endpoint */
+
+    @GET(CREATE_ADDRESS+"/parcels/{parcel_id}")
+    Call<BaseData<ParcelResponse>> getParcel(@Path("parcel_id") String parcel_id);
+
+    @GET(CREATE_ADDRESS+"/parcels")
+    Call<BaseData<GetParcelModelList>> getParcels(@Query("perPage") int perPage,
+                                                  @Query("page") int page);
+
+    @PUT(CREATE_ADDRESS+"/parcels")
+    Call<BaseData<ParcelResponse>> updateParcel(@Path("parcel_id") String parcel_id,
+                                                   @Body UpdateParcelModel updateParcelModel
+                                                   );
+    @POST(CREATE_ADDRESS+"/parcels")
+    Call<BaseData<ParcelResponse>> createParcel(@Body CreateParcel createParcel
+    );
+
+
+    /*Todo Transactions Endpoint */
+
+    @GET(CREATE_ADDRESS+"/transactions/{transactions_id}")
+    Call<BaseData<Transaction>> getSpecificTransaction(
+            @Path("transactions_id") String transactions_id);
+
+    @GET(CREATE_ADDRESS+"/transactions")
+    Call<BaseData<MultipleTransaction>> getTransaction(
+            @Query("wallet") String wallet,
+            @Query("perPage") int perPage,
+            @Query("page") int page
+    );
 
 }
 

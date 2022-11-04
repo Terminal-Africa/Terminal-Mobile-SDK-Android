@@ -114,7 +114,6 @@ public class MiscellanousRemote {
     /**
      * All Packaging End-point
      */
-
     public void createPackaging(@Nullable ITerminalConfiguration<PackagingResponse> terminalConfig, Packaging packaging) {
         RetrofitClientInstance.getInstance().getDataService().createPackaging(packaging).enqueue(new Callback<BaseData<PackagingResponse>>() {
             @Override

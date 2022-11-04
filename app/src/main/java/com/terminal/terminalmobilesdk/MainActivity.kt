@@ -1,7 +1,7 @@
 package com.terminal.terminalmobilesdk
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.terminal.terminal_androidsdk.core.ITerminalConfiguration
 import com.terminal.terminal_androidsdk.core.TShipSDK
 import com.terminal.terminal_androidsdk.core.model.*
@@ -15,13 +15,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private  fun initializeTerminal(){
-        TShipSDK.init("sk_test_tuBAv3arC8x8tryQnf1EfQUDmMYlXgZ0",false)
+      //  TShipSDK.init("sk_test_tuBAv3arC8x8tryQnf1EfQUDmMYlXgZ0",false)
+        TShipSDK.init("sk_test_Cq6w6P7TYarWNcx2ZQowW5vGriXbVyFE",false)
         getCityAndState()
     }
 
+
     private  fun getCityAndState(){
-      /*
-        TShipSDK.getRateForShipment(ShipmentRate.Builder("PC-01337111770","AD-48503878906")
+        TShipSDK.getRateForShipment(ShipmentRate.Builder("63642541f296d6b15c985c0d","AD-48503878906","AD-02120186302")
             .build(),object :ITerminalConfiguration<List<RateModel>>{
             override fun onResponse(result: List<RateModel>) {
                 var resul = result
@@ -31,18 +32,6 @@ class MainActivity : AppCompatActivity() {
                 var result = message
             }
         })
-       */
-
-          TShipSDK.getPackaging("",object :ITerminalConfiguration<GetPackagingList>{
-              override fun onError(status: Boolean, message: String) {
-                  var result = message
-              }
-
-              override fun onResponse(result: GetPackagingList) {
-                  var resul = result
-              }
-          })
-
     }
 
 
