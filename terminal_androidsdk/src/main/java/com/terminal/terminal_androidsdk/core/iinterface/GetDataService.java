@@ -147,9 +147,9 @@ public interface GetDataService {
     Call<BaseData<Transaction>> getSpecificTransaction(
             @Path("transactions_id") String transactions_id);
 
-    @GET(CREATE_ADDRESS+"/transactions")
+    @GET(CREATE_ADDRESS+"/transactions/{wallet}")
     Call<BaseData<MultipleTransaction>> getTransaction(
-            @Query("wallet") String wallet,
+            @Path("wallet") String wallet,
             @Query("perPage") int perPage,
             @Query("page") int page
     );
