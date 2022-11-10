@@ -29,7 +29,7 @@ import retrofit2.Response;
  */
 public class MiscellanousRemote {
     private static MiscellanousRemote Instance;
-    private String  LOG_TAG =
+    private final String  LOG_TAG =
             MiscellanousRemote.class.getSimpleName();
     public static MiscellanousRemote getInstance() {
         if (Instance == null) Instance = new MiscellanousRemote();

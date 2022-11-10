@@ -25,8 +25,10 @@ import retrofit2.Response;
 public class ParcelRemote{
 
     private static ParcelRemote Instance;
-    private String  LOG_TAG =
+    private final String  LOG_TAG =
             ParcelRemote.class.getSimpleName();
+
+
     public static ParcelRemote getInstance() {
         if (Instance == null) Instance = new ParcelRemote();
         return Instance;

@@ -20,7 +20,7 @@ import retrofit2.Response;
  */
 public class RateRemote {
     private static RateRemote Instance;
-    private String  LOG_TAG =
+    private final String  LOG_TAG =
             RateRemote.class.getSimpleName();
     public static RateRemote getInstance() {
         if (Instance == null) Instance = new RateRemote();
@@ -29,7 +29,7 @@ public class RateRemote {
 
 
     public void getRateForShipment(ITerminalConfiguration<List<RateModel>> terminalConfig,  ShipmentRate shipmentRate) {
-        RetrofitClientInstance.getInstance().getDataService().getRateForShipment(shipmentRate.getParcel_id(),shipmentRate.getPickup_address(),shipmentRate.getDelivery_address(),shipmentRate.getCurrency(),shipmentRate.getShipment_id()).enqueue(new Callback<BaseData<List<RateModel>>>() {
+        RetrofitClientInstance.getInstance().getDataService().getRateForShipment(shipmentRate.getParcel_id(),shipmentRate.getPickup_address(),shipmentRate.getDelivery_address(),shipmentRate.getCurrency().name(),shipmentRate.getShipment_id()).enqueue(new Callback<BaseData<List<RateModel>>>() {
             @Override
             public void onResponse(@NonNull Call<BaseData<List<RateModel>>> call, @NonNull Response<BaseData<List<RateModel>>> response) {
                 AppLog.d(LOG_TAG,"getRateForShipment" + response);

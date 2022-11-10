@@ -2,12 +2,17 @@ package com.terminal.terminal_androidsdk.core.iinterface;
 
 import static com.terminal.terminal_androidsdk.utils.Constant.CREATE_ADDRESS;
 
+import com.terminal.terminal_androidsdk.core.model.CancelShipment;
 import com.terminal.terminal_androidsdk.core.model.CreateParcel;
+import com.terminal.terminal_androidsdk.core.model.CreateShipmentResponse;
 import com.terminal.terminal_androidsdk.core.model.GetPackagingList;
 import com.terminal.terminal_androidsdk.core.model.GetParcelModelList;
+import com.terminal.terminal_androidsdk.core.model.GetShipmentModelList;
 import com.terminal.terminal_androidsdk.core.model.MultipleTransaction;
 import com.terminal.terminal_androidsdk.core.model.ParcelResponse;
 import com.terminal.terminal_androidsdk.core.model.RateModel;
+import com.terminal.terminal_androidsdk.core.model.Shipments;
+import com.terminal.terminal_androidsdk.core.model.TrackShipmentResponse;
 import com.terminal.terminal_androidsdk.core.model.Transaction;
 import com.terminal.terminal_androidsdk.core.model.UpdateParcelModel;
 import com.terminal.terminal_androidsdk.core.model.UserBalance;
@@ -132,7 +137,7 @@ public interface GetDataService {
     Call<BaseData<GetParcelModelList>> getParcels(@Query("perPage") int perPage,
                                                   @Query("page") int page);
 
-    @PUT(CREATE_ADDRESS+"/parcels")
+    @PUT(CREATE_ADDRESS+"/parcels/{parcel_id}")
     Call<BaseData<ParcelResponse>> updateParcel(@Path("parcel_id") String parcel_id,
                                                    @Body UpdateParcelModel updateParcelModel
                                                    );
@@ -140,18 +145,44 @@ public interface GetDataService {
     Call<BaseData<ParcelResponse>> createParcel(@Body CreateParcel createParcel
     );
 
-
     /*Todo Transactions Endpoint */
 
     @GET(CREATE_ADDRESS+"/transactions/{transactions_id}")
     Call<BaseData<Transaction>> getSpecificTransaction(
             @Path("transactions_id") String transactions_id);
 
-    @GET(CREATE_ADDRESS+"/transactions/{wallet}")
+    @GET(CREATE_ADDRESS+"/transactions")
     Call<BaseData<MultipleTransaction>> getTransaction(
-            @Path("wallet") String wallet,
+            @Query("wallet") String wallet,
             @Query("perPage") int perPage,
             @Query("page") int page
+    );
+
+    /*Todo Shipment End-point */
+    @POST(CREATE_ADDRESS+"/shipments")
+    Call<BaseData<CreateShipmentResponse>> createShipments(@Body Shipments shipments
+    );
+
+
+    @GET(CREATE_ADDRESS+"/shipments/{shipments_Id}")
+    Call<BaseData<CreateShipmentResponse>> getSpecificShipment(
+            @Path("shipments_Id") String shipments_Id
+            );
+
+    @GET(CREATE_ADDRESS+"/shipments")
+    Call<BaseData<GetShipmentModelList>> getShipments(
+            @Query("perPage") int perPage,
+            @Query("page") int page
+    );
+
+    @POST(CREATE_ADDRESS+"/shipments/cancel")
+    Call<BaseData<CreateShipmentResponse>> cancelShipmentByID(
+            @Body CancelShipment cancelShipment
+    );
+
+    @GET(CREATE_ADDRESS+"/shipments/track/{shipments_Id}")
+    Call<BaseData<TrackShipmentResponse>> trackShipment(
+            @Path("shipments_Id") String shipments_Id
     );
 
 }

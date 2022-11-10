@@ -2,6 +2,8 @@ package com.terminal.terminal_androidsdk.core.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.terminal.terminal_androidsdk.core.iinterface.CurrencyType
+
 /**
  * Created by AYODEJI on 10/10/2020.
  *
@@ -64,23 +66,25 @@ class RateModel {
 
 class ShipmentRate (
     val parcel_id:String,
-    var pickup_address :String,
-    var delivery_address :String,
-    var shipment_id :String = "",
-    var currency:String = "",
+    var currency:CurrencyType,
+    var pickup_address :String? = null,
+    var delivery_address :String? = null,
+    var shipment_id :String? = null,
+
 ){
     data class Builder(
         var parcel_id:String,
-        var pickup_address :String,
-        var delivery_address :String,
-        var shipment_id :String = "",
-        var currency:String = "",
+        var currency:CurrencyType,
+        var pickup_address :String? = null,
+        var delivery_address :String? = null,
+        var shipment_id :String? = null,
+
     ){
         fun parcelId(parcel_id: String) = apply { this.parcel_id = parcel_id }
         fun pickupAddress(pickup_address: String) = apply { this.pickup_address = pickup_address }
         fun shipmentId(shipment_id: String) = apply { this.shipment_id = shipment_id }
-        fun currency(currency: String) = apply { this.currency = currency }
+        fun currency(currency: CurrencyType) = apply { this.currency = currency }
         fun deliveryAddress(delivery_address: String) = apply { this.delivery_address = delivery_address }
-        fun build() = ShipmentRate(parcel_id,pickup_address,delivery_address,shipment_id,currency)
+        fun build() = ShipmentRate(parcel_id,currency,pickup_address,delivery_address,shipment_id)
     }
 }

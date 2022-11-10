@@ -30,9 +30,9 @@ class ParcelResponse {
 
 class  ParcelItem( val description:String? = null, val name:String,
                    val currency:String,
-                   val value:Int = 0,
-                   val weight:Int = 0,
-                   val quantity:Int = 0)
+                   val value:Double = 0.0,
+                   val weight:Double = 0.0,
+                   val quantity:Double = 0.0)
 
 
 data class GetParcelModelList(val parcels:List<ParcelResponse> = arrayListOf(), val pagination: Pagination, )

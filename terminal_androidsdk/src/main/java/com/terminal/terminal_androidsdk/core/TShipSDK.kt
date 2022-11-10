@@ -20,9 +20,8 @@ object TShipSDK  {
     private  var rateRemote: RateRemote? = null
     private  var parcelRemote: ParcelRemote? = null
     private  var transactionRemote:TransactionRemote? = null
+    private  var shipmentRemote:ShipmentRemote? = null
 
-
-    //ParcelRemote
     private val LOG_TAG: String =
         TShipSDK::class.java.simpleName
 
@@ -32,12 +31,14 @@ object TShipSDK  {
         userRemote = UserRemote.getInstance()
         rateRemote = RateRemote.getInstance()
         parcelRemote = ParcelRemote.getInstance()
+        transactionRemote = TransactionRemote.getInstance()
+        shipmentRemote = ShipmentRemote.getInstance()
     }
 
     fun init(secretKey: String, isLive:Boolean = false){
           MemoryManager.getInstance().putUserSecretKey(secretKey)
           MemoryManager.getInstance().putIsLive(isLive)
-         AppLog.i(LOG_TAG,"initsuccessful $secretKey $isLive")
+          AppLog.i(LOG_TAG,"init-successful $secretKey $isLive")
     }
 
     fun getRateForShipment(shipmentRate: ShipmentRate,
@@ -83,7 +84,6 @@ object TShipSDK  {
            addressesRemote?.getAddresses(callback,page,limit)
         } else callback.onError(false,ERROR)
     }
-
 
     fun getAddressesById(addressId:String,callback: ITerminalConfiguration<GetAddressModel>) {
         AppLog.i(LOG_TAG,"getAddressesById $addressId ")
@@ -165,7 +165,6 @@ object TShipSDK  {
         } else callback.onError(false,ERROR)
     }
 
-
     fun getParcels(
          callback:ITerminalConfiguration<GetParcelModelList>,  perPage:Int = 100, page:Int = 1,) {
         AppLog.i(LOG_TAG,"getParcels")
@@ -213,6 +212,44 @@ object TShipSDK  {
         AppLog.i(LOG_TAG,"getSpecificTransaction")
         if(isSecretKeyAdded()){
             transactionRemote?.getSpecificTransaction(callback,transactionID)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun createShipments(
+        shipments: Shipments, callback:ITerminalConfiguration<CreateShipmentResponse>) {
+        AppLog.i(LOG_TAG,"createShipments")
+        if(isSecretKeyAdded()){
+            shipmentRemote?.createShipments(callback,shipments)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun getSpecificShipment(
+        shipmentId: String, callback:ITerminalConfiguration<CreateShipmentResponse>) {
+        AppLog.i(LOG_TAG,"getSpecificShipment")
+        if(isSecretKeyAdded()){
+            shipmentRemote?.getSpecificShipment(callback,shipmentId)
+        } else callback.onError(false,ERROR)
+    }
+    fun cancelShipmentByID(
+        cancelShipment: CancelShipment, callback:ITerminalConfiguration<CreateShipmentResponse>) {
+        AppLog.i(LOG_TAG,"cancelShipmentByID")
+        if(isSecretKeyAdded()){
+            shipmentRemote?.cancelShipmentByID(callback,cancelShipment)
+        } else callback.onError(false,ERROR)
+    }
+    fun getShipments(
+         callback:ITerminalConfiguration<GetShipmentModelList>, perPage:Int = 100, page:Int = 1,) {
+        AppLog.i(LOG_TAG,"getShipments")
+        if(isSecretKeyAdded()){
+            shipmentRemote?.getShipments(callback,perPage,page)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun trackShipment(
+        shipmentId:String, callback:ITerminalConfiguration<TrackShipmentResponse>) {
+        AppLog.i(LOG_TAG,"trackShipment")
+        if(isSecretKeyAdded()){
+            shipmentRemote?.trackShipment(callback,shipmentId)
         } else callback.onError(false,ERROR)
     }
 
