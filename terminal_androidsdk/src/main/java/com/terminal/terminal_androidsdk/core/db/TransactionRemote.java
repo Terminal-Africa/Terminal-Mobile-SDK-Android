@@ -3,15 +3,13 @@ package com.terminal.terminal_androidsdk.core.db;
 import androidx.annotation.NonNull;
 
 import com.terminal.terminal_androidsdk.core.ITerminalConfiguration;
-import com.terminal.terminal_androidsdk.core.model.GetParcelModelList;
-import com.terminal.terminal_androidsdk.core.model.MultipleTransaction;
-import com.terminal.terminal_androidsdk.core.model.ParcelResponse;
 import com.terminal.terminal_androidsdk.core.model.Transaction;
 import com.terminal.terminal_androidsdk.core.network.BaseData;
 import com.terminal.terminal_androidsdk.core.network.RetrofitClientInstance;
 import com.terminal.terminal_androidsdk.utils.AppLog;
 import com.terminal.terminal_androidsdk.utils.Constant;
 
+import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -26,15 +24,17 @@ public class TransactionRemote {
     private static TransactionRemote Instance;
     private String  LOG_TAG =
             TransactionRemote.class.getSimpleName();
+
+
     public static TransactionRemote getInstance() {
         if (Instance == null) Instance = new TransactionRemote();
         return Instance;
     }
 
-    public void getTransaction(ITerminalConfiguration<MultipleTransaction> terminalConfig, String walletID, int perPage, int page) {
-        RetrofitClientInstance.getInstance().getDataService().getTransaction(walletID,perPage,page).enqueue(new Callback<BaseData<MultipleTransaction>>() {
+    public void getTransaction(ITerminalConfiguration<List<Transaction>> terminalConfig, String walletID, int perPage, int page) {
+        RetrofitClientInstance.getInstance().getDataService().getTransaction(walletID,perPage,page).enqueue(new Callback<BaseData<List<Transaction>>>() {
             @Override
-            public void onResponse(@NonNull Call<BaseData<MultipleTransaction>> call, @NonNull Response<BaseData<MultipleTransaction>> response) {
+            public void onResponse(@NonNull Call<BaseData<List<Transaction>>> call, @NonNull Response<BaseData<List<Transaction>>> response) {
                 AppLog.d(LOG_TAG,"getTransaction" + response);
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
@@ -43,7 +43,7 @@ public class TransactionRemote {
                     terminalConfig.onError(Objects.requireNonNull(errorResponse).isError(),errorResponse.getMessage());                }
             }
             @Override
-            public void onFailure(@NonNull Call<BaseData<MultipleTransaction>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<BaseData<List<Transaction>>> call, @NonNull Throwable t) {
                 AppLog.d(LOG_TAG,"getTransaction" + t.getMessage());
                 terminalConfig.onError(false, Objects.requireNonNull(t.getMessage()));
             }
@@ -68,8 +68,6 @@ public class TransactionRemote {
             }
         });
     }
-
-
 
 
 }

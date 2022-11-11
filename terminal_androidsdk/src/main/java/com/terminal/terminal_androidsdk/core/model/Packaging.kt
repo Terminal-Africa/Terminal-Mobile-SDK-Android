@@ -10,11 +10,11 @@ class Packaging (
     val  name:String,
     val size_unit:String,
     val type:String,
-    val height:Int,
-    val length:Int,
-    val weight:Int,
+    val height:Double,
+    val length:Double,
+    val weight:Double,
     val weight_unit :String,
-    val width:Int,
+    val width:Double,
     val description:String = ""
 )
 

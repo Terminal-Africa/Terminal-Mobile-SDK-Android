@@ -6,6 +6,7 @@ import com.terminal.terminal_androidsdk.core.ITerminalConfiguration
 import com.terminal.terminal_androidsdk.core.TShipSDK
 import com.terminal.terminal_androidsdk.core.iinterface.CurrencyType
 import com.terminal.terminal_androidsdk.core.model.*
+import com.terminal.terminal_androidsdk.core.model.component_getship.CreateShipmentRes
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,8 +25,8 @@ class MainActivity : AppCompatActivity() {
 
 
     private  fun getCityAndState(){
-        TShipSDK.getShipments(object :ITerminalConfiguration<GetShipmentModelList>{
-            override fun onResponse(result: GetShipmentModelList) {
+        TShipSDK.trackShipment("SH-13621395647",object :ITerminalConfiguration<TrackShipmentResponse>{
+            override fun onResponse(result: TrackShipmentResponse) {
                 var rr = result
             }
 
@@ -34,21 +35,5 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-      /*
-        var tt = arrayListOf<ParcelItem>()
-        TShipSDK.updateParcel("1233243", UpdateParcelModel("","",tt,"",0),object :ITerminalConfiguration<ParcelResponse>{
-            override fun onResponse(result: ParcelResponse) {
-                var rr = result
-            }
-
-            override fun onError(status: Boolean, message: String) {
-                var rr = message
-            }
-        })
-
-       */
     }
-
-
-
 }

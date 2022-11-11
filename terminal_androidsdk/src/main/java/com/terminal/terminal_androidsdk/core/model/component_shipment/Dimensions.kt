@@ -6,8 +6,8 @@ import com.google.gson.annotations.SerializedName
 
 data class Dimensions (
 
-  @SerializedName("length" )  @Expose var length : Int? = null,
-  @SerializedName("height" )  @Expose var height : Int? = null,
-  @SerializedName("width"  )   @Expose var width  : Int? = null
+  @SerializedName("length" )  @Expose var length : Double? = null,
+  @SerializedName("height" )  @Expose var height : Double? = null,
+  @SerializedName("width"  )   @Expose var width  : Double? = null
 
 )

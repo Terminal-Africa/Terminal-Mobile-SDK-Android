@@ -8,7 +8,6 @@ import com.terminal.terminal_androidsdk.core.model.CreateShipmentResponse;
 import com.terminal.terminal_androidsdk.core.model.GetPackagingList;
 import com.terminal.terminal_androidsdk.core.model.GetParcelModelList;
 import com.terminal.terminal_androidsdk.core.model.GetShipmentModelList;
-import com.terminal.terminal_androidsdk.core.model.MultipleTransaction;
 import com.terminal.terminal_androidsdk.core.model.ParcelResponse;
 import com.terminal.terminal_androidsdk.core.model.RateModel;
 import com.terminal.terminal_androidsdk.core.model.Shipments;
@@ -17,6 +16,7 @@ import com.terminal.terminal_androidsdk.core.model.Transaction;
 import com.terminal.terminal_androidsdk.core.model.UpdateParcelModel;
 import com.terminal.terminal_androidsdk.core.model.UserBalance;
 import com.terminal.terminal_androidsdk.core.model.UserProfile;
+import com.terminal.terminal_androidsdk.core.model.component_getship.CreateShipmentRes;
 import com.terminal.terminal_androidsdk.core.network.BaseData;
 import com.terminal.terminal_androidsdk.core.model.Address;
 import com.terminal.terminal_androidsdk.core.model.AddressValidation;
@@ -152,7 +152,7 @@ public interface GetDataService {
             @Path("transactions_id") String transactions_id);
 
     @GET(CREATE_ADDRESS+"/transactions")
-    Call<BaseData<MultipleTransaction>> getTransaction(
+    Call<BaseData<List<Transaction>>> getTransaction(
             @Query("wallet") String wallet,
             @Query("perPage") int perPage,
             @Query("page") int page
@@ -165,7 +165,7 @@ public interface GetDataService {
 
 
     @GET(CREATE_ADDRESS+"/shipments/{shipments_Id}")
-    Call<BaseData<CreateShipmentResponse>> getSpecificShipment(
+    Call<BaseData<CreateShipmentRes>> getSpecificShipment(
             @Path("shipments_Id") String shipments_Id
             );
 

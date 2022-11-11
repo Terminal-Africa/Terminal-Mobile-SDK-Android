@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ReceiverDetails (
 
-  @SerializedName("postalAddress"      )  @Expose var postalAddress      : PostalAddress?      = PostalAddress(),
-  @SerializedName("contactInformation" )  @Expose var contactInformation : ContactInformation? = ContactInformation()
+  @SerializedName("postalAddress"      )  @Expose var postalAddress      : PostalAddress?      = null,
+  @SerializedName("contactInformation" )  @Expose var contactInformation : ContactInformation? = null
 
 )

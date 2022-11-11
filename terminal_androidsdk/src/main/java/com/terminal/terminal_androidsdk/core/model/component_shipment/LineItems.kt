@@ -6,11 +6,11 @@ import com.google.gson.annotations.SerializedName
 
 data class LineItems (
 
-  @SerializedName("number"              )  @Expose var number              : Int?      = null,
+  @SerializedName("number"              )  @Expose var number              : Double?      = null,
   @SerializedName("description"         )  @Expose var description         : String?   = null,
-  @SerializedName("price"               )  @Expose var price               : Int?      = null,
-  @SerializedName("quantity"            )  @Expose var quantity            : Quantity? = Quantity(),
+  @SerializedName("price"               )  @Expose var price               : Double?      = null,
+  @SerializedName("quantity"            )  @Expose var quantity            : Quantity? = null,
   @SerializedName("manufacturerCountry" )  @Expose var manufacturerCountry : String?   = null,
-  @SerializedName("weight"              )  @Expose var weight              : Weight?   = Weight()
+  @SerializedName("weight"              )  @Expose var weight              : Weight?   = null,
 
 )

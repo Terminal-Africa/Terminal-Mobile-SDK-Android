@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Weight (
 
-  @SerializedName("netValue"   )  @Expose var netValue   : Int? = null,
-  @SerializedName("grossValue" )  @Expose var grossValue : Int? = null
+  @SerializedName("netValue"   )  @Expose var netValue   : Double? = null,
+  @SerializedName("grossValue" )  @Expose var grossValue : Double? = null
 
 )

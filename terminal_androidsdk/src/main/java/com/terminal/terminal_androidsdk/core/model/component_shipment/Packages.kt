@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Packages (
 
-  @SerializedName("weight"     )  @Expose var weight     : Int?        = null,
-  @SerializedName("dimensions" )  @Expose var dimensions : Dimensions? = Dimensions()
+  @SerializedName("weight")  @Expose var weight     : Double?        = null,
+  @SerializedName("dimensions")  @Expose var dimensions : Dimensions? = null
 
 )

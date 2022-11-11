@@ -39,11 +39,11 @@ class RateModel {
     val includesInsurance:Boolean = false
     @SerializedName("insurance_coverage")
     @Expose
-    val insuranceCoverage:Int = 0
+    val insuranceCoverage:Double = 0.0
 
     @SerializedName("insurance_fee")
     @Expose
-    val insuranceFee:Int = 0
+    val insuranceFee:Double = 0.0
 
     @SerializedName("pickup_time")
     @Expose

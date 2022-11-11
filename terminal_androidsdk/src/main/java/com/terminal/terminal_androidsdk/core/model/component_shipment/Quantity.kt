@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Quantity (
 
-  @SerializedName("value"             )  @Expose var value             : Int?    = null,
+  @SerializedName("value"             )  @Expose var value             : Double?    = null,
   @SerializedName("unitOfMeasurement" )  @Expose var unitOfMeasurement : String? = null
 
 )

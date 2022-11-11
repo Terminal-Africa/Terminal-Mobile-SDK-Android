@@ -5,6 +5,7 @@ import com.terminal.terminal_androidsdk.core.model.*
 import com.terminal.terminal_androidsdk.utils.AppLog
 import com.terminal.terminal_androidsdk.utils.Constant.ERROR
 import com.terminal.terminal_androidsdk.utils.MemoryManager
+import com.terminal.terminal_androidsdk.core.model.component_getship.CreateShipmentRes
 
 /**
  * Created by AYODEJI on 10/10/2020.
@@ -200,7 +201,7 @@ object TShipSDK  {
 
 
     fun getTransaction(
-         walletID:String, callback:ITerminalConfiguration<MultipleTransaction>, perPage:Int = 100, page:Int = 1,) {
+         walletID:String, callback:ITerminalConfiguration<List<Transaction>>, perPage:Int = 100, page:Int = 1,) {
         AppLog.i(LOG_TAG,"getTransaction")
         if(isSecretKeyAdded()){
             transactionRemote?.getTransaction(callback,walletID,perPage,page)
@@ -224,7 +225,7 @@ object TShipSDK  {
     }
 
     fun getSpecificShipment(
-        shipmentId: String, callback:ITerminalConfiguration<CreateShipmentResponse>) {
+        shipmentId: String, callback:ITerminalConfiguration<CreateShipmentRes>) {
         AppLog.i(LOG_TAG,"getSpecificShipment")
         if(isSecretKeyAdded()){
             shipmentRemote?.getSpecificShipment(callback,shipmentId)

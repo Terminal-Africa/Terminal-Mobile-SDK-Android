@@ -9,8 +9,8 @@ data class Invoice (
   @SerializedName("number"             )  @Expose var number             : String?                       = null,
   @SerializedName("date"               )  @Expose var date               : String?                       = null,
   @SerializedName("function"           )  @Expose var function           : String?                       = null,
-  @SerializedName("totalNetWeight"     )  @Expose var totalNetWeight     : Int?                          = null,
-  @SerializedName("totalGrossWeight"   )  @Expose var totalGrossWeight   : Int?                          = null,
+  @SerializedName("totalNetWeight"     )  @Expose var totalNetWeight     : Double?                          = null,
+  @SerializedName("totalGrossWeight"   )  @Expose var totalGrossWeight   : Double?                          = null,
   @SerializedName("customerReferences" )  @Expose var customerReferences : ArrayList<CustomerReferences> = arrayListOf()
 
 )

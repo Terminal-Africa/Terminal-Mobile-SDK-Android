@@ -10,6 +10,7 @@ import com.terminal.terminal_androidsdk.core.model.RateModel;
 import com.terminal.terminal_androidsdk.core.model.ShipmentRate;
 import com.terminal.terminal_androidsdk.core.model.Shipments;
 import com.terminal.terminal_androidsdk.core.model.TrackShipmentResponse;
+import com.terminal.terminal_androidsdk.core.model.component_getship.CreateShipmentRes;
 import com.terminal.terminal_androidsdk.core.network.BaseData;
 import com.terminal.terminal_androidsdk.core.network.RetrofitClientInstance;
 import com.terminal.terminal_androidsdk.utils.AppLog;
@@ -56,10 +57,10 @@ public class ShipmentRemote {
         });
     }
 
-    public void getSpecificShipment(ITerminalConfiguration<CreateShipmentResponse> terminalConfig, String shipmentId) {
-        RetrofitClientInstance.getInstance().getDataService().getSpecificShipment(shipmentId).enqueue(new Callback<BaseData<CreateShipmentResponse>>() {
+    public void getSpecificShipment(ITerminalConfiguration<CreateShipmentRes> terminalConfig, String shipmentId) {
+        RetrofitClientInstance.getInstance().getDataService().getSpecificShipment(shipmentId).enqueue(new Callback<BaseData<CreateShipmentRes>>() {
             @Override
-            public void onResponse(@NonNull Call<BaseData<CreateShipmentResponse>> call, @NonNull Response<BaseData<CreateShipmentResponse>> response) {
+            public void onResponse(@NonNull Call<BaseData<CreateShipmentRes>> call, @NonNull Response<BaseData<CreateShipmentRes>> response) {
                 AppLog.d(LOG_TAG,"getSpecificShipment" + response);
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
@@ -68,7 +69,7 @@ public class ShipmentRemote {
                     terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
             }
             @Override
-            public void onFailure(@NonNull Call<BaseData<CreateShipmentResponse>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<BaseData<CreateShipmentRes>> call, @NonNull Throwable t) {
                 AppLog.d(LOG_TAG,"getSpecificShipment" + t.getMessage());
                 terminalConfig.onError(false, Objects.requireNonNull(t.getMessage()));
             }

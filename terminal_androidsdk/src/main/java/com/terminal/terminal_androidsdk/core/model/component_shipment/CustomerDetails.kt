@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CustomerDetails (
 
-  @SerializedName("shipperDetails"  )  @Expose var shipperDetails  : ShipperDetails?  = ShipperDetails(),
-  @SerializedName("receiverDetails" )   @Expose var receiverDetails : ReceiverDetails? = ReceiverDetails()
+  @SerializedName("shipperDetails"  )  @Expose var shipperDetails  : ShipperDetails?  =null,
+  @SerializedName("receiverDetails" )   @Expose var receiverDetails : ReceiverDetails? =null
 
 )

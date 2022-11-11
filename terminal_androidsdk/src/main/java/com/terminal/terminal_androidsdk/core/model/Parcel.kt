@@ -40,7 +40,7 @@ data class GetParcelModelList(val parcels:List<ParcelResponse> = arrayListOf(), 
 class  CreateModel(val weightUnit:String, val packaging:String, val item:List<ParcelItem>,
                       var description :String = "", var metadata :Any)
 
-class  UpdateParcelModel(val weightUnit:String, val packaging:String, val item:List<ParcelItem>,
+class  UpdateParcelModel(val weight_unit:String, val packaging:String, val items:List<ParcelItem>,
                    var description :String = "", var metadata :Any)
 
 class CreateParcel (
