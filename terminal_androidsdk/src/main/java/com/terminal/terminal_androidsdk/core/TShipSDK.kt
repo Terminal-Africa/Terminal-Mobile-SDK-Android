@@ -2,10 +2,14 @@ package com.terminal.terminal_androidsdk.core
 import com.google.gson.Gson
 import com.terminal.terminal_androidsdk.core.db.*
 import com.terminal.terminal_androidsdk.core.model.*
+import com.terminal.terminal_androidsdk.core.model.component_carries.GetCarriesModel
+import com.terminal.terminal_androidsdk.core.model.component_carries.GetCarriesModelList
+import com.terminal.terminal_androidsdk.core.model.component_carries.GetEnableCarriers
 import com.terminal.terminal_androidsdk.utils.AppLog
 import com.terminal.terminal_androidsdk.utils.Constant.ERROR
 import com.terminal.terminal_androidsdk.utils.MemoryManager
 import com.terminal.terminal_androidsdk.core.model.component_getship.CreateShipmentRes
+import com.terminal.terminal_androidsdk.core.model.component_track.TrackShipmentRes
 
 /**
  * Created by AYODEJI on 10/10/2020.
@@ -22,6 +26,7 @@ object TShipSDK  {
     private  var parcelRemote: ParcelRemote? = null
     private  var transactionRemote:TransactionRemote? = null
     private  var shipmentRemote:ShipmentRemote? = null
+    private  var carriesRemote:CarriesRemote? = null
 
     private val LOG_TAG: String =
         TShipSDK::class.java.simpleName
@@ -34,6 +39,7 @@ object TShipSDK  {
         parcelRemote = ParcelRemote.getInstance()
         transactionRemote = TransactionRemote.getInstance()
         shipmentRemote = ShipmentRemote.getInstance()
+        carriesRemote = CarriesRemote.getInstance()
     }
 
     fun init(secretKey: String, isLive:Boolean = false){
@@ -201,7 +207,7 @@ object TShipSDK  {
 
 
     fun getTransaction(
-         walletID:String, callback:ITerminalConfiguration<List<Transaction>>, perPage:Int = 100, page:Int = 1,) {
+         walletID:String, callback:ITerminalConfiguration<TransactionList>, perPage:Int = 100, page:Int = 1,) {
         AppLog.i(LOG_TAG,"getTransaction")
         if(isSecretKeyAdded()){
             transactionRemote?.getTransaction(callback,walletID,perPage,page)
@@ -217,7 +223,7 @@ object TShipSDK  {
     }
 
     fun createShipments(
-        shipments: Shipments, callback:ITerminalConfiguration<CreateShipmentResponse>) {
+        shipments: Shipments, callback:ITerminalConfiguration<TrackShipmentRes>) {
         AppLog.i(LOG_TAG,"createShipments")
         if(isSecretKeyAdded()){
             shipmentRemote?.createShipments(callback,shipments)
@@ -232,7 +238,7 @@ object TShipSDK  {
         } else callback.onError(false,ERROR)
     }
     fun cancelShipmentByID(
-        cancelShipment: CancelShipment, callback:ITerminalConfiguration<CreateShipmentResponse>) {
+        cancelShipment: CancelShipment, callback:ITerminalConfiguration<TrackShipmentRes>) {
         AppLog.i(LOG_TAG,"cancelShipmentByID")
         if(isSecretKeyAdded()){
             shipmentRemote?.cancelShipmentByID(callback,cancelShipment)
@@ -247,10 +253,47 @@ object TShipSDK  {
     }
 
     fun trackShipment(
-        shipmentId:String, callback:ITerminalConfiguration<TrackShipmentResponse>) {
+        shipmentId:String, callback:ITerminalConfiguration<TrackShipmentRes>) {
         AppLog.i(LOG_TAG,"trackShipment")
         if(isSecretKeyAdded()){
             shipmentRemote?.trackShipment(callback,shipmentId)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun getShipCarries(
+         callback:ITerminalConfiguration<GetCarriesModelList>) {
+        AppLog.i(LOG_TAG,"getShipCarries")
+        if(isSecretKeyAdded()){
+            carriesRemote?.getShipCarries(callback)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun getSpecificShipCarries(
+        shipCarrierId:String, callback:ITerminalConfiguration<GetCarriesModel>) {
+        AppLog.i(LOG_TAG,"getSpecificShipCarries")
+        if(isSecretKeyAdded()){
+            carriesRemote?.getSpecificShipCarries(callback,shipCarrierId)
+        } else callback.onError(false,ERROR)
+    }
+    fun getEnabledShipCarries(
+        callback:ITerminalConfiguration<GetEnableCarriers>) {
+        AppLog.i(LOG_TAG,"getEnabledShipCarries")
+        if(isSecretKeyAdded()){
+            carriesRemote?.getEnabledShipCarries(callback)
+        } else callback.onError(false,ERROR)
+    }
+    fun enableShipCarries(
+        shipCarrierId:String, callback:ITerminalConfiguration<GetEnableCarriers>, domestic:Boolean = false,international:Boolean = false, regional:Boolean = false ) {
+        AppLog.i(LOG_TAG,"enableShipCarries")
+        if(isSecretKeyAdded()){
+            carriesRemote?.enableShipCarries(callback,shipCarrierId,domestic,international, regional)
+        } else callback.onError(false,ERROR)
+    }
+    fun disableShipCarries(
+        shipCarrierId:String, callback:ITerminalConfiguration<GetEnableCarriers>, domestic:Boolean = false,international:Boolean = false, regional:Boolean = false ) {
+        AppLog.i(LOG_TAG,"disableShipCarries")
+        if(isSecretKeyAdded()){
+            carriesRemote?.disableShipCarries(callback,shipCarrierId,domestic,international, regional)
         } else callback.onError(false,ERROR)
     }
 

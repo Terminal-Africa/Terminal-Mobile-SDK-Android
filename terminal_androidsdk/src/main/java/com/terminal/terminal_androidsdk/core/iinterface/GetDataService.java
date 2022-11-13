@@ -11,12 +11,16 @@ import com.terminal.terminal_androidsdk.core.model.GetShipmentModelList;
 import com.terminal.terminal_androidsdk.core.model.ParcelResponse;
 import com.terminal.terminal_androidsdk.core.model.RateModel;
 import com.terminal.terminal_androidsdk.core.model.Shipments;
-import com.terminal.terminal_androidsdk.core.model.TrackShipmentResponse;
 import com.terminal.terminal_androidsdk.core.model.Transaction;
+import com.terminal.terminal_androidsdk.core.model.TransactionList;
 import com.terminal.terminal_androidsdk.core.model.UpdateParcelModel;
 import com.terminal.terminal_androidsdk.core.model.UserBalance;
 import com.terminal.terminal_androidsdk.core.model.UserProfile;
+import com.terminal.terminal_androidsdk.core.model.component_carries.GetCarriesModel;
+import com.terminal.terminal_androidsdk.core.model.component_carries.GetCarriesModelList;
+import com.terminal.terminal_androidsdk.core.model.component_carries.GetEnableCarriers;
 import com.terminal.terminal_androidsdk.core.model.component_getship.CreateShipmentRes;
+import com.terminal.terminal_androidsdk.core.model.component_track.TrackShipmentRes;
 import com.terminal.terminal_androidsdk.core.network.BaseData;
 import com.terminal.terminal_androidsdk.core.model.Address;
 import com.terminal.terminal_androidsdk.core.model.AddressValidation;
@@ -152,7 +156,7 @@ public interface GetDataService {
             @Path("transactions_id") String transactions_id);
 
     @GET(CREATE_ADDRESS+"/transactions")
-    Call<BaseData<List<Transaction>>> getTransaction(
+    Call<BaseData<TransactionList>> getTransaction(
             @Query("wallet") String wallet,
             @Query("perPage") int perPage,
             @Query("page") int page
@@ -160,7 +164,7 @@ public interface GetDataService {
 
     /*Todo Shipment End-point */
     @POST(CREATE_ADDRESS+"/shipments")
-    Call<BaseData<CreateShipmentResponse>> createShipments(@Body Shipments shipments
+    Call<BaseData<TrackShipmentRes>> createShipments(@Body Shipments shipments
     );
 
 
@@ -176,14 +180,45 @@ public interface GetDataService {
     );
 
     @POST(CREATE_ADDRESS+"/shipments/cancel")
-    Call<BaseData<CreateShipmentResponse>> cancelShipmentByID(
+    Call<BaseData<TrackShipmentRes>> cancelShipmentByID(
             @Body CancelShipment cancelShipment
     );
 
     @GET(CREATE_ADDRESS+"/shipments/track/{shipments_Id}")
-    Call<BaseData<TrackShipmentResponse>> trackShipment(
+    Call<BaseData<TrackShipmentRes>> trackShipment(
             @Path("shipments_Id") String shipments_Id
     );
+
+    /*Todo Carries Endpoint */
+    @GET(CREATE_ADDRESS+"/carriers")
+    Call<BaseData<GetCarriesModelList>> getShipCarries();
+
+    @GET(CREATE_ADDRESS+"/carriers/{carriers_ID}")
+    Call<BaseData<GetCarriesModel>> getSpecificShipCarrier(
+            @Path("carriers_ID") String carriers_ID
+    );
+
+    @GET(CREATE_ADDRESS+"/carriers/enabled/user")
+    Call<BaseData<GetEnableCarriers>> getEnabledShipCarrier();
+
+    @POST(CREATE_ADDRESS+"/carriers/enable/{carriers_ID}")
+    Call<BaseData<GetEnableCarriers>> enableShipCarrier(
+            @Path("carriers_ID") String carriers_ID,
+            @Query("domestic") boolean domestic,
+            @Query("international") boolean international,
+            @Query("regional") boolean regional
+
+
+    );
+    @POST(CREATE_ADDRESS+"/carriers/disable/{carriers_ID}")
+    Call<BaseData<GetEnableCarriers>> disabledShipCarrier(
+            @Path("carriers_ID") String carriers_ID,
+            @Query("domestic") boolean domestic,
+            @Query("international") boolean international,
+            @Query("regional") boolean regional
+
+    );
+
 
 }
 

@@ -59,38 +59,6 @@ class  CreateShipmentResponse{
 
 }
 
-class  TrackShipmentResponse{
-    @SerializedName("address_from")
-    @Expose
-    val addressFrom:AddressFromData? = null
-    @SerializedName("address_to")
-    @Expose
-    val addressTo:AddressToData? = null
-    @SerializedName("carrier_tracking_number")
-    @Expose
-    val carrierTrackingNumber:String = ""
-    @SerializedName("delivery_arranged")
-    @Expose
-    val deliveryArranged:String = ""
-    @SerializedName("shipment_id")
-    @Expose
-    val shipmentId:String = ""
-    val status :String = ""
-    @SerializedName("delivery_date")
-    @Expose
-    val deliveryDate:String = ""
-    @SerializedName("pickup_date")
-    @Expose
-    val pickupDate:String = ""
-
-    /*
-    * Pending
-    * carrier
-    * tracking_status
-    * events
-    *  */
-
-}
 
 
 class  AddressFromData{

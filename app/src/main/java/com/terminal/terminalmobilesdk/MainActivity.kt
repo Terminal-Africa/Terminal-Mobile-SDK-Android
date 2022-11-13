@@ -6,7 +6,10 @@ import com.terminal.terminal_androidsdk.core.ITerminalConfiguration
 import com.terminal.terminal_androidsdk.core.TShipSDK
 import com.terminal.terminal_androidsdk.core.iinterface.CurrencyType
 import com.terminal.terminal_androidsdk.core.model.*
+import com.terminal.terminal_androidsdk.core.model.component_carries.GetCarriesModelList
+import com.terminal.terminal_androidsdk.core.model.component_carries.GetEnableCarriers
 import com.terminal.terminal_androidsdk.core.model.component_getship.CreateShipmentRes
+import com.terminal.terminal_androidsdk.core.model.component_track.TrackShipmentRes
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,9 +27,19 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+
     private  fun getCityAndState(){
-        TShipSDK.trackShipment("SH-13621395647",object :ITerminalConfiguration<TrackShipmentResponse>{
-            override fun onResponse(result: TrackShipmentResponse) {
+       TShipSDK.getTransaction("6299e3829bcda6b832054f19",object :ITerminalConfiguration<TransactionList>{
+           override fun onResponse(result: TransactionList) {
+               var rr = result
+           }
+           override fun onError(status: Boolean, message: String) {
+               var rr = message
+           }
+       })
+
+        TShipSDK.getShipCarries(object :ITerminalConfiguration<GetCarriesModelList>{
+            override fun onResponse(result: GetCarriesModelList) {
                 var rr = result
             }
 
@@ -34,6 +47,38 @@ class MainActivity : AppCompatActivity() {
                 var rr = message
             }
         })
+
+        TShipSDK.getEnabledShipCarries(object :ITerminalConfiguration<GetEnableCarriers>{
+            override fun onResponse(result: GetEnableCarriers) {
+                var rr = result
+            }
+
+            override fun onError(status: Boolean, message: String) {
+                var rr = message
+            }
+        })
+
+        TShipSDK.getEnabledShipCarries(object :ITerminalConfiguration<GetEnableCarriers>{
+            override fun onResponse(result: GetEnableCarriers) {
+                var rr = result
+            }
+
+            override fun onError(status: Boolean, message: String) {
+                var rr = message
+            }
+        })
+
+        /*
+         TShipSDK.trackShipment("SH-13621395647",object :ITerminalConfiguration<TrackShipmentRes>{
+            override fun onResponse(result: TrackShipmentRes) {
+                var rr = result
+            }
+
+            override fun onError(status: Boolean, message: String) {
+                var rr = message
+            }
+        })
+         */
 
     }
 }
