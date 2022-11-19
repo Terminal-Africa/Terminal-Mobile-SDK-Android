@@ -212,3 +212,6 @@ data class ShipExtra(val carrier_tracking_url:String, val commercial_invoice_url
 data class ShippingLabelDoc(val imageFormat:String, val content:String, val typeCode:String, val format:String, val url:String)
 
 data class ShipEvents(val created_at:String, val description:String, val location:String, val status:String)
+
+
+data class ArrangePickupAndDelivery(val rate_id:String, val shipment_purpose:String)

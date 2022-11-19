@@ -223,7 +223,7 @@ object TShipSDK  {
     }
 
     fun createShipments(
-        shipments: Shipments, callback:ITerminalConfiguration<TrackShipmentRes>) {
+        shipments: Shipments, callback:ITerminalConfiguration<CreateShipmentRes>) {
         AppLog.i(LOG_TAG,"createShipments")
         if(isSecretKeyAdded()){
             shipmentRemote?.createShipments(callback,shipments)
@@ -259,6 +259,16 @@ object TShipSDK  {
             shipmentRemote?.trackShipment(callback,shipmentId)
         } else callback.onError(false,ERROR)
     }
+    fun arrangePickupAndDelivery(
+        arrangePickupAndDelivery: ArrangePickupAndDelivery, callback:ITerminalConfiguration<TrackShipmentRes>) {
+        AppLog.i(LOG_TAG,"trackShipment")
+        if(isSecretKeyAdded()){
+            shipmentRemote?.arrangePickupAndDelivery(callback,arrangePickupAndDelivery)
+        } else callback.onError(false,ERROR)
+    }
+
+
+    //
 
     fun getShipCarries(
          callback:ITerminalConfiguration<GetCarriesModelList>) {

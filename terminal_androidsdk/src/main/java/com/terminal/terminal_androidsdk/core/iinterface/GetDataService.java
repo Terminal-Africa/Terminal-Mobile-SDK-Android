@@ -2,6 +2,7 @@ package com.terminal.terminal_androidsdk.core.iinterface;
 
 import static com.terminal.terminal_androidsdk.utils.Constant.CREATE_ADDRESS;
 
+import com.terminal.terminal_androidsdk.core.model.ArrangePickupAndDelivery;
 import com.terminal.terminal_androidsdk.core.model.CancelShipment;
 import com.terminal.terminal_androidsdk.core.model.CreateParcel;
 import com.terminal.terminal_androidsdk.core.model.CreateShipmentResponse;
@@ -164,7 +165,7 @@ public interface GetDataService {
 
     /*Todo Shipment End-point */
     @POST(CREATE_ADDRESS+"/shipments")
-    Call<BaseData<TrackShipmentRes>> createShipments(@Body Shipments shipments
+    Call<BaseData<CreateShipmentRes>> createShipments(@Body Shipments shipments
     );
 
 
@@ -189,6 +190,12 @@ public interface GetDataService {
             @Path("shipments_Id") String shipments_Id
     );
 
+    @POST(CREATE_ADDRESS+"/shipments/pickup")
+    Call<BaseData<TrackShipmentRes>> ArrangePickupDelivery(
+            @Body ArrangePickupAndDelivery regional
+    );
+
+
     /*Todo Carries Endpoint */
     @GET(CREATE_ADDRESS+"/carriers")
     Call<BaseData<GetCarriesModelList>> getShipCarries();
@@ -207,8 +214,6 @@ public interface GetDataService {
             @Query("domestic") boolean domestic,
             @Query("international") boolean international,
             @Query("regional") boolean regional
-
-
     );
     @POST(CREATE_ADDRESS+"/carriers/disable/{carriers_ID}")
     Call<BaseData<GetEnableCarriers>> disabledShipCarrier(
@@ -218,6 +223,8 @@ public interface GetDataService {
             @Query("regional") boolean regional
 
     );
+
+
 
 
 }

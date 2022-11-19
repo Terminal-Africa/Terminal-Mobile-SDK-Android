@@ -68,7 +68,6 @@ public class CarriesRemote {
         });
     }
 
-
     public void getEnabledShipCarries(ITerminalConfiguration<GetEnableCarriers> terminalConfig) {
         RetrofitClientInstance.getInstance().getDataService().getEnabledShipCarrier().enqueue(new Callback<BaseData<GetEnableCarriers>>() {
             @Override
