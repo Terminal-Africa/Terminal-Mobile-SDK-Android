@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
            }
        })
 
-        TShipSDK.getShipCarries(object :ITerminalConfiguration<GetCarriesModelList>{
+        TShipSDK.getShipCarriers(object :ITerminalConfiguration<GetCarriesModelList>{
             override fun onResponse(result: GetCarriesModelList) {
                 var rr = result
             }
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        TShipSDK.getEnabledShipCarries(object :ITerminalConfiguration<GetEnableCarriers>{
+        TShipSDK.getEnabledShipCarriers(object :ITerminalConfiguration<GetEnableCarriers>{
             override fun onResponse(result: GetEnableCarriers) {
                 var rr = result
             }
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        TShipSDK.getEnabledShipCarries(object :ITerminalConfiguration<GetEnableCarriers>{
+        TShipSDK.getEnabledShipCarriers(object :ITerminalConfiguration<GetEnableCarriers>{
             override fun onResponse(result: GetEnableCarriers) {
                 var rr = result
             }

@@ -270,7 +270,7 @@ object TShipSDK  {
 
     //
 
-    fun getShipCarries(
+    fun getShipCarriers(
          callback:ITerminalConfiguration<GetCarriesModelList>) {
         AppLog.i(LOG_TAG,"getShipCarries")
         if(isSecretKeyAdded()){
@@ -278,28 +278,28 @@ object TShipSDK  {
         } else callback.onError(false,ERROR)
     }
 
-    fun getSpecificShipCarries(
+    fun getSpecificShipCarriers(
         shipCarrierId:String, callback:ITerminalConfiguration<GetCarriesModel>) {
         AppLog.i(LOG_TAG,"getSpecificShipCarries")
         if(isSecretKeyAdded()){
             carriesRemote?.getSpecificShipCarries(callback,shipCarrierId)
         } else callback.onError(false,ERROR)
     }
-    fun getEnabledShipCarries(
+    fun getEnabledShipCarriers(
         callback:ITerminalConfiguration<GetEnableCarriers>) {
         AppLog.i(LOG_TAG,"getEnabledShipCarries")
         if(isSecretKeyAdded()){
             carriesRemote?.getEnabledShipCarries(callback)
         } else callback.onError(false,ERROR)
     }
-    fun enableShipCarries(
+    fun enableShipCarriers(
         shipCarrierId:String, callback:ITerminalConfiguration<GetEnableCarriers>, domestic:Boolean = false,international:Boolean = false, regional:Boolean = false ) {
         AppLog.i(LOG_TAG,"enableShipCarries")
         if(isSecretKeyAdded()){
             carriesRemote?.enableShipCarries(callback,shipCarrierId,domestic,international, regional)
         } else callback.onError(false,ERROR)
     }
-    fun disableShipCarries(
+    fun disableShipCarriers(
         shipCarrierId:String, callback:ITerminalConfiguration<GetEnableCarriers>, domestic:Boolean = false,international:Boolean = false, regional:Boolean = false ) {
         AppLog.i(LOG_TAG,"disableShipCarries")
         if(isSecretKeyAdded()){
