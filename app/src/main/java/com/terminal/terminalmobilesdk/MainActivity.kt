@@ -58,16 +58,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        TShipSDK.getEnabledShipCarriers(object :ITerminalConfiguration<GetEnableCarriers>{
-            override fun onResponse(result: GetEnableCarriers) {
-                var rr = result
-            }
-
-            override fun onError(status: Boolean, message: String) {
-                var rr = message
-            }
-        })
-
         /*
          TShipSDK.trackShipment("SH-13621395647",object :ITerminalConfiguration<TrackShipmentRes>{
             override fun onResponse(result: TrackShipmentRes) {

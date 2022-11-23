@@ -293,14 +293,14 @@ object TShipSDK  {
         } else callback.onError(false,ERROR)
     }
     fun enableShipCarriers(
-        shipCarrierId:String, callback:ITerminalConfiguration<GetEnableCarriers>, domestic:Boolean = false,international:Boolean = false, regional:Boolean = false ) {
+        shipCarrierId:String, callback:ITerminalConfiguration<GetCarriesModel>, domestic:Boolean = false,international:Boolean = false, regional:Boolean = false ) {
         AppLog.i(LOG_TAG,"enableShipCarries")
         if(isSecretKeyAdded()){
             carriesRemote?.enableShipCarries(callback,shipCarrierId,domestic,international, regional)
         } else callback.onError(false,ERROR)
     }
     fun disableShipCarriers(
-        shipCarrierId:String, callback:ITerminalConfiguration<GetEnableCarriers>, domestic:Boolean = false,international:Boolean = false, regional:Boolean = false ) {
+        shipCarrierId:String, callback:ITerminalConfiguration<GetCarriesModel>, domestic:Boolean = false,international:Boolean = false, regional:Boolean = false ) {
         AppLog.i(LOG_TAG,"disableShipCarries")
         if(isSecretKeyAdded()){
             carriesRemote?.disableShipCarries(callback,shipCarrierId,domestic,international, regional)

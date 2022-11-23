@@ -87,10 +87,10 @@ public class CarriesRemote {
         });
     }
 
-    public void enableShipCarries(ITerminalConfiguration<GetEnableCarriers> terminalConfig, String carriers_ID, boolean domestic, boolean international, boolean regional) {
-        RetrofitClientInstance.getInstance().getDataService().enableShipCarrier(carriers_ID,domestic, international, regional).enqueue(new Callback<BaseData<GetEnableCarriers>>() {
+    public void enableShipCarries(ITerminalConfiguration<GetCarriesModel> terminalConfig, String carriers_ID, boolean domestic, boolean international, boolean regional) {
+        RetrofitClientInstance.getInstance().getDataService().enableShipCarrier(carriers_ID,domestic, international, regional).enqueue(new Callback<BaseData<GetCarriesModel>>() {
             @Override
-            public void onResponse(@NonNull Call<BaseData<GetEnableCarriers>> call, @NonNull Response<BaseData<GetEnableCarriers>> response) {
+            public void onResponse(@NonNull Call<BaseData<GetCarriesModel>> call, @NonNull Response<BaseData<GetCarriesModel>> response) {
                 AppLog.d(LOG_TAG,"enabledShipCarries" + response);
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
@@ -99,17 +99,17 @@ public class CarriesRemote {
                     terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
             }
             @Override
-            public void onFailure(@NonNull Call<BaseData<GetEnableCarriers>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<BaseData<GetCarriesModel>> call, @NonNull Throwable t) {
                 AppLog.d(LOG_TAG,"enabledShipCarries" + t.getMessage());
                 terminalConfig.onError(false, Objects.requireNonNull(t.getMessage()));
             }
         });
     }
 
-    public void disableShipCarries(ITerminalConfiguration<GetEnableCarriers> terminalConfig,String carriers_ID, boolean domestic, boolean international, boolean regional) {
-        RetrofitClientInstance.getInstance().getDataService().disabledShipCarrier(carriers_ID,domestic, international, regional).enqueue(new Callback<BaseData<GetEnableCarriers>>() {
+    public void disableShipCarries(ITerminalConfiguration<GetCarriesModel> terminalConfig,String carriers_ID, boolean domestic, boolean international, boolean regional) {
+        RetrofitClientInstance.getInstance().getDataService().disabledShipCarrier(carriers_ID,domestic, international, regional).enqueue(new Callback<BaseData<GetCarriesModel>>() {
             @Override
-            public void onResponse(@NonNull Call<BaseData<GetEnableCarriers>> call, @NonNull Response<BaseData<GetEnableCarriers>> response) {
+            public void onResponse(@NonNull Call<BaseData<GetCarriesModel>> call, @NonNull Response<BaseData<GetCarriesModel>> response) {
                 AppLog.d(LOG_TAG,"disabledShipCarries" + response);
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
@@ -118,7 +118,7 @@ public class CarriesRemote {
                     terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
             }
             @Override
-            public void onFailure(@NonNull Call<BaseData<GetEnableCarriers>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<BaseData<GetCarriesModel>> call, @NonNull Throwable t) {
                 AppLog.d(LOG_TAG,"disabledShipCarries" + t.getMessage());
                 terminalConfig.onError(false, Objects.requireNonNull(t.getMessage()));
             }

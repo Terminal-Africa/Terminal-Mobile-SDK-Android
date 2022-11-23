@@ -210,14 +210,14 @@ public interface GetDataService {
     Call<BaseData<GetEnableCarriers>> getEnabledShipCarrier();
 
     @POST(CREATE_ADDRESS+"/carriers/enable/{carriers_ID}")
-    Call<BaseData<GetEnableCarriers>> enableShipCarrier(
+    Call<BaseData<GetCarriesModel>> enableShipCarrier(
             @Path("carriers_ID") String carriers_ID,
             @Query("domestic") boolean domestic,
             @Query("international") boolean international,
             @Query("regional") boolean regional
     );
     @POST(CREATE_ADDRESS+"/carriers/disable/{carriers_ID}")
-    Call<BaseData<GetEnableCarriers>> disabledShipCarrier(
+    Call<BaseData<GetCarriesModel>> disabledShipCarrier(
             @Path("carriers_ID") String carriers_ID,
             @Query("domestic") boolean domestic,
             @Query("international") boolean international,
