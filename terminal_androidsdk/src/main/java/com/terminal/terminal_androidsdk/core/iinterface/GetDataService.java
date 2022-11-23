@@ -9,6 +9,7 @@ import com.terminal.terminal_androidsdk.core.model.CreateShipmentResponse;
 import com.terminal.terminal_androidsdk.core.model.GetPackagingList;
 import com.terminal.terminal_androidsdk.core.model.GetParcelModelList;
 import com.terminal.terminal_androidsdk.core.model.GetShipmentModelList;
+import com.terminal.terminal_androidsdk.core.model.GetTransactionModelList;
 import com.terminal.terminal_androidsdk.core.model.ParcelResponse;
 import com.terminal.terminal_androidsdk.core.model.RateModel;
 import com.terminal.terminal_androidsdk.core.model.Shipments;
@@ -157,7 +158,7 @@ public interface GetDataService {
             @Path("transactions_id") String transactions_id);
 
     @GET(CREATE_ADDRESS+"/transactions")
-    Call<BaseData<TransactionList>> getTransaction(
+    Call<BaseData<GetTransactionModelList>> getTransaction(
             @Query("wallet") String wallet,
             @Query("perPage") int perPage,
             @Query("page") int page

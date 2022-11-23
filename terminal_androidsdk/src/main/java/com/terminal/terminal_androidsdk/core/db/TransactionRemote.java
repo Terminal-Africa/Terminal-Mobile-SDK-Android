@@ -3,6 +3,7 @@ package com.terminal.terminal_androidsdk.core.db;
 import androidx.annotation.NonNull;
 
 import com.terminal.terminal_androidsdk.core.ITerminalConfiguration;
+import com.terminal.terminal_androidsdk.core.model.GetTransactionModelList;
 import com.terminal.terminal_androidsdk.core.model.Transaction;
 import com.terminal.terminal_androidsdk.core.model.TransactionList;
 import com.terminal.terminal_androidsdk.core.network.BaseData;
@@ -32,10 +33,10 @@ public class TransactionRemote {
         return Instance;
     }
 
-    public void getTransaction(ITerminalConfiguration<TransactionList> terminalConfig, String walletID, int perPage, int page) {
-        RetrofitClientInstance.getInstance().getDataService().getTransaction(walletID,perPage,page).enqueue(new Callback<BaseData<TransactionList>>() {
+    public void getTransaction(ITerminalConfiguration<GetTransactionModelList> terminalConfig, String walletID, int perPage, int page) {
+        RetrofitClientInstance.getInstance().getDataService().getTransaction(walletID,perPage,page).enqueue(new Callback<BaseData<GetTransactionModelList>>() {
             @Override
-            public void onResponse(@NonNull Call<BaseData<TransactionList>> call, @NonNull Response<BaseData<TransactionList>> response) {
+            public void onResponse(@NonNull Call<BaseData<GetTransactionModelList>> call, @NonNull Response<BaseData<GetTransactionModelList>> response) {
                 AppLog.d(LOG_TAG,"getTransaction" + response);
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
@@ -44,7 +45,7 @@ public class TransactionRemote {
                     terminalConfig.onError(Objects.requireNonNull(errorResponse).isError(),errorResponse.getMessage());                }
             }
             @Override
-            public void onFailure(@NonNull Call<BaseData<TransactionList>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<BaseData<GetTransactionModelList>> call, @NonNull Throwable t) {
                 AppLog.d(LOG_TAG,"getTransaction" + t.getMessage());
                 terminalConfig.onError(false, Objects.requireNonNull(t.getMessage()));
             }

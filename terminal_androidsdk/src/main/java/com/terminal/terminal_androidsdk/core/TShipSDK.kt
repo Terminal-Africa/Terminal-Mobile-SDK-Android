@@ -207,7 +207,7 @@ object TShipSDK  {
 
 
     fun getTransaction(
-         walletID:String, callback:ITerminalConfiguration<TransactionList>, perPage:Int = 100, page:Int = 1,) {
+         walletID:String, callback:ITerminalConfiguration<GetTransactionModelList>, perPage:Int = 100, page:Int = 1,) {
         AppLog.i(LOG_TAG,"getTransaction")
         if(isSecretKeyAdded()){
             transactionRemote?.getTransaction(callback,walletID,perPage,page)
