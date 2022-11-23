@@ -29,8 +29,8 @@ class MainActivity : AppCompatActivity() {
 
 
     private  fun getCityAndState(){
-       TShipSDK.getTransaction("6299e3829bcda6b832054f19",object :ITerminalConfiguration<TransactionList>{
-           override fun onResponse(result: TransactionList) {
+       TShipSDK.getTransaction("6299e3829bcda6b832054f19",object :ITerminalConfiguration<GetTransactionModelList>{
+           override fun onResponse(result: GetTransactionModelList) {
                var rr = result
            }
            override fun onError(status: Boolean, message: String) {
