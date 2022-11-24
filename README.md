@@ -10,7 +10,7 @@
 5. [Addresses](#addresses)
 6. [Miscellanous](#miscellanous)
 6. [Packaging](#packaging)
-8. [Models](#models)
+<!-- 8. [Models](#models) -->
 
 
 SDK to make TShip API integration for Android developers easier.
