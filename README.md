@@ -54,5 +54,192 @@ This method will create a global instance of the `TShipSDK` that can be accessed
 
 Since the instance is global it would be best to call `init` in your MainApplication.kotlin/java so you can retrieve the instance with `TShipSDK` anywhere in your app.
 
-For any enquires, send a mail to ayodeji.olalekan@terminal.com
+For any enquires, send a mail to ayodeji.olalekan@terminal.africa
 
+
+## Addresses
+
+Here you'll find information on how to create, update, fetch and validate addresses.
+
+### Create Address
+```
+ TShipSDK.createAddress(CreateAddress.Builder("","","").build(),object :ITerminalConfiguration<Address>{
+            override fun onResponse(result: Address) {
+                
+            }
+
+            override fun onError(status: Boolean, message: String) {
+                
+            }
+        })
+```
+##### Description
+
+This function creates an Address on the TShip API.
+
+##### Parameters
+
+`createAddress: [createAddress: CreateAddress]`
+
+Request body with details used to create Address. You'll build the request with the [CreateAddress.Builder](#createAddress).
+
+`callback: ITerminalConfiguration<Address>`
+
+The callback to call, passing along the response status and the newly created [Address](#address) if no error occurred.
+
+
+### Get Address
+
+```
+       TShipSDK.getAddresses(object :ITerminalConfiguration<GetAddressModel>{
+           override fun onResponse(result: GetAddressModel) {
+           }
+           override fun onError(status: Boolean, message: String) {
+           }
+       })
+```
+##### Description
+
+This function fetches Addresses previously created on the TShip API.
+
+##### Parameters
+
+`page: [Int]`
+`limit: [Int]`
+
+### Update Address
+
+```
+   TShipSDK.updateAddress("", UpdateAddress.Builder("","","","").build(),object :ITerminalConfiguration<Address>{
+            override fun onResponse(result: Address) {
+            }
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+This function updates an Address previously created on the TShip API.
+
+
+## Miscellanous
+
+Here you'll find information about miscellanous remote operations you can make that support other operations.
+
+### Get Valid Cities
+
+```
+    TShipSDK.getCitiesInState("countryCode","stateCode",object :ITerminalConfiguration<List<TerminalCities>>{
+            override fun onResponse(result: List<TerminalCities>) {
+            }
+
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function fetches all the cities within a state valid on the TShip API.
+
+### Get Valid Countries
+
+```
+ TShipSDK.getCountries(object :ITerminalConfiguration<List<TerminalCountries>>{
+            override fun onResponse(result: List<TerminalCountries>) {
+            }
+
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function all the countries valid on the TShip API.
+
+
+### Get Valid States
+
+```
+  TShipSDK.getStateInCountry("",object :ITerminalConfiguration<List<TerminalStates>>{
+            override fun onResponse(result: List<TerminalStates>) {
+            }
+
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function all the countries valid on the TShip API.
+
+## Packaging
+
+Here you'll find information on how to create, update and fetch Packaging.
+
+### Create Packaging
+
+```
+ TShipSDK.createPackaging(Packaging(),object :ITerminalConfiguration<PackagingResponse>{
+          override fun onResponse(result: PackagingResponse) {
+          }
+          override fun onError(status: Boolean, message: String) {
+          }
+      })
+```
+
+##### Description
+
+This function creates a Packaging on the TShip API.
+
+### Get Packaging
+
+```
+ TShipSDK.getSpecificPackaging("",object :ITerminalConfiguration<PackagingResponse>{
+          override fun onResponse(result: PackagingResponse) {
+          }
+          override fun onError(status: Boolean, message: String) {
+          }
+      })
+```
+
+##### Description
+
+This function fetches details of a Packaging previously created on the TShip API.
+
+### Get Multiple Packaging
+
+```
+   TShipSDK.getPackaging("",object :ITerminalConfiguration<GetPackagingList>{
+          override fun onResponse(result: GetPackagingList) {
+          }
+          override fun onError(status: Boolean, message: String) {
+          }
+      })
+```
+
+##### Description
+
+This function fetches the list of Packaging previously created on the TShip API.
+
+### Update Packaging
+
+```
+ TShipSDK.updatePackaging("",Packaging(),object :ITerminalConfiguration<PackagingResponse>{
+          override fun onResponse(result: PackagingResponse) {
+          }
+          override fun onError(status: Boolean, message: String) {
+          }
+      })
+```
+
+##### Description
+
+This function fetches the list of Packaging previously created on the TShip API.
+
+
+
+
+This function updates an Address previously created on the TShip API.
