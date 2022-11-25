@@ -10,7 +10,12 @@
 5. [Addresses](#addresses)
 6. [Miscellanous](#miscellanous)
 6. [Packaging](#packaging)
-<!-- 8. [Models](#models) -->
+8. [Shipments](#shipments)
+9. [Users](#users)
+11. [Transactions](#transactions)
+12. [Carriers](#carriers)
+13. [Rates](#rates)
+14. [Parcels](#parcels)
 
 
 SDK to make TShip API integration for Android developers easier.
@@ -239,7 +244,264 @@ This function fetches the list of Packaging previously created on the TShip API.
 
 This function fetches the list of Packaging previously created on the TShip API.
 
+## Parcels
+
+Here you'll find information on how to create, update and fetch Parcels.
+
+### Create Parcels
+
+```
+ TShipSDK.createParcel(CreateParcel(),object :ITerminalConfiguration<ParcelResponse>{
+            override fun onResponse(result: ParcelResponse) {
+            }
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function creates a Parcel on the TShip API.
+
+### Get Parcel
+
+```
+  TShipSDK.getSpecificParcel("",object :ITerminalConfiguration<ParcelResponse>{
+            override fun onResponse(result: ParcelResponse) {
+            }
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function fetches details of a Parcel previously created on the TShip API.
+### Get Parcels
+
+```
+ TShipSDK.getParcels(object :ITerminalConfiguration<GetParcelModelList>{
+            override fun onResponse(result: GetParcelModelList) {
+            }
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function fetches Parcels previously created on the TShip API.
+
+### Update Parcel
+
+```
+ TShipSDK.updateParcel("", UpdateParcelModel(), object :ITerminalConfiguration<ParcelResponse>{
+            override fun onResponse(result: ParcelResponse) {
+            }
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function fetches Parcels previously created on the TShip API.
+## Rates
+
+Here you'll find information on how to interact with the Rates endpoint throught the SDK.
+
+### Get Rates for Shipment
+
+```
+ TShipSDK.getRateForShipment(ShipmentRate.Builder("",CurrencyType.AED).build(), object :ITerminalConfiguration<List<RateModel>>{
+            override fun onResponse(result: List<RateModel>) {
+            }
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function gets the rates for a shipment using the TShip API.
+## Shipments
+
+Here you'll find information on how to create, update, fetch, arrange, track and cancel Shipments.
+
+### Create Shipment
+
+```
+TShipSDK.createShipments(Shipments.Builder("","","","","").build(), object :ITerminalConfiguration<CreateShipmentRes>{
+            override fun onResponse(result: CreateShipmentRes) {
+            }
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function creates a Shipment on the TShip API.
+
+
+### Get Shipment
+
+```
+  TShipSDK.getSpecificShipment("", object :ITerminalConfiguration<CreateShipmentRes>{
+            override fun onResponse(result: CreateShipmentRes) {
+            }
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function fetches details of a Shipment previously created on the TShip API.
+
+
+### Get Multiple Shipments
+
+```
+ TShipSDK.getShipments( object :ITerminalConfiguration<GetShipmentModelList>{
+            override fun onResponse(result: GetShipmentModelList) {
+            }
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function fetches Shipments previously created on the TShip API with the Shipment.
+
+### Track Shipment
+
+```
+   TShipSDK.trackShipment("", object :ITerminalConfiguration<TrackShipmentRes>{
+            override fun onResponse(result: TrackShipmentRes) {
+            }
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function fetches Shipments previously created on the TShip API with the Shipment populated with details for addresses, carriers and parcel.
+
+### Arrange Shipment
+
+```
+ TShipSDK.arrangePickupAndDelivery(ArrangePickupAndDelivery(), object :ITerminalConfiguration<TrackShipmentRes>{
+            override fun onResponse(result: TrackShipmentRes) {
+            }
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function arranges pickup and delivery of a Shipment.
+
+### Cancel Shipment
+
+```
+ TShipSDK.cancelShipmentByID("", object :ITerminalConfiguration<TrackShipmentRes>{
+            override fun onResponse(result: TrackShipmentRes) {
+            }
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function cancels a Shipment previously created on the TShip API.
+## Users
+
+Here you'll find information on how to get information related to the user.
+
+### Get User's Profile
+
+```
+ TShipSDK.getUserProfile("", object :ITerminalConfiguration<UserProfile>{
+            override fun onResponse(result: UserProfile) {
+            }
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function fetches details of a User's account.
+### Get User's Wallet Details
+
+```
+  TShipSDK.getUserBalance("", object :ITerminalConfiguration<UserBalance>{
+            override fun onResponse(result: UserBalance) {
+            }
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function fetches details about a user's wallet.
+
+## Carriers
+
+### Get User's Carriers
+
+```
+  TShipSDK.getShipCarriers( object :ITerminalConfiguration<GetCarriesModelList>{
+            override fun onResponse(result: GetCarriesModelList) {
+            }
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function fetches list of all carriers available for a user.
+
+## Transactions
+
+Here you'll find information on how to get Transactions.
+
+### Get Wallet Transactions
+
+```
+TShipSDK.getTransaction("", object :ITerminalConfiguration<GetTransactionModelList>{
+            override fun onResponse(result: GetTransactionModelList) {
+            }
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function fetches details of a User's account.
+
+### Get Transaction
+
+```
+ TShipSDK.getSpecificTransaction("", object :ITerminalConfiguration<Transaction>{
+            override fun onResponse(result: Transaction) {
+            }
+            override fun onError(status: Boolean, message: String) {
+            }
+        })
+```
+
+##### Description
+
+This function fetches details of a User's account.
 
 
 
-This function updates an Address previously created on the TShip API.
