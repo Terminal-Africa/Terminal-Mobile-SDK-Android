@@ -2,11 +2,13 @@ package com.terminal.terminal_androidsdk.core.db;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.terminal.terminal_androidsdk.core.ITerminalConfiguration;
 import com.terminal.terminal_androidsdk.core.model.ArrangePickupAndDelivery;
 import com.terminal.terminal_androidsdk.core.model.CancelShipment;
 import com.terminal.terminal_androidsdk.core.model.CreateShipmentResponse;
 import com.terminal.terminal_androidsdk.core.model.GetShipmentModelList;
+import com.terminal.terminal_androidsdk.core.model.ShipmentToAPi;
 import com.terminal.terminal_androidsdk.core.model.Shipments;
 import com.terminal.terminal_androidsdk.core.model.component_getship.CreateShipmentRes;
 import com.terminal.terminal_androidsdk.core.model.component_track.TrackShipmentRes;
@@ -38,6 +40,11 @@ public class ShipmentRemote {
 
 
     public void createShipments(ITerminalConfiguration<CreateShipmentRes> terminalConfig, Shipments shipmentRate) {
+
+        String hipment = new Gson().toJson(shipmentRate);
+        ShipmentToAPi shipmentToAPi = new Gson().fromJson(hipment,ShipmentToAPi.class);
+        shipmentToAPi.setShipment_purpose(shipmentRate.getShipment_purpose().getShipment());
+
         RetrofitClientInstance.getInstance().getDataService().createShipments(shipmentRate).enqueue(new Callback<BaseData<CreateShipmentRes>>() {
             @Override
             public void onResponse(@NonNull Call<BaseData<CreateShipmentRes>> call, @NonNull Response<BaseData<CreateShipmentRes>> response) {
@@ -131,7 +138,6 @@ public class ShipmentRemote {
             }
         });
     }
-
 
     public void arrangePickupAndDelivery(ITerminalConfiguration<TrackShipmentRes> terminalConfig, ArrangePickupAndDelivery andDelivery) {
         RetrofitClientInstance.getInstance().getDataService().ArrangePickupDelivery(andDelivery).enqueue(new Callback<BaseData<TrackShipmentRes>>() {

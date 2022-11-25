@@ -85,7 +85,7 @@ object TShipSDK  {
         } else callback.onError(false,ERROR)
     }
 
-    fun getAddresses( page:Int, limit:Int = 25,callback: ITerminalConfiguration<GetAddressModel>) {
+    fun getAddresses(callback: ITerminalConfiguration<GetAddressModel>,page:Int = 1, limit:Int = 25,) {
         AppLog.i(LOG_TAG,"getAddresses $page  $limit")
         if(isSecretKeyAdded()){
            addressesRemote?.getAddresses(callback,page,limit)

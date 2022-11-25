@@ -112,8 +112,13 @@ public class CarriesRemote {
             public void onResponse(@NonNull Call<BaseData<GetCarriesModel>> call, @NonNull Response<BaseData<GetCarriesModel>> response) {
                 AppLog.d(LOG_TAG,"disabledShipCarries" + response);
                 if (response.isSuccessful()) {
-                    terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
-                } else {
+                    if(response.body().getData() != null){
+                        terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
+                    }else {
+                        terminalConfig.onError(response.body().isError(),response.body().getMessage());
+                    }
+                }
+                 else {
                     BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
                     terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
             }

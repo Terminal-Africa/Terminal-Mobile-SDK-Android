@@ -2,25 +2,31 @@ package com.terminal.terminal_androidsdk.core.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.terminal.terminal_androidsdk.core.iinterface.ShipmentPurpose
 import com.terminal.terminal_androidsdk.core.model.component_shipment.ShipmentPayload
 import com.terminal.terminal_androidsdk.core.model.component_shipment.ShipmentResponse
 
+class  ShipmentToAPi(
+    val address_from:String, val address_to:String, val parcel:String,
+    var shipment_purpose :String = "personal", var address_return :String? = null,  var metadata :Any? = null
+)
+
 class Shipments (
     val address_from:String, val address_to:String, val parcel:String,
-    var shipment_purpose :String,    var address_return :String? = null,  var metadata :Any? = null
+    var shipment_purpose :ShipmentPurpose? = ShipmentPurpose.Personal,    var address_return :String? = null,  var metadata :Any? = null
     ){
     data class Builder(
         var address_from:String,
         var address_to:String,
         var parcel:String,
-        var shipment_purpose:String,
+        var shipment_purpose: ShipmentPurpose,
         var address_return :String? = null,
         var metadata :Any? = null,
     ){
         fun addressFrom(address_from: String) = apply { this.address_from = address_from }
         fun addressTo(address_to: String) = apply { this.address_to = address_to }
         fun parcel(parcel: String) = apply { this.parcel = parcel }
-        fun shipmentPurpose(shipment_purpose: String) = apply { this.shipment_purpose = shipment_purpose }
+        fun shipmentPurpose(shipment_purpose: ShipmentPurpose) = apply { this.shipment_purpose = shipment_purpose }
         fun addressReturn(address_return: String) = apply { this.address_return = address_return }
         fun metadata(metadata: Any) = apply { this.metadata = metadata }
         fun build() = Shipments(address_from, address_to, parcel, shipment_purpose,address_return, metadata,
@@ -143,7 +149,7 @@ class  AddressToData{
     val zip:String = ""
 }
 
-data class CancelShipment(val shipmentID:String)
+data class CancelShipment(val shipment_id:String)
 
 //data class GetShipmentModelList(val parcels:List<CreateShipmentResponse> = arrayListOf(), val pagination: Pagination, )
 data class GetShipmentModelList(val shipments:List<ShipmentResponse>, val pagination: Pagination, )
@@ -214,4 +220,4 @@ data class ShippingLabelDoc(val imageFormat:String, val content:String, val type
 data class ShipEvents(val created_at:String, val description:String, val location:String, val status:String)
 
 
-data class ArrangePickupAndDelivery(val rate_id:String, val shipment_purpose:String)
+data class ArrangePickupAndDelivery(val rate_id:String, val shipment_Id:String)

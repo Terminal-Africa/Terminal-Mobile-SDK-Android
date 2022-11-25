@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.terminal.terminal_androidsdk.core.ITerminalConfiguration
 import com.terminal.terminal_androidsdk.core.TShipSDK
 import com.terminal.terminal_androidsdk.core.iinterface.CurrencyType
+import com.terminal.terminal_androidsdk.core.iinterface.ShipmentPurpose
 import com.terminal.terminal_androidsdk.core.model.*
+import com.terminal.terminal_androidsdk.core.model.component_carries.GetCarriesModel
 import com.terminal.terminal_androidsdk.core.model.component_carries.GetCarriesModelList
 import com.terminal.terminal_androidsdk.core.model.component_carries.GetEnableCarriers
 import com.terminal.terminal_androidsdk.core.model.component_getship.CreateShipmentRes
+import com.terminal.terminal_androidsdk.core.model.component_getship.Rate
 import com.terminal.terminal_androidsdk.core.model.component_track.TrackShipmentRes
 
 
@@ -26,38 +29,39 @@ class MainActivity : AppCompatActivity() {
         getCityAndState()
     }
 
-
-
     private  fun getCityAndState(){
-       TShipSDK.getTransaction("6299e3829bcda6b832054f19",object :ITerminalConfiguration<GetTransactionModelList>{
-           override fun onResponse(result: GetTransactionModelList) {
-               var rr = result
-           }
-           override fun onError(status: Boolean, message: String) {
-               var rr = message
-           }
-       })
 
-        TShipSDK.getShipCarriers(object :ITerminalConfiguration<GetCarriesModelList>{
-            override fun onResponse(result: GetCarriesModelList) {
-                var rr = result
-            }
 
-            override fun onError(status: Boolean, message: String) {
-                var rr = message
-            }
-        })
 
-        TShipSDK.getEnabledShipCarriers(object :ITerminalConfiguration<GetEnableCarriers>{
-            override fun onResponse(result: GetEnableCarriers) {
-                var rr = result
-            }
 
-            override fun onError(status: Boolean, message: String) {
-                var rr = message
-            }
-        })
+//       TShipSDK.getTransaction("6299e3829bcda6b832054f19",object :ITerminalConfiguration<GetTransactionModelList>{
+//           override fun onResponse(result: GetTransactionModelList) {
+//               var rr = result
+//           }
+//           override fun onError(status: Boolean, message: String) {
+//               var rr = message
+//           }
+//       })
 
+//        TShipSDK.getSpecificTransaction("TR-SxubpYtD4gf",object :ITerminalConfiguration<Transaction>{
+//            override fun onResponse(result: Transaction) {
+//                var rr = result
+//            }
+//            override fun onError(status: Boolean, message: String) {
+//                var rr = message
+//            }
+//        })
+
+
+//        TShipSDK.disableShipCarriers("CA-20216731467",object :ITerminalConfiguration<GetCarriesModel>{
+//            override fun onResponse(result: GetCarriesModel) {
+//                var rr = result
+//            }
+//
+//            override fun onError(status: Boolean, message: String) {
+//                var rr = message
+//            }
+//        })
         /*
          TShipSDK.trackShipment("SH-13621395647",object :ITerminalConfiguration<TrackShipmentRes>{
             override fun onResponse(result: TrackShipmentRes) {
@@ -69,6 +73,8 @@ class MainActivity : AppCompatActivity() {
             }
         })
          */
+
+        //CA-20216731467
 
     }
 }

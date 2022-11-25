@@ -42,7 +42,7 @@ public class TransactionRemote {
                     terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
                 } else {
                     BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
-                    terminalConfig.onError(Objects.requireNonNull(errorResponse).isError(),errorResponse.getMessage());                }
+                    terminalConfig.onError(Objects.requireNonNull(errorResponse).isError(),"Carrier Already Disabled");                }
             }
             @Override
             public void onFailure(@NonNull Call<BaseData<GetTransactionModelList>> call, @NonNull Throwable t) {
