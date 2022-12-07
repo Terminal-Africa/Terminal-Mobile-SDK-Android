@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 import com.terminal.terminal_androidsdk.core.model.Coordinates
 import com.terminal.terminal_androidsdk.core.model.component_getship.AddressFrom
 import com.terminal.terminal_androidsdk.core.model.component_getship.Carrier
+import com.terminal.terminal_androidsdk.core.model.component_getship.Contact
 import com.terminal.terminal_androidsdk.core.model.component_shipment.Events
 
 data class TrackShipmentRes(@SerializedName("carrier"           ) var carrier          : Carrier?         = null,
@@ -16,7 +17,8 @@ data class TrackShipmentRes(@SerializedName("carrier"           ) var carrier   
                             @SerializedName("tracking_status"   ) var trackingStatus   : TrackingStatus?    = null,
                             @SerializedName("shipment_id"       ) var shipmentId       : String?           = null,
                             @SerializedName("delivery_arranged" ) var deliveryArranged : String?           = null,
-                            @SerializedName("status"            ) var status           : String?           = null)
+                            @SerializedName("status"            ) var status           : String?           = null,
+                            @SerializedName("contact"             ) @Expose var contact            : Contact?           = null)
 
 
 

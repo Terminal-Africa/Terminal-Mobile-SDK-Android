@@ -22,6 +22,7 @@ import com.terminal.terminal_androidsdk.core.model.component_carries.GetCarriesM
 import com.terminal.terminal_androidsdk.core.model.component_carries.GetCarriesModelList;
 import com.terminal.terminal_androidsdk.core.model.component_carries.GetEnableCarriers;
 import com.terminal.terminal_androidsdk.core.model.component_getship.CreateShipmentRes;
+import com.terminal.terminal_androidsdk.core.model.component_shipment.ShipmentUnpopulated;
 import com.terminal.terminal_androidsdk.core.model.component_track.TrackShipmentRes;
 import com.terminal.terminal_androidsdk.core.network.BaseData;
 import com.terminal.terminal_androidsdk.core.model.Address;
@@ -182,7 +183,7 @@ public interface GetDataService {
     );
 
     @POST(CREATE_ADDRESS+"/shipments/cancel")
-    Call<BaseData<TrackShipmentRes>> cancelShipmentByID(
+    Call<BaseData<ShipmentUnpopulated>> cancelShipmentByID(
             @Body CancelShipment cancelShipment
     );
 
@@ -192,7 +193,7 @@ public interface GetDataService {
     );
 
     @POST(CREATE_ADDRESS+"/shipments/pickup")
-    Call<BaseData<TrackShipmentRes>> ArrangePickupDelivery(
+    Call<BaseData<ShipmentUnpopulated>> ArrangePickupDelivery(
             @Body ArrangePickupAndDelivery regional
     );
 

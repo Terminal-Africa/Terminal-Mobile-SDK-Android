@@ -9,6 +9,7 @@ import com.terminal.terminal_androidsdk.utils.AppLog
 import com.terminal.terminal_androidsdk.utils.Constant.ERROR
 import com.terminal.terminal_androidsdk.utils.MemoryManager
 import com.terminal.terminal_androidsdk.core.model.component_getship.CreateShipmentRes
+import com.terminal.terminal_androidsdk.core.model.component_shipment.ShipmentUnpopulated
 import com.terminal.terminal_androidsdk.core.model.component_track.TrackShipmentRes
 
 /**
@@ -238,7 +239,7 @@ object TShipSDK  {
         } else callback.onError(false,ERROR)
     }
     fun cancelShipmentByID(
-        cancelShipment: CancelShipment, callback:ITerminalConfiguration<TrackShipmentRes>) {
+        cancelShipment: CancelShipment, callback:ITerminalConfiguration<ShipmentUnpopulated>) {
         AppLog.i(LOG_TAG,"cancelShipmentByID")
         if(isSecretKeyAdded()){
             shipmentRemote?.cancelShipmentByID(callback,cancelShipment)
@@ -260,15 +261,13 @@ object TShipSDK  {
         } else callback.onError(false,ERROR)
     }
     fun arrangePickupAndDelivery(
-        arrangePickupAndDelivery: ArrangePickupAndDelivery, callback:ITerminalConfiguration<TrackShipmentRes>) {
+        arrangePickupAndDelivery: ArrangePickupAndDelivery, callback:ITerminalConfiguration<ShipmentUnpopulated>) {
         AppLog.i(LOG_TAG,"trackShipment")
         if(isSecretKeyAdded()){
             shipmentRemote?.arrangePickupAndDelivery(callback,arrangePickupAndDelivery)
         } else callback.onError(false,ERROR)
     }
 
-
-    //
 
     fun getShipCarriers(
          callback:ITerminalConfiguration<GetCarriesModelList>) {

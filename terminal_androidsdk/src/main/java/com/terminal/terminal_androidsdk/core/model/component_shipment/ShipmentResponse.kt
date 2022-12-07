@@ -6,7 +6,7 @@ import com.terminal.terminal_androidsdk.core.model.Coordinates
 import com.terminal.terminal_androidsdk.core.model.ShipMetaData
 
 
-data class ShipmentResponse (
+open class ShipmentResponse (
 
   @SerializedName("address_to" )
   @Expose
@@ -18,7 +18,7 @@ data class ShipmentResponse (
   @SerializedName("delivery_arranged")  @Expose var deliveryArranged : String?           = null,
   @SerializedName("events")  @Expose var events           : ArrayList<Events> = arrayListOf(),
   @SerializedName("extras")  @Expose var extras           : Extras?             = null,
-  @SerializedName("metadata")  @Expose var metadata         : Metadata?         = null,
+ // @SerializedName("metadata")  @Expose var metadata         : Metadata?         = null,
   //@SerializedName("metadata"          )  @Expose var metadata         : ShipMetaData?         = ShipMetaData(),
   @SerializedName("parcel")  @Expose var parcel           : String?           = null,
   @SerializedName("pickup_date")  @Expose var pickupDate       : String?           = null,
@@ -89,8 +89,141 @@ data class CarrierShipment (
   @SerializedName("shipmentNotification"       ) @Expose  var shipmentNotification       : ArrayList<ShipmentNotification> = arrayListOf(),
   @SerializedName("getOptionalInformation"     ) @Expose  var getOptionalInformation     : Boolean?                        = null,
   @SerializedName("onDemandDelivery"           ) @Expose  var onDemandDelivery           : OnDemandDelivery?               = null,
-
   )
+
+
+data class CarrierShipments (
+  val id: String,
+  val createdDate: String,
+  val updatedDate: String,
+  @SerializedName("trackingId"           ) @Expose
+
+  val trackingID: String,
+
+  val label: Any? = null,
+  val invoice: Any? = null,
+  @SerializedName("trackingUrl"           ) @Expose
+
+  val trackingURL: Any? = null,
+  @SerializedName("thirdPartyTrackingId"           ) @Expose
+  val thirdPartyTrackingID: Any? = null,
+
+  val itemCollectionMode: String,
+  val isPaid: Boolean,
+  val shipmentRoute: String,
+  val shipmentStatus: String,
+  val pricingTier: String,
+  val insuranceType: String,
+  val insuranceCharge: Long,
+  val pickupCharge: Long,
+  val shipmentCharge: Long,
+  val commissionOnShipmentCharge: Long,
+  val totalCharge: Long,
+  val discount: Long,
+  val couponApplied: Any? = null,
+  val couponAppliedAmount: Long,
+  val additionalInformation: Any? = null,
+  @SerializedName("externalCustomerId"           ) @Expose
+
+  val externalCustomerID: Any? = null,
+
+  val currency: String,
+  val items: List<Item>,
+  val dimension: Dimension,
+  val senderDetail: ErDetail,
+  val receiverDetail: ErDetail,
+  val createdBy: CreatedBy,
+  val updatedBy: Any? = null,
+  val estimatedDeliveryDate: String,
+  val pickupDate: String,
+  val totalWeight: Long,
+  val assignedLogisticsPartner: Any? = null,
+  val user: CreatedBy,
+  val transaction: Any? = null,
+  val tracks: Any? = null
+) {
+
+}
+
+data class CreatedBy (
+  val id: String,
+  @SerializedName("topshipId"           ) @Expose
+  val topshipID: String,
+
+  val type: String,
+  val isEmailVerified: Boolean,
+  val isPhoneVerified: Boolean,
+  val email: String,
+  val phoneNumber: String,
+  val country: Any? = null,
+  val state: Any? = null,
+  val city: Any? = null,
+
+  @SerializedName("displayPictureUrl"           ) @Expose
+  val displayPictureURL: Any? = null,
+
+  val fullName: String,
+  val dateOfBirth: Any? = null,
+  val password: String,
+  val source: Any? = null,
+  val sessionToken: Any? = null,
+  val percentageCommissionOnUser: Any? = null,
+  val accountType: String,
+  val referrer: Any? = null,
+  val createdBy: Any? = null,
+  val createdDate: String,
+  val updatedDate: String,
+  val referredUsers: Any? = null,
+  val createdUsers: Any? = null,
+  val addresses: Any? = null,
+  val shopnships: Any? = null,
+  val wallet: Wallet,
+  val cards: Any? = null,
+  val transactions: Any? = null,
+  val feedback: Any? = null,
+  val bankDetials: Any? = null,
+  val withdrawalRequests: Any? = null
+)
+
+data class Wallet (
+  val id: String,
+  val createdDate: String,
+  val updatedDate: String,
+  val totalReceived: Long,
+  val totalSent: Long,
+  val totalBonusReceived: Long,
+  val totalBonusSpent: Long,
+  val currency: String
+)
+
+data class Dimension (
+  val length: Long,
+  val width: Long,
+  val height: Long
+)
+
+data class Item (
+  val category: String,
+  val description: String,
+  val weight: Long,
+  val quantity: Long,
+  val value: Long,
+  val dimension: Any? = null
+)
+
+data class ErDetail (
+  val name: String,
+  val email: String,
+  val phoneNumber: String,
+  val addressLine1: String,
+  val addressLine2: String,
+  val addressLine3: String,
+  val country: String,
+  val state: String,
+  val city: String,
+  val countryCode: String,
+  val postalCode: String
+)
 
 data class ContactInformation (
 
@@ -118,21 +251,18 @@ data class CustomerDetails (
   @SerializedName("receiverDetails" )   @Expose var receiverDetails : ReceiverDetails? =null
 
 )
-
 data class CustomerReferences (
 
   @SerializedName("typeCode" )  @Expose var typeCode : String? = null,
   @SerializedName("value"    )  @Expose var value    : String? = null
 
 )
-
 data class DefaultParcel (
 
   @SerializedName("packaging_dimension" ) @Expose var packagingDimension : PackagingDimension?  = null,
   @SerializedName("parcel_total_weight" )  @Expose var parcelTotalWeight  : Double?                = null
 
 )
-
 data class DeliveryAddress (
 
   @SerializedName("city") @Expose var city    : String? = null,
@@ -228,9 +358,8 @@ data class LineItems (
 
   )
 data class Metadata (
-
   //@SerializedName("shipment_payload" )  @Expose var shipmentPayload : ShipmentPayload? = null,
-  @SerializedName("carrier_shipment" )  @Expose var carrierShipment : CarrierShipment? = null,
+  @SerializedName("carrier_shipment" )  @Expose var carrierShipment : ArrayList<CarrierShipments>? = null,
   @SerializedName("carrier_pickup"   )  @Expose var carrierPickup   : CarrierPickup?   = null,
   @SerializedName("selected_rate")  @Expose var selectedRate    : SelectedRate?    = null
 
@@ -472,9 +601,17 @@ data class User (
 
 )
 
-data class Weight (
-
-  @SerializedName("netValue"   )  @Expose var netValue   : Double? = null,
-  @SerializedName("grossValue" )  @Expose var grossValue : Double? = null
+open class Weight (
+  @SerializedName("netValue"   )  @Expose open var netValue   : Double? = null,
+  @SerializedName("grossValue" )  @Expose open var grossValue : Double? = null
 
 )
+
+data class ShipmentUnpopulated (
+  @SerializedName("address_to"   )  @Expose var deliveryAddressId   : String ,
+  @SerializedName("address_from"   )  @Expose var pickupAddressId   : String,
+  @SerializedName("address_return"   )  @Expose var returnAddressId   : String,
+  @SerializedName("parcel"   )  @Expose var parcelId   : String,
+  @SerializedName("carrier"   )  @Expose var carrierId   : String? = null,
+  @SerializedName("rate"   )  @Expose var rateId   : String? = null,
+  ):ShipmentResponse()

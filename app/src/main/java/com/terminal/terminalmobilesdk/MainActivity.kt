@@ -12,6 +12,7 @@ import com.terminal.terminal_androidsdk.core.model.component_carries.GetCarriesM
 import com.terminal.terminal_androidsdk.core.model.component_carries.GetEnableCarriers
 import com.terminal.terminal_androidsdk.core.model.component_getship.CreateShipmentRes
 import com.terminal.terminal_androidsdk.core.model.component_getship.Rate
+import com.terminal.terminal_androidsdk.core.model.component_shipment.ShipmentUnpopulated
 import com.terminal.terminal_androidsdk.core.model.component_track.TrackShipmentRes
 
 
@@ -24,15 +25,23 @@ class MainActivity : AppCompatActivity() {
 
     private  fun initializeTerminal(){
         //  TShipSDK.init("sk_test_tuBAv3arC8x8tryQnf1EfQUDmMYlXgZ0",false)
-        //  TShipSDK.init("sk_test_tuBAv3arC8x8tryQnf1EfQUDmMYlXgZ0",false)
-        TShipSDK.init("sk_test_hmeZxKHvZdbWfkFb0oxh8coYx46j7rZS",false)
+         TShipSDK.init("sk_test_8DERt0vTrGM6XmgcqKvjQC2gJgusMlzr",false)
+       //TShipSDK.init("sk_test_hmeZxKHvZdbWfkFb0oxh8coYx46j7rZS",false)
         getCityAndState()
     }
 
     private  fun getCityAndState(){
-
-
-
+        TShipSDK.trackShipment("SH-42657145431",object :ITerminalConfiguration<TrackShipmentRes>{
+            override fun onResponse(result: TrackShipmentRes) {
+                var rr = result
+            }
+                 var tt : ShipmentUnpopulated= ShipmentUnpopulated("","","","",)
+                        var ttee = tt.events
+            //:()
+            override fun onError(status: Boolean, message: String) {
+                var rr = message
+            }
+        })
 
 //       TShipSDK.getTransaction("6299e3829bcda6b832054f19",object :ITerminalConfiguration<GetTransactionModelList>{
 //           override fun onResponse(result: GetTransactionModelList) {

@@ -11,6 +11,7 @@ import com.terminal.terminal_androidsdk.core.model.GetShipmentModelList;
 import com.terminal.terminal_androidsdk.core.model.ShipmentToAPi;
 import com.terminal.terminal_androidsdk.core.model.Shipments;
 import com.terminal.terminal_androidsdk.core.model.component_getship.CreateShipmentRes;
+import com.terminal.terminal_androidsdk.core.model.component_shipment.ShipmentUnpopulated;
 import com.terminal.terminal_androidsdk.core.model.component_track.TrackShipmentRes;
 import com.terminal.terminal_androidsdk.core.network.BaseData;
 import com.terminal.terminal_androidsdk.core.network.RetrofitClientInstance;
@@ -82,10 +83,10 @@ public class ShipmentRemote {
         });
     }
 
-    public void cancelShipmentByID(ITerminalConfiguration<TrackShipmentRes> terminalConfig, CancelShipment cancelShipment) {
-        RetrofitClientInstance.getInstance().getDataService().cancelShipmentByID(cancelShipment).enqueue(new Callback<BaseData<TrackShipmentRes>>() {
+    public void cancelShipmentByID(ITerminalConfiguration<ShipmentUnpopulated> terminalConfig, CancelShipment cancelShipment) {
+        RetrofitClientInstance.getInstance().getDataService().cancelShipmentByID(cancelShipment).enqueue(new Callback<BaseData<ShipmentUnpopulated>>() {
             @Override
-            public void onResponse(@NonNull Call<BaseData<TrackShipmentRes>> call, @NonNull Response<BaseData<TrackShipmentRes>> response) {
+            public void onResponse(@NonNull Call<BaseData<ShipmentUnpopulated>> call, @NonNull Response<BaseData<ShipmentUnpopulated>> response) {
                 AppLog.d(LOG_TAG,"cancelShipmentByID" + response);
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
@@ -94,7 +95,7 @@ public class ShipmentRemote {
                     terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
             }
             @Override
-            public void onFailure(@NonNull Call<BaseData<TrackShipmentRes>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<BaseData<ShipmentUnpopulated>> call, @NonNull Throwable t) {
                 AppLog.d(LOG_TAG,"cancelShipmentByID" + t.getMessage());
                 terminalConfig.onError(false, Objects.requireNonNull(t.getMessage()));
             }
@@ -139,10 +140,10 @@ public class ShipmentRemote {
         });
     }
 
-    public void arrangePickupAndDelivery(ITerminalConfiguration<TrackShipmentRes> terminalConfig, ArrangePickupAndDelivery andDelivery) {
-        RetrofitClientInstance.getInstance().getDataService().ArrangePickupDelivery(andDelivery).enqueue(new Callback<BaseData<TrackShipmentRes>>() {
+    public void arrangePickupAndDelivery(ITerminalConfiguration<ShipmentUnpopulated> terminalConfig, ArrangePickupAndDelivery andDelivery) {
+        RetrofitClientInstance.getInstance().getDataService().ArrangePickupDelivery(andDelivery).enqueue(new Callback<BaseData<ShipmentUnpopulated>>() {
             @Override
-            public void onResponse(@NonNull Call<BaseData<TrackShipmentRes>> call, @NonNull Response<BaseData<TrackShipmentRes>> response) {
+            public void onResponse(@NonNull Call<BaseData<ShipmentUnpopulated>> call, @NonNull Response<BaseData<ShipmentUnpopulated>> response) {
                 AppLog.d(LOG_TAG,"arrangePickupAndDelivery" + response);
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
@@ -151,7 +152,7 @@ public class ShipmentRemote {
                     terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
             }
             @Override
-            public void onFailure(@NonNull Call<BaseData<TrackShipmentRes>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<BaseData<ShipmentUnpopulated>> call, @NonNull Throwable t) {
                 AppLog.d(LOG_TAG,"arrangePickupAndDelivery" + t.getMessage());
                 terminalConfig.onError(false, Objects.requireNonNull(t.getMessage()));
             }
