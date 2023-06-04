@@ -1,16 +1,31 @@
 package com.terminal.terminal_androidsdk.core
-import com.google.gson.Gson
 import com.terminal.terminal_androidsdk.core.db.*
 import com.terminal.terminal_androidsdk.core.model.*
+import com.terminal.terminal_androidsdk.core.model.Packaging
+import com.terminal.terminal_androidsdk.core.model.claims.FIleAClaim
 import com.terminal.terminal_androidsdk.core.model.component_carries.GetCarriesModel
 import com.terminal.terminal_androidsdk.core.model.component_carries.GetCarriesModelList
 import com.terminal.terminal_androidsdk.core.model.component_carries.GetEnableCarriers
+import com.terminal.terminal_androidsdk.core.model.component_getship.*
 import com.terminal.terminal_androidsdk.utils.AppLog
 import com.terminal.terminal_androidsdk.utils.Constant.ERROR
 import com.terminal.terminal_androidsdk.utils.MemoryManager
-import com.terminal.terminal_androidsdk.core.model.component_getship.CreateShipmentRes
+import com.terminal.terminal_androidsdk.core.model.component_shipment.DeleteDraft
 import com.terminal.terminal_androidsdk.core.model.component_shipment.ShipmentUnpopulated
 import com.terminal.terminal_androidsdk.core.model.component_track.TrackShipmentRes
+import com.terminal.terminal_androidsdk.core.model.component_user.*
+import com.terminal.terminal_androidsdk.core.model.insurance.CheckInsurance
+import com.terminal.terminal_androidsdk.core.model.insurance.CheckInsuranceResponse
+import com.terminal.terminal_androidsdk.core.model.insurance.PurchasePremiumInsurance
+import com.terminal.terminal_androidsdk.core.model.insurance.SpecificInsurance
+import com.terminal.terminal_androidsdk.core.model.shopandship.ArrangePickupShopResponse
+import com.terminal.terminal_androidsdk.core.model.shopandship.ArrangePickupShopSh
+import com.terminal.terminal_androidsdk.core.model.shopandship.MakeChargeResponse
+import com.terminal.terminal_androidsdk.core.model.shopandship.TerminalShopCountries
+import com.terminal.terminal_androidsdk.core.model.utils.SuccessModel
+import com.terminal.terminal_androidsdk.core.model.utils.TerminalRealMerchant
+import com.terminal.terminal_androidsdk.core.model.utils.UpdateToken
+import java.util.ArrayList
 
 /**
  * Created by AYODEJI on 10/10/2020.
@@ -28,7 +43,7 @@ object TShipSDK  {
     private  var transactionRemote:TransactionRemote? = null
     private  var shipmentRemote:ShipmentRemote? = null
     private  var carriesRemote:CarriesRemote? = null
-
+    private  var utilRemote:UtilRemote? = null
     private val LOG_TAG: String =
         TShipSDK::class.java.simpleName
 
@@ -41,22 +56,75 @@ object TShipSDK  {
         transactionRemote = TransactionRemote.getInstance()
         shipmentRemote = ShipmentRemote.getInstance()
         carriesRemote = CarriesRemote.getInstance()
+        utilRemote = UtilRemote.getInstance()
     }
 
     fun init(secretKey: String, isLive:Boolean = false){
           MemoryManager.getInstance().putUserSecretKey(secretKey)
           MemoryManager.getInstance().putIsLive(isLive)
-          AppLog.i(LOG_TAG,"init-successful $secretKey $isLive")
+        AppLog.i(LOG_TAG,"init-successful $secretKey $isLive")
     }
 
-    fun getRateForShipment(shipmentRate: ShipmentRate,
-                           callback: ITerminalConfiguration<List<RateModel>>
-    ){
+    fun initHome(secretKey: String, isLive:Boolean = false){
+        MemoryManager.getInstance().putUserHomeQuote(secretKey)
+        MemoryManager.getInstance().putIsHomeLive(isLive)
+    }
+
+    fun getRateForShipment(shipmentRate: ShipmentRate, callback: ITerminalConfiguration<List<RateModel>>){
         AppLog.i(LOG_TAG,"getRateForShipment $shipmentRate")
         if(isSecretKeyAdded()){
             rateRemote?.getRateForShipment(callback,shipmentRate)
         } else callback.onError(false,ERROR)
 
+    }
+
+    fun getRateForMultiShipment(shipmentRate: MultiShipmentRate,
+                           callback: ITerminalConfiguration<List<Rate>>
+    ){
+        AppLog.i(LOG_TAG,"getRateForMultiShipment $shipmentRate")
+        if(isSecretKeyAdded()){
+            rateRemote?.getRateForMultiShipment(callback,shipmentRate)
+        } else callback.onError(false,ERROR)
+
+    }
+
+
+    fun getRateForShipmentHome(shipmentRate: ShipmentRate,
+                           callback: ITerminalConfiguration<List<Rate>>
+    ){
+        AppLog.i(LOG_TAG,"getRateForShipmentHome $shipmentRate")
+        if(isSecretKeyAdded()){
+            rateRemote?.getRateForShipmentHome(callback,shipmentRate)
+        } else callback.onError(false,ERROR)
+
+    }
+
+    fun getRateForShipmentHome(shipmentId:String,
+                               callback: ITerminalConfiguration<List<Rate>>
+    ){
+        if(isSecretKeyAdded()){
+            rateRemote?.getRateForShipment(callback,shipmentId,)
+        } else callback.onError(false,ERROR)
+
+    }
+
+    fun getRateForHomeShipmentHome(shipmentRate: ShipmentRate,
+                               callback: ITerminalConfiguration<List<Rate>>
+    ){
+        AppLog.i(LOG_TAG,"getRateForHomeShipmentHome $shipmentRate")
+        if(isHomeSecretKeyAdded()){
+            rateRemote?.getRateForHomeShipmentHome(callback,shipmentRate)
+        } else callback.onError(false,ERROR)
+
+    }
+
+    fun gotoGetShipmentShip(shipmentRate: ShipmentRate,
+                                   callback: ITerminalConfiguration<List<Rate>>
+    ){
+        AppLog.i(LOG_TAG,"getRateForHomeShipmentHome $shipmentRate")
+        if(isHomeSecretKeyAdded()){
+            rateRemote?.gotoGetShipmentShip(callback,shipmentRate)
+        } else callback.onError(false,ERROR)
     }
 
     fun getUserBalance(userId: String, callback: ITerminalConfiguration<UserBalance>) {
@@ -66,11 +134,42 @@ object TShipSDK  {
         } else callback.onError(false,ERROR)
     }
 
+    fun fetchUserProfile(userId: String, callback: ITerminalConfiguration<FetchProfileResponse>) {
+        AppLog.i(LOG_TAG,"fetchUserProfile $userId")
+        userRemote?.fetchUserProfile(callback,userId)
+
+    }
+
     fun getUserProfile( user_id:String,callback: ITerminalConfiguration<UserProfile>) {
         if(isSecretKeyAdded()){
             userRemote?.getUserProfile(callback,user_id)
         } else callback.onError(false,ERROR)
     }
+
+    fun getUserWalletInfo( user_id:String,callback: ITerminalConfiguration<WalletInfo>) {
+        if(isSecretKeyAdded()){
+            userRemote?.getUserWalletInfo(callback,user_id)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun getHomeUserWalletInfo( user_id:String,callback: ITerminalConfiguration<WalletInfo>) {
+        if(isHomeSecretKeyAdded()){
+            userRemote?.getHomeUserWalletInfo(callback,user_id)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun getUtilsData(callback: ITerminalConfiguration<TerminalRealMerchant>) {
+        if(isHomeSecretKeyAdded()){
+            utilRemote?.getUtilsData(callback,)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun updateUserProfile(signUpUser: UpdateProfile,callback: ITerminalConfiguration<FetchProfileResponse>) {
+        if(isSecretKeyAdded()){
+            userRemote?.updateUserProfile(callback,signUpUser)
+        } else callback.onError(false,ERROR)
+    }
+
 
     fun createAddress(createAddress: CreateAddress?,callback: ITerminalConfiguration<Address>) {
         AppLog.i(LOG_TAG,"createAddress $createAddress")
@@ -78,6 +177,23 @@ object TShipSDK  {
             addressesRemote?.createAddress(callback,createAddress)
         } else callback.onError(false,ERROR)
     }
+
+
+    fun createHomeAddress(createAddress: CreateAddress?,callback: ITerminalConfiguration<Address>) {
+        AppLog.i(LOG_TAG,"createHomeAddress $createAddress")
+        if(isHomeSecretKeyAdded() && createAddress != null){
+            addressesRemote?.createHomeAddress(callback,createAddress)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun createTerminalReference(createAddress: String?,callback: ITerminalConfiguration<Address>) {
+        AppLog.i(LOG_TAG,"createTerminalReference $createAddress")
+        if(isSecretKeyAdded() && createAddress != null){
+            addressesRemote?.createTerminalReference(callback,createAddress)
+        } else callback.onError(false,ERROR)
+    }
+
+    //
 
     fun updateAddress(addressId: String, createAddress: UpdateAddress,callback: ITerminalConfiguration<Address>) {
         AppLog.i(LOG_TAG,"updateAddress $addressId  $createAddress")
@@ -92,6 +208,14 @@ object TShipSDK  {
            addressesRemote?.getAddresses(callback,page,limit)
         } else callback.onError(false,ERROR)
     }
+
+    fun getAddressesBySearch(callback: ITerminalConfiguration<GetAddressModel>,search:String, page:Int = 1, limit:Int = 25,) {
+        AppLog.i(LOG_TAG,"getAddressesBySearch $page  $limit")
+        if(isSecretKeyAdded()){
+            addressesRemote?.getAddressesBySearch(callback,page,search)
+        } else callback.onError(false,ERROR)
+    }
+
 
     fun getAddressesById(addressId:String,callback: ITerminalConfiguration<GetAddressModel>) {
         AppLog.i(LOG_TAG,"getAddressesById $addressId ")
@@ -122,10 +246,25 @@ object TShipSDK  {
 
     }
 
+    fun getHomeCountries(callback: ITerminalConfiguration<List<TerminalCountries>>) {
+        if(isHomeSecretKeyAdded()){
+            miscellaneousRemote?.getHomeCountries(callback)
+        } else callback.onError(false,ERROR)
+
+    }
+
+
     fun getStateInCountry(countryCode:String,callback:  ITerminalConfiguration<List<TerminalStates>>) {
         AppLog.i(LOG_TAG,"getStateInCountry $countryCode ")
         if(isSecretKeyAdded()){
             miscellaneousRemote?.getStatesInCountry(callback,countryCode)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun getHomeStateInCountry(countryCode:String,callback:  ITerminalConfiguration<List<TerminalStates>>) {
+        AppLog.i(LOG_TAG,"getStateInCountry $countryCode ")
+        if(isHomeSecretKeyAdded()){
+            miscellaneousRemote?.getHomeStatesInCountry(callback,countryCode)
         } else callback.onError(false,ERROR)
     }
 
@@ -135,6 +274,14 @@ object TShipSDK  {
             miscellaneousRemote?.getCitiesInCountry(callback,countryCode,stateCode)
         } else callback.onError(false,ERROR)
     }
+
+    fun getHomeCitiesInState(countryCode:String, stateCode:String, callback:  ITerminalConfiguration<List<TerminalCities>>) {
+        AppLog.i(LOG_TAG,"getCitiesInState $countryCode $stateCode")
+        if(isHomeSecretKeyAdded()){
+            miscellaneousRemote?.getHomeCitiesInCountry(callback,countryCode,stateCode)
+        } else callback.onError(false,ERROR)
+    }
+
 
     fun createPackaging(packaging: Packaging,callback:  ITerminalConfiguration<PackagingResponse>) {
         AppLog.i(LOG_TAG,"createPackaging $packaging")
@@ -166,7 +313,7 @@ object TShipSDK  {
     }
 
     fun getPackaging(
-        type: String, callback:ITerminalConfiguration<GetPackagingList>,  perPage:Int = 100, page:Int = 1,) {
+        callback:ITerminalConfiguration<GetPackagingList>,  perPage:Int = 100, page:Int = 1,  type: String? = null,) {
         AppLog.i(LOG_TAG,"getPackaging")
         if(isSecretKeyAdded()){
             miscellaneousRemote?.getPackaging(callback,type,perPage,page)
@@ -189,6 +336,30 @@ object TShipSDK  {
         } else callback.onError(false,ERROR)
     }
 
+    fun getSpecificInsurance(
+        shipmentID:String, callback:ITerminalConfiguration<SpecificInsurance>) {
+        AppLog.i(LOG_TAG,"getSpecificInsurance")
+        if(isSecretKeyAdded()){
+            parcelRemote?.getSpecificInsurance(callback,shipmentID)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun getInsurancePremium(
+        parcelId:String,callback:ITerminalConfiguration<PurchasePremiumInsurance>) {
+        AppLog.i(LOG_TAG,"getInsurancePremium")
+        if(isSecretKeyAdded()){
+            parcelRemote?.getInsurancePremium(callback,parcelId)
+        } else callback.onError(false,ERROR)
+    }
+    fun getHomeInsurancePremium(
+        parcelId:String,callback:ITerminalConfiguration<PurchasePremiumInsurance>) {
+        AppLog.i(LOG_TAG,"getHomeInsurancePremium")
+        if(isSecretKeyAdded()){
+            parcelRemote?.getHomeInsurancePremium(callback,parcelId)
+        } else callback.onError(false,ERROR)
+    }
+
+
     fun updateParcel(
        parcelId:String,updateParcelModel: UpdateParcelModel,callback:ITerminalConfiguration<ParcelResponse>) {
         AppLog.i(LOG_TAG,"getParcels")
@@ -199,13 +370,27 @@ object TShipSDK  {
 
     fun createParcel(
         createParcel: CreateParcel,callback:ITerminalConfiguration<ParcelResponse>) {
-        var resul = Gson().toJson(createParcel)
         AppLog.i(LOG_TAG,"createParcel")
         if(isSecretKeyAdded()){
             parcelRemote?.createParcel(callback,createParcel)
         } else callback.onError(false,ERROR)
     }
 
+    fun createHomeParcel(
+        createParcel: CreateParcel,callback:ITerminalConfiguration<ParcelResponse>) {
+        AppLog.i(LOG_TAG,"createHomeParcel")
+        if(isHomeSecretKeyAdded()){
+            parcelRemote?.createHomeParcel(callback,createParcel)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun updateHomeParcel(
+      parcelId:String,  createParcel: UpdateParcelModel,callback:ITerminalConfiguration<ParcelResponse>) {
+        AppLog.i(LOG_TAG,"updateHomeParcel")
+        if(isHomeSecretKeyAdded()){
+            parcelRemote?.updateHomeParcel(callback,createParcel,parcelId)
+        } else callback.onError(false,ERROR)
+    }
 
     fun getTransaction(
          walletID:String, callback:ITerminalConfiguration<GetTransactionModelList>, perPage:Int = 100, page:Int = 1,) {
@@ -223,8 +408,24 @@ object TShipSDK  {
         } else callback.onError(false,ERROR)
     }
 
+    fun updateDraftShipments(
+        shipmentId:String,
+        shipments: Shipments, callback:ITerminalConfiguration<CreateSummaryShipmentRes>) {
+        AppLog.i(LOG_TAG,"updateDraftShipments")
+        if(isSecretKeyAdded()){
+            shipmentRemote?.updateDraftShipments(callback,shipments,shipmentId)
+        } else callback.onError(false,ERROR)
+    }
     fun createShipments(
-        shipments: Shipments, callback:ITerminalConfiguration<CreateShipmentRes>) {
+        shipments: Shipments, callback:ITerminalConfiguration<CreateSummaryShipmentRes>) {
+        AppLog.i(LOG_TAG,"createShipments")
+        if(isSecretKeyAdded()){
+            shipmentRemote?.createShipments(callback,shipments)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun createShipments(
+        shipments:ShopShipments, callback:ITerminalConfiguration<CreateSummaryShipmentRes>) {
         AppLog.i(LOG_TAG,"createShipments")
         if(isSecretKeyAdded()){
             shipmentRemote?.createShipments(callback,shipments)
@@ -238,6 +439,17 @@ object TShipSDK  {
             shipmentRemote?.getSpecificShipment(callback,shipmentId)
         } else callback.onError(false,ERROR)
     }
+
+    fun getSpecificShopShipment(
+        shipmentId: String, callback:ITerminalConfiguration<CreateShopShipmentRes>) {
+        AppLog.i(LOG_TAG,"getSpecificShopShipment")
+        if(isSecretKeyAdded()){
+            shipmentRemote?.getSpecificShopShipment(callback,shipmentId)
+        } else callback.onError(false,ERROR)
+    }
+
+
+
     fun cancelShipmentByID(
         cancelShipment: CancelShipment, callback:ITerminalConfiguration<ShipmentUnpopulated>) {
         AppLog.i(LOG_TAG,"cancelShipmentByID")
@@ -245,11 +457,55 @@ object TShipSDK  {
             shipmentRemote?.cancelShipmentByID(callback,cancelShipment)
         } else callback.onError(false,ERROR)
     }
+
+    fun deleteDraftShipment(
+        cancelShipment: String, callback:ITerminalConfiguration<SuccessModel>) {
+        AppLog.i(LOG_TAG,"deleteDraftShipment")
+        if(isSecretKeyAdded()){
+            shipmentRemote?.deleteDraftShipment(callback,cancelShipment)
+        } else callback.onError(false,ERROR)
+    }
+
     fun getShipments(
-         callback:ITerminalConfiguration<GetShipmentModelList>, perPage:Int = 100, page:Int = 1,) {
+         callback:ITerminalConfiguration<GetShipmentModelList>, perPage:Int = 5, page:Int = 1,) {
         AppLog.i(LOG_TAG,"getShipments")
         if(isSecretKeyAdded()){
             shipmentRemote?.getShipments(callback,perPage,page)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun getShipmentsPopulate(
+        callback:ITerminalConfiguration<GetShipmentPopulateList>, perPage:Int = 5, page:Int = 1,) {
+        AppLog.i(LOG_TAG,"getShipmentsPopulate")
+        if(isSecretKeyAdded()){
+            shipmentRemote?.getShipmentsPopulate(callback,perPage,page)
+        } else callback.onError(false,ERROR)
+    }
+
+    fun getShipmentsPopulateStatus(
+        callback:ITerminalConfiguration<GetShipmentPopulateList>,status:String, perPage:Int = 5, page:Int = 1,) {
+        AppLog.i(LOG_TAG,"getShipmentsPopulateStatus")
+        if(isSecretKeyAdded()){
+            when(status){
+                "draft"->{
+                    shipmentRemote?.getShipmentsPopulateStatus(callback,perPage,page,status)
+                }
+                "cancelled"->{
+                    shipmentRemote?.getShipmentsPopulateStatusCancelled(callback,perPage,page,status)
+                }
+                "delivered"->{
+                    shipmentRemote?.getShipmentsPopulateStatusComplete(callback,perPage,page,status)
+                }
+                "confirmed"->{
+                    shipmentRemote?.getShipmentsPopulateStatusConfirmed(callback,perPage,page,status)
+                }
+                "in-transit"->{
+                    shipmentRemote?.getShipmentsPopulateStatusOngoing(callback,perPage,page,status)
+                }
+                "all_status"->{
+                    shipmentRemote?.getShipmentsPopulateStatusAll(callback,perPage,page,status)
+                }
+            }
         } else callback.onError(false,ERROR)
     }
 
@@ -260,20 +516,45 @@ object TShipSDK  {
             shipmentRemote?.trackShipment(callback,shipmentId)
         } else callback.onError(false,ERROR)
     }
+
+    fun checkInsuranceStand(
+        checkInsurance: CheckInsurance, callback:ITerminalConfiguration<CheckInsuranceResponse>) {
+        AppLog.i(LOG_TAG,"checkInsuranceStand")
+        if(isSecretKeyAdded()){
+            shipmentRemote?.checkInsuranceStand(callback,checkInsurance)
+        } else callback.onError(false,ERROR)
+    }
+
+
     fun arrangePickupAndDelivery(
         arrangePickupAndDelivery: ArrangePickupAndDelivery, callback:ITerminalConfiguration<ShipmentUnpopulated>) {
-        AppLog.i(LOG_TAG,"trackShipment")
+        AppLog.i(LOG_TAG,"arrangePickupAndDelivery")
+        if(isSecretKeyAdded()){
+            shipmentRemote?.arrangePickupAndDelivery(callback,arrangePickupAndDelivery)
+        } else callback.onError(false,ERROR)
+    }
+    fun arrangePickupAndDelivery(
+        arrangePickupAndDelivery: ArrangePickupShopSh, callback:ITerminalConfiguration<ArrangePickupShopResponse>) {
+        AppLog.i(LOG_TAG,"arrangePickupAndDelivery")
         if(isSecretKeyAdded()){
             shipmentRemote?.arrangePickupAndDelivery(callback,arrangePickupAndDelivery)
         } else callback.onError(false,ERROR)
     }
 
+    fun fileAClaim(
+        fIleAClaim: FIleAClaim, callback:ITerminalConfiguration<SuccessModel>) {
+        AppLog.i(LOG_TAG,"fileAClaim")
+        if(isSecretKeyAdded()){
+            shipmentRemote?.fileAClaim(callback,fIleAClaim)
+        } else callback.onError(false,ERROR)
+    }
+
 
     fun getShipCarriers(
-         callback:ITerminalConfiguration<GetCarriesModelList>) {
+        type:String,callback:ITerminalConfiguration<GetCarriesModelList>) {
         AppLog.i(LOG_TAG,"getShipCarries")
         if(isSecretKeyAdded()){
-            carriesRemote?.getShipCarries(callback)
+            carriesRemote?.getShipCarries(callback,type)
         } else callback.onError(false,ERROR)
     }
 
@@ -299,7 +580,7 @@ object TShipSDK  {
         } else callback.onError(false,ERROR)
     }
     fun disableShipCarriers(
-        shipCarrierId:String, callback:ITerminalConfiguration<GetCarriesModel>, domestic:Boolean = false,international:Boolean = false, regional:Boolean = false ) {
+        shipCarrierId:String, callback:ITerminalConfiguration<SuccessModel>, domestic:Boolean = false,international:Boolean = false, regional:Boolean = false ) {
         AppLog.i(LOG_TAG,"disableShipCarries")
         if(isSecretKeyAdded()){
             carriesRemote?.disableShipCarries(callback,shipCarrierId,domestic,international, regional)
@@ -309,5 +590,9 @@ object TShipSDK  {
 
     private fun isSecretKeyAdded():Boolean{
         return MemoryManager.getInstance().isSecretActivated
+    }
+
+    private fun isHomeSecretKeyAdded():Boolean{
+        return MemoryManager.getInstance().isHomeSecretActivated
     }
 }

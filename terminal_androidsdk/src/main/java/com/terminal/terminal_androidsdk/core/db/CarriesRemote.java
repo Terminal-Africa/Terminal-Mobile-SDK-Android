@@ -8,6 +8,7 @@ import com.terminal.terminal_androidsdk.core.model.ShipmentRate;
 import com.terminal.terminal_androidsdk.core.model.component_carries.GetCarriesModel;
 import com.terminal.terminal_androidsdk.core.model.component_carries.GetCarriesModelList;
 import com.terminal.terminal_androidsdk.core.model.component_carries.GetEnableCarriers;
+import com.terminal.terminal_androidsdk.core.model.utils.SuccessModel;
 import com.terminal.terminal_androidsdk.core.network.BaseData;
 import com.terminal.terminal_androidsdk.core.network.RetrofitClientInstance;
 import com.terminal.terminal_androidsdk.utils.AppLog;
@@ -29,16 +30,22 @@ public class CarriesRemote {
         return Instance;
     }
 
-    public void getShipCarries(ITerminalConfiguration<GetCarriesModelList> terminalConfig) {
-        RetrofitClientInstance.getInstance().getDataService().getShipCarries().enqueue(new Callback<BaseData<GetCarriesModelList>>() {
+    public void getShipCarries(ITerminalConfiguration<GetCarriesModelList> terminalConfig,String type) {
+        RetrofitClientInstance.getInstance().getDataService().getShipCarries(type).enqueue(new Callback<BaseData<GetCarriesModelList>>() {
             @Override
             public void onResponse(@NonNull Call<BaseData<GetCarriesModelList>> call, @NonNull Response<BaseData<GetCarriesModelList>> response) {
                 AppLog.d(LOG_TAG,"getShipCarries" + response);
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
                 } else {
-                    BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
-                    terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
+                    try {
+                        BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
+                        terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());
+                    }catch (Exception e){
+                        AppLog.e("getShipCarries",e.getLocalizedMessage());
+                        terminalConfig.onError(false, "");
+                    }
+                }
             }
             @Override
             public void onFailure(@NonNull Call<BaseData<GetCarriesModelList>> call, @NonNull Throwable t) {
@@ -57,8 +64,14 @@ public class CarriesRemote {
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
                 } else {
-                    BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
-                    terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
+                    try {
+                        BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
+                        terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());
+                    }catch (Exception e){
+                        AppLog.e("getSpecificShipCarries",e.getLocalizedMessage());
+                        terminalConfig.onError(false, "");
+                    }
+                }
             }
             @Override
             public void onFailure(@NonNull Call<BaseData<GetCarriesModel>> call, @NonNull Throwable t) {
@@ -76,8 +89,14 @@ public class CarriesRemote {
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
                 } else {
-                    BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
-                    terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
+                    try {
+                        BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
+                        terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());
+                    }catch (Exception e){
+                        AppLog.e("getEnabledShipCarries",e.getLocalizedMessage());
+                        terminalConfig.onError(false, "");
+                    }
+                }
             }
             @Override
             public void onFailure(@NonNull Call<BaseData<GetEnableCarriers>> call, @NonNull Throwable t) {
@@ -95,8 +114,14 @@ public class CarriesRemote {
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
                 } else {
-                    BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
-                    terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
+                    try {
+                        BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
+                        terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());
+                    }catch (Exception e){
+                        AppLog.e("enabledShipCarries",e.getLocalizedMessage());
+                        terminalConfig.onError(false, "");
+                    }
+                }
             }
             @Override
             public void onFailure(@NonNull Call<BaseData<GetCarriesModel>> call, @NonNull Throwable t) {
@@ -106,24 +131,32 @@ public class CarriesRemote {
         });
     }
 
-    public void disableShipCarries(ITerminalConfiguration<GetCarriesModel> terminalConfig,String carriers_ID, boolean domestic, boolean international, boolean regional) {
-        RetrofitClientInstance.getInstance().getDataService().disabledShipCarrier(carriers_ID,domestic, international, regional).enqueue(new Callback<BaseData<GetCarriesModel>>() {
+    public void disableShipCarries(ITerminalConfiguration<SuccessModel> terminalConfig, String carriers_ID, boolean domestic, boolean international, boolean regional) {
+        RetrofitClientInstance.getInstance().getDataService().disabledShipCarrier(carriers_ID,domestic, international, regional).enqueue(new Callback<BaseData<SuccessModel>>() {
             @Override
-            public void onResponse(@NonNull Call<BaseData<GetCarriesModel>> call, @NonNull Response<BaseData<GetCarriesModel>> response) {
+            public void onResponse(@NonNull Call<BaseData<SuccessModel>> call, @NonNull Response<BaseData<SuccessModel>> response) {
                 AppLog.d(LOG_TAG,"disabledShipCarries" + response);
                 if (response.isSuccessful()) {
-                    if(response.body().getData() != null){
-                        terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
+                    if(Objects.requireNonNull(response.body()).isError()){
+                        SuccessModel  successMode = new SuccessModel(response.body().isError(),response.body().getMessage(),carriers_ID,0.0);
+                        terminalConfig.onResponse(successMode);
+                      //  terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
                     }else {
                         terminalConfig.onError(response.body().isError(),response.body().getMessage());
                     }
                 }
                  else {
-                    BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
-                    terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());                }
+                    try {
+                        BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
+                        terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());
+                    }catch (Exception e){
+                        AppLog.e("disabledShipCarries",e.getLocalizedMessage());
+                        terminalConfig.onError(false, "");
+                    }
+                }
             }
             @Override
-            public void onFailure(@NonNull Call<BaseData<GetCarriesModel>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<BaseData<SuccessModel>> call, @NonNull Throwable t) {
                 AppLog.d(LOG_TAG,"disabledShipCarries" + t.getMessage());
                 terminalConfig.onError(false, Objects.requireNonNull(t.getMessage()));
             }

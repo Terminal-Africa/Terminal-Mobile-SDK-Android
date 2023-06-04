@@ -1,15 +1,19 @@
 package com.terminal.terminal_androidsdk.core.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+
 /**
  * Created by AYODEJI on 10/10/2020.
  *
  */
-class Address {
+@Parcelize
+class Address : Parcelable {
     val user:String = ""
     val city:String = ""
-    val coordinates:Coordinates? = null
+    //val coordinates:Coordinates? = null
     val country:String = ""
     val email : String = ""
 
@@ -24,38 +28,36 @@ class Address {
     val lastName:String = ""
     val line1:String = ""
     val line2 : String = ""
-    val phone:String = ""
+    var phone:String = ""
     @SerializedName("place_id")
     @Expose
     val placeId:String = ""
     val state : String = ""
     val name:String = ""
     val zip:String = ""
-    @SerializedName("_id")
-    @Expose
-    val Id:String = ""
     @SerializedName("address_id")
     @Expose
-    val addressId : String = ""
-    @SerializedName("created_at")
-    @Expose
-    val createdAt:String = ""
-    @SerializedName("updated_at")
-    @Expose
-    val updatedAt:String = ""
+    var addressId : String = ""
+//    @SerializedName("created_at")
+//    @Expose
+//    val createdAt:String = ""
+//    @SerializedName("updated_at")
+//    @Expose
+//    val updatedAt:String = ""
 
 }
 
-
-data class Coordinates(val lat:Double, val lng:Double, val place_id : String )
+@Parcelize
+data class Coordinates(val lat:Double, val lng:Double, val place_id : String ):Parcelable
 
 data class GetAddressModel(val addresses:List<Address> = arrayListOf(), val pagination: Pagination, )
+
 
  class  Pagination{
     val page:Int = 0
      val perPage:Int = 0
-     val prevPage:Int = 0
-     val nextPage:Int = 0
+     //val prevPage:Int = 0
+    // val nextPage:Int = 0
      val currentPage:Int = 0
      val total:Int = 0
      val pageCount:Int = 0

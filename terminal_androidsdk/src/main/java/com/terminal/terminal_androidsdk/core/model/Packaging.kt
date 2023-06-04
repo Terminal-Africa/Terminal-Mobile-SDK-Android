@@ -1,7 +1,10 @@
 package com.terminal.terminal_androidsdk.core.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+
 /**
  * Created by AYODEJI on 10/10/2020.
  *
@@ -15,11 +18,12 @@ class Packaging (
     val weight:Double,
     val weight_unit :String,
     val width:Double,
-    val description:String = ""
+   // val description:String = ""
 )
 
 
-class PackagingResponse {
+@Parcelize
+class PackagingResponse : Parcelable {
     val  name:String  = ""
     @SerializedName("size_unit")
     @Expose

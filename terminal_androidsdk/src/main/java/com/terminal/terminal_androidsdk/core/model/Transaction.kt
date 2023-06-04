@@ -1,8 +1,10 @@
 package com.terminal.terminal_androidsdk.core.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.terminal.terminal_androidsdk.core.model.component_carries.GetCarriesModel
+import kotlinx.android.parcel.Parcelize
 
 class Receiver(val name:String, val reference:String, val type:String)
 class Sender(val name:String, val reference:String, val account_number:String)
@@ -37,7 +39,8 @@ class Transaction {
 
 }
 
-class TransactionList {
+@Parcelize
+class TransactionList : Parcelable {
     val amount: Double = 0.00
     val currency:String = ""
     val description:String = ""

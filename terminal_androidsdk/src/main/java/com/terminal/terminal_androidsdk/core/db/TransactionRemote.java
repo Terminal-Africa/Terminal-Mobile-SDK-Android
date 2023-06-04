@@ -5,13 +5,11 @@ import androidx.annotation.NonNull;
 import com.terminal.terminal_androidsdk.core.ITerminalConfiguration;
 import com.terminal.terminal_androidsdk.core.model.GetTransactionModelList;
 import com.terminal.terminal_androidsdk.core.model.Transaction;
-import com.terminal.terminal_androidsdk.core.model.TransactionList;
 import com.terminal.terminal_androidsdk.core.network.BaseData;
 import com.terminal.terminal_androidsdk.core.network.RetrofitClientInstance;
 import com.terminal.terminal_androidsdk.utils.AppLog;
 import com.terminal.terminal_androidsdk.utils.Constant;
 
-import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -41,8 +39,14 @@ public class TransactionRemote {
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
                 } else {
-                    BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
-                    terminalConfig.onError(Objects.requireNonNull(errorResponse).isError(),"Carrier Already Disabled");                }
+                    try {
+                        BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
+                        terminalConfig.onError(Objects.requireNonNull(errorResponse).isError(),errorResponse.getMessage());
+                    }catch (Exception e){
+                        AppLog.e("getTransaction",e.getLocalizedMessage());
+                        terminalConfig.onError(false,"");
+                    }
+                }
             }
             @Override
             public void onFailure(@NonNull Call<BaseData<GetTransactionModelList>> call, @NonNull Throwable t) {
@@ -60,8 +64,14 @@ public class TransactionRemote {
                 if (response.isSuccessful()) {
                     terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
                 } else {
-                    BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
-                    terminalConfig.onError(Objects.requireNonNull(errorResponse).isError(),errorResponse.getMessage());                }
+                    try {
+                        BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
+                        terminalConfig.onError(Objects.requireNonNull(errorResponse).isError(),errorResponse.getMessage());
+                    }catch (Exception e){
+                        AppLog.e("getSpecificTransaction",e.getLocalizedMessage());
+                        terminalConfig.onError(false,"");
+                    }
+                }
             }
             @Override
             public void onFailure(@NonNull Call<BaseData<Transaction>> call, @NonNull Throwable t) {
@@ -70,6 +80,5 @@ public class TransactionRemote {
             }
         });
     }
-
 
 }

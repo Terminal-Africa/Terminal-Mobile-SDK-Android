@@ -9,11 +9,16 @@ import com.terminal.terminal_androidsdk.utils.AppLog;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+//import dagger.hilt.android.AndroidEntryPoint;
+//import dagger.hilt.android.HiltAndroidApp;
+
 /**
  * Created by AYODEJI on 10/10/2020.
  * This is the start of the application used in getting a good turn context as well as network connectivity
  *
  */
+//@HiltAndroidApp
 public class MainApplication extends Application {
 
 

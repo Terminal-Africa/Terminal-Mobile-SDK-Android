@@ -1,12 +1,17 @@
 package com.terminal.terminal_androidsdk.core.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+
 /**
  * Created by AYODEJI on 10/10/2020.
  *
  */
-class UserProfile {
+
+@Parcelize
+data class UserProfile(val country:String): Parcelable {
     @SerializedName("company_name")
     @Expose
     val companyName:String? =  null
@@ -42,7 +47,15 @@ class UserProfile {
     @SerializedName("country_state")
     @Expose
     val countryState:String = ""
-    val country:String = ""
+    @SerializedName("account_active")
+    @Expose
+    val accountActive:Boolean = false
+    @SerializedName("wallet_enabled")
+    @Expose
+    val walletEnabled:Boolean = false
+    val referralCode:String = ""
+
+//    val country:String = ""
 
 
 }

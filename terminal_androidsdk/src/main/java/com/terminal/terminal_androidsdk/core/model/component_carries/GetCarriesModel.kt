@@ -7,13 +7,14 @@ import com.terminal.terminal_androidsdk.core.model.component_getship.Contact
 import com.terminal.terminal_androidsdk.core.model.component_shipment.Carriers
 
 data class GetCarriesModel (
+    var activeSelected             : Boolean         = false,
     @SerializedName("active"              ) @Expose var active             : Boolean?          = null,
     @SerializedName("available_countries" ) @Expose var availableCountries : ArrayList<String> = arrayListOf(),
     @SerializedName("contact"             ) @Expose var contact            : Contact?           = null,
     @SerializedName("domestic"            ) @Expose var domestic           : Boolean?          = null,
     @SerializedName("international"       ) @Expose var international      : Boolean?          = null,
     @SerializedName("logo"                ) @Expose var logo               : String?           = null,
-    @SerializedName("metadata"            ) @Expose var metadata           : String?           = null,
+    //@SerializedName("metadata"            ) @Expose var metadata           : String?           = null,
     @SerializedName("name"                ) @Expose var name               : String?           = null,
     @SerializedName("regional"            ) @Expose var regional           : Boolean?          = null,
     @SerializedName("requires_invoice"    ) @Expose var requiresInvoice    : Boolean?          = null,

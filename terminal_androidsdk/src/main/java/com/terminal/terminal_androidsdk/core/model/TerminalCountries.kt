@@ -8,15 +8,15 @@ import com.google.gson.annotations.SerializedName
  *
  */
 class TerminalCountries {
-    val isoCode: String = ""
-    val name:String  = ""
+    var isoCode: String = ""
+    var name:String  = ""
 
     @SerializedName("phonecode")
     @Expose
     val phoneCode:String = ""
     val flag:String  = ""
 
-    val currency: String = ""
+    var currency: String = ""
     val latitude: String = ""
     val longitude: String = ""
     val timezones : List<Timezones> = arrayListOf()
@@ -41,9 +41,9 @@ class TerminalStates {
 }
 
 class TerminalCities {
-    val name:String = ""
-    val countryCode:String  = ""
-    val stateCode:String  = ""
-    val latitude:String = ""
-    val longitude:String  =""
+    var name:String = ""
+    var countryCode:String  = ""
+    var stateCode:String  = ""
+    var latitude:String = ""
+    var longitude:String  =""
 }

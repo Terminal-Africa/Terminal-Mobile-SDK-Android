@@ -88,3 +88,30 @@ class ShipmentRate (
         fun build() = ShipmentRate(parcel_id,currency,pickup_address,delivery_address,shipment_id)
     }
 }
+
+class ShipRates(val shipment_id:String, val currency:CurrencyType = CurrencyType.NGN,)
+
+class MultiShipmentRate (
+    val parcels:ArrayList<String>,
+    var pickup_address :String,
+    var delivery_address :String,
+    var currency:CurrencyType = CurrencyType.NGN,
+    var shipment_id :String? = null,
+
+    ){
+    data class Builder(
+        var parcels:ArrayList<String>,
+        var pickup_address :String,
+        var delivery_address :String,
+        var currency:CurrencyType = CurrencyType.NGN,
+        var shipment_id :String? = null,
+
+        ){
+        fun parcels(parcels: ArrayList<String>) = apply { this.parcels = parcels }
+        fun pickupAddress(pickup_address: String) = apply { this.pickup_address = pickup_address }
+        fun shipmentId(shipment_id: String) = apply { this.shipment_id = shipment_id }
+        fun currency(currency: CurrencyType) = apply { this.currency = currency }
+        fun deliveryAddress(delivery_address: String) = apply { this.delivery_address = delivery_address }
+        fun build() = MultiShipmentRate(parcels,pickup_address,delivery_address,currency,shipment_id)
+    }
+}

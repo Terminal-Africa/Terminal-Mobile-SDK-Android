@@ -37,13 +37,14 @@ public class RetrofitClientInstance {
             Request newRequest = chain.request().newBuilder()
                     .addHeader("Authorization", authValue)
                     .addHeader("content-type", "application/json")
+                    .addHeader("source", "android")
                     .build();
             return chain.proceed(newRequest);
         };
 
         OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
-        okHttpBuilder.readTimeout(3, TimeUnit.MINUTES);
-        okHttpBuilder.connectTimeout(3, TimeUnit.MINUTES);
+        okHttpBuilder.readTimeout(2, TimeUnit.MINUTES);
+        okHttpBuilder.connectTimeout(2, TimeUnit.MINUTES);
         okHttpBuilder.addInterceptor(authInterceptor);
         if(isLive){
             mRetrofit = new Retrofit.Builder()
@@ -51,7 +52,8 @@ public class RetrofitClientInstance {
                     .client(okHttpBuilder.build())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
-        } else {
+        }
+        else {
             mRetrofit = new Retrofit.Builder()
                     .baseUrl(BASE_TEST_URL)
                     .client(okHttpBuilder.build())
