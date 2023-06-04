@@ -112,6 +112,42 @@ This function fetches Addresses previously created on the TShip API.
 `page: [Int]`
 `limit: [Int]`
 
+### Delete Address
+
+```
+       TShipSDK.deleteAddress(addressId:String,object :ITerminalConfiguration<Address>{
+           override fun onResponse(result: Address) {
+           }
+           override fun onError(status: Boolean, message: String) {
+           }
+       })
+```
+##### Description
+
+This function delete's an Address previously created on the TShip API.
+
+##### Parameters
+
+`addressId: [String]`
+
+### Get Address by ID
+
+```
+       TShipSDK.getAddressesById(addressId:String,object :ITerminalConfiguration<GetAddressModel>{
+           override fun onResponse(result: GetAddressModel) {
+           }
+           override fun onError(status: Boolean, message: String) {
+           }
+       })
+```
+##### Description
+
+This function fetches a particular Address previously created on the TShip API.
+
+##### Parameters
+
+`addressId: [String]`
+
 ### Update Address
 
 ```
