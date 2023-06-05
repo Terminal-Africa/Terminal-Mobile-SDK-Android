@@ -139,30 +139,6 @@ public class AddressRemote {
         });
     }
 
-    public void createTerminalReference(ITerminalConfiguration<Address> terminalConfig, String createAddress) {
-        RetrofitClientInstance.getInstance().getDataService().createTerminalReference(createAddress).enqueue(new Callback<BaseData<Address>>() {
-            @Override
-            public void onResponse(@NonNull Call<BaseData<Address>> call, @NonNull Response<BaseData<Address>> response) {
-                AppLog.d(LOG_TAG,"createTerminalReference" + response);
-                if (response.isSuccessful()) {
-                    terminalConfig.onResponse(Objects.requireNonNull(response.body().getData()));
-                } else {
-                    try {
-                        BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
-                        terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());
-                    }catch (Exception e){
-                        AppLog.e("createTerminalReference",e.getLocalizedMessage());
-                        terminalConfig.onError(false, "");
-                    }
-                }
-            }
-            @Override
-            public void onFailure(@NonNull Call<BaseData<Address>> call, @NonNull Throwable t) {
-                AppLog.d(LOG_TAG,"createAddress" + t.getMessage());
-                terminalConfig.onError(false, Objects.requireNonNull(t.getMessage()));
-            }
-        });
-    }
 
 
     public void updateAddress(ITerminalConfiguration<Address> terminalConfig, String address_Id,  UpdateAddress createAddress) {

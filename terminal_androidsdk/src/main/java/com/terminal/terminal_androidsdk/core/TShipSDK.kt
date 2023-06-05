@@ -10,7 +10,6 @@ import com.terminal.terminal_androidsdk.core.model.component_getship.*
 import com.terminal.terminal_androidsdk.utils.AppLog
 import com.terminal.terminal_androidsdk.utils.Constant.ERROR
 import com.terminal.terminal_androidsdk.utils.MemoryManager
-import com.terminal.terminal_androidsdk.core.model.component_shipment.DeleteDraft
 import com.terminal.terminal_androidsdk.core.model.component_shipment.ShipmentUnpopulated
 import com.terminal.terminal_androidsdk.core.model.component_track.TrackShipmentRes
 import com.terminal.terminal_androidsdk.core.model.component_user.*
@@ -18,14 +17,8 @@ import com.terminal.terminal_androidsdk.core.model.insurance.CheckInsurance
 import com.terminal.terminal_androidsdk.core.model.insurance.CheckInsuranceResponse
 import com.terminal.terminal_androidsdk.core.model.insurance.PurchasePremiumInsurance
 import com.terminal.terminal_androidsdk.core.model.insurance.SpecificInsurance
-import com.terminal.terminal_androidsdk.core.model.shopandship.ArrangePickupShopResponse
-import com.terminal.terminal_androidsdk.core.model.shopandship.ArrangePickupShopSh
-import com.terminal.terminal_androidsdk.core.model.shopandship.MakeChargeResponse
-import com.terminal.terminal_androidsdk.core.model.shopandship.TerminalShopCountries
 import com.terminal.terminal_androidsdk.core.model.utils.SuccessModel
 import com.terminal.terminal_androidsdk.core.model.utils.TerminalRealMerchant
-import com.terminal.terminal_androidsdk.core.model.utils.UpdateToken
-import java.util.ArrayList
 
 /**
  * Created by AYODEJI on 10/10/2020.
@@ -134,11 +127,7 @@ object TShipSDK  {
         } else callback.onError(false,ERROR)
     }
 
-    fun fetchUserProfile(userId: String, callback: ITerminalConfiguration<FetchProfileResponse>) {
-        AppLog.i(LOG_TAG,"fetchUserProfile $userId")
-        userRemote?.fetchUserProfile(callback,userId)
 
-    }
 
     fun getUserProfile( user_id:String,callback: ITerminalConfiguration<UserProfile>) {
         if(isSecretKeyAdded()){
@@ -164,13 +153,6 @@ object TShipSDK  {
         } else callback.onError(false,ERROR)
     }
 
-    fun updateUserProfile(signUpUser: UpdateProfile,callback: ITerminalConfiguration<FetchProfileResponse>) {
-        if(isSecretKeyAdded()){
-            userRemote?.updateUserProfile(callback,signUpUser)
-        } else callback.onError(false,ERROR)
-    }
-
-
     fun createAddress(createAddress: CreateAddress?,callback: ITerminalConfiguration<Address>) {
         AppLog.i(LOG_TAG,"createAddress $createAddress")
         if(isSecretKeyAdded() && createAddress != null){
@@ -185,15 +167,6 @@ object TShipSDK  {
             addressesRemote?.createHomeAddress(callback,createAddress)
         } else callback.onError(false,ERROR)
     }
-
-    fun createTerminalReference(createAddress: String?,callback: ITerminalConfiguration<Address>) {
-        AppLog.i(LOG_TAG,"createTerminalReference $createAddress")
-        if(isSecretKeyAdded() && createAddress != null){
-            addressesRemote?.createTerminalReference(callback,createAddress)
-        } else callback.onError(false,ERROR)
-    }
-
-    //
 
     fun updateAddress(addressId: String, createAddress: UpdateAddress,callback: ITerminalConfiguration<Address>) {
         AppLog.i(LOG_TAG,"updateAddress $addressId  $createAddress")
@@ -533,13 +506,7 @@ object TShipSDK  {
             shipmentRemote?.arrangePickupAndDelivery(callback,arrangePickupAndDelivery)
         } else callback.onError(false,ERROR)
     }
-    fun arrangePickupAndDelivery(
-        arrangePickupAndDelivery: ArrangePickupShopSh, callback:ITerminalConfiguration<ArrangePickupShopResponse>) {
-        AppLog.i(LOG_TAG,"arrangePickupAndDelivery")
-        if(isSecretKeyAdded()){
-            shipmentRemote?.arrangePickupAndDelivery(callback,arrangePickupAndDelivery)
-        } else callback.onError(false,ERROR)
-    }
+
 
     fun fileAClaim(
         fIleAClaim: FIleAClaim, callback:ITerminalConfiguration<SuccessModel>) {

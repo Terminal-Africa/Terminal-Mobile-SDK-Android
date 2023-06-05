@@ -1,7 +1,5 @@
 package com.terminal.terminal_androidsdk.core.iinterface;
 
-import static com.terminal.terminal_androidsdk.utils.Constant.BASE_DELAY;
-import static com.terminal.terminal_androidsdk.utils.Constant.BASE_WITHDRAW;
 import static com.terminal.terminal_androidsdk.utils.Constant.CREATE_ADDRESS;
 
 import com.terminal.terminal_androidsdk.core.model.ArrangePickupAndDelivery;
@@ -31,23 +29,12 @@ import com.terminal.terminal_androidsdk.core.model.component_getship.Rate;
 import com.terminal.terminal_androidsdk.core.model.component_shipment.DeleteDraft;
 import com.terminal.terminal_androidsdk.core.model.component_shipment.ShipmentUnpopulated;
 import com.terminal.terminal_androidsdk.core.model.component_track.TrackShipmentRes;
-import com.terminal.terminal_androidsdk.core.model.component_user.AddWithdrawRecipient;
-import com.terminal.terminal_androidsdk.core.model.component_user.FetchProfileResponse;
-import com.terminal.terminal_androidsdk.core.model.component_user.LinkedAccountResponse;
-import com.terminal.terminal_androidsdk.core.model.component_user.TerminalWithdrawal;
-import com.terminal.terminal_androidsdk.core.model.component_user.UpdateProfile;
 import com.terminal.terminal_androidsdk.core.model.component_user.WalletInfo;
 import com.terminal.terminal_androidsdk.core.model.insurance.CheckInsurance;
 import com.terminal.terminal_androidsdk.core.model.insurance.CheckInsuranceResponse;
 import com.terminal.terminal_androidsdk.core.model.insurance.PurchasePremiumInsurance;
 import com.terminal.terminal_androidsdk.core.model.insurance.SpecificInsurance;
-import com.terminal.terminal_androidsdk.core.model.shopandship.ArrangePickupShopResponse;
-import com.terminal.terminal_androidsdk.core.model.shopandship.ArrangePickupShopSh;
-import com.terminal.terminal_androidsdk.core.model.shopandship.MakeChargeResponse;
-import com.terminal.terminal_androidsdk.core.model.shopandship.ReportDelay;
-import com.terminal.terminal_androidsdk.core.model.shopandship.TerminalShopCountries;
 import com.terminal.terminal_androidsdk.core.model.utils.SuccessModel;
-import com.terminal.terminal_androidsdk.core.model.utils.UpdateToken;
 import com.terminal.terminal_androidsdk.core.network.BaseData;
 import com.terminal.terminal_androidsdk.core.model.Address;
 import com.terminal.terminal_androidsdk.core.model.AddressValidation;
@@ -80,21 +67,9 @@ import retrofit2.http.Query;
  */
 public interface GetDataService {
 
-    @PUT(CREATE_ADDRESS+"/users")
-    Call<BaseData<FetchProfileResponse>> updateProfile(@Body UpdateProfile signUpUser);
-
-    @PUT(CREATE_ADDRESS+"/users")
-    Call<BaseData<FetchProfileResponse>> updateUserToken(@Body UpdateToken deviceToken);
-
-
     /*Todo Address Endpoint */
     @POST(CREATE_ADDRESS+"/addresses")
     Call<BaseData<Address>> createAddress(@Body CreateAddress createAddress);
-
-    /*Todo Address Endpoint */
-    @GET(CREATE_ADDRESS+"/shopship/terminal-address/{createAddress}")
-    Call<BaseData<Address>> createTerminalReference(@Path("createAddress") String createAddress);
-
 
     @GET(CREATE_ADDRESS+"/addresses")
     Call<BaseData<GetAddressModel>> getAddresses(
@@ -304,16 +279,6 @@ public interface GetDataService {
     Call<BaseData<ShipmentUnpopulated>> ArrangePickupDelivery(
             @Body ArrangePickupAndDelivery regional
     );
-    @POST(CREATE_ADDRESS+"/shopship/arrange-pickup")
-    Call<BaseData<ArrangePickupShopResponse>> arrangePickupDelivery(
-            @Body ArrangePickupShopSh regional
-    );
-
-    @POST(CREATE_ADDRESS+"/shopship/charge")
-    Call<BaseData<MakeChargeResponse>> arrangeMakeCharge(
-            @Body DeleteDraft makeCharge
-    );
-
     @POST(CREATE_ADDRESS+"/claims")
     Call<BaseData<SuccessModel>> FileAClaim(
             @Body FIleAClaim regional

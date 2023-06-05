@@ -18,12 +18,8 @@ import com.terminal.terminal_androidsdk.core.model.component_shipment.ShipmentUn
 import com.terminal.terminal_androidsdk.core.model.component_track.TrackShipmentRes;
 import com.terminal.terminal_androidsdk.core.model.insurance.CheckInsurance;
 import com.terminal.terminal_androidsdk.core.model.insurance.CheckInsuranceResponse;
-import com.terminal.terminal_androidsdk.core.model.shopandship.ArrangePickupShopResponse;
-import com.terminal.terminal_androidsdk.core.model.shopandship.ArrangePickupShopSh;
-import com.terminal.terminal_androidsdk.core.model.shopandship.MakeChargeResponse;
 import com.terminal.terminal_androidsdk.core.model.utils.SuccessModel;
 import com.terminal.terminal_androidsdk.core.network.BaseData;
-import com.terminal.terminal_androidsdk.core.network.RetrofitClientHomeInstance;
 import com.terminal.terminal_androidsdk.core.network.RetrofitClientInstance;
 import com.terminal.terminal_androidsdk.utils.AppLog;
 import com.terminal.terminal_androidsdk.utils.Constant;
@@ -505,30 +501,6 @@ public class ShipmentRemote {
         });
     }
 
-    public void arrangePickupAndDelivery(ITerminalConfiguration<ArrangePickupShopResponse> terminalConfig, ArrangePickupShopSh andDelivery) {
-        RetrofitClientInstance.getInstance().getDataService().arrangePickupDelivery(andDelivery).enqueue(new Callback<BaseData<ArrangePickupShopResponse>>() {
-            @Override
-            public void onResponse(@NonNull Call<BaseData<ArrangePickupShopResponse>> call, @NonNull Response<BaseData<ArrangePickupShopResponse>> response) {
-                AppLog.d(LOG_TAG,"arrangePickupAndDelivery" + response);
-                if (response.isSuccessful()) {
-                    terminalConfig.onResponse(Objects.requireNonNull(Objects.requireNonNull(response.body()).getData()));
-                } else {
-                    try {
-                        BaseData errorResponse = Constant.INSTANCE.getBaseError(response);
-                        terminalConfig.onError(errorResponse.isError(),errorResponse.getMessage());
-                    }catch (Exception e){
-                        AppLog.e("arrangePickupAndDelivery",e.getLocalizedMessage());
-                        terminalConfig.onError(false,"Failed to Arrange Shipment");
-                    }
-                }
-            }
-            @Override
-            public void onFailure(@NonNull Call<BaseData<ArrangePickupShopResponse>> call, @NonNull Throwable t) {
-                AppLog.d(LOG_TAG,"arrangePickupAndDelivery" + t.getMessage());
-                terminalConfig.onError(false, Objects.requireNonNull(t.getMessage()));
-            }
-        });
-    }
 
     public void fileAClaim(ITerminalConfiguration<SuccessModel> terminalConfig, FIleAClaim fIleAClaim) {
         RetrofitClientInstance.getInstance().getDataService().FileAClaim(fIleAClaim).enqueue(new Callback<BaseData<SuccessModel>>() {
